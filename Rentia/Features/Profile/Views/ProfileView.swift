@@ -1,0 +1,231 @@
+import SwiftUI
+
+struct ProfileView: View {
+    @Environment(\.container) private var container
+    @State private var viewModel: ProfileViewModel?
+
+    var body: some View {
+        ZStack {
+            AppTheme.Colors.background
+                .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: AppSpacing.large) {
+                    profileHeader
+                    accountSection
+                    dangerZoneSection
+                }
+                .padding(AppSpacing.medium)
+            }
+        }
+        .navigationTitle(String(localized: "Perfil"))
+        .onAppear {
+            if viewModel == nil {
+                viewModel = ProfileViewModel(
+                    authService: container.authService
+                )
+            }
+            viewModel?.loadProfile()
+        }
+        .confirmationDialog(
+            String(localized: "Cerrar Sesion"),
+            isPresented: Binding(
+                get: { viewModel?.showSignOutConfirmation ?? false },
+                set: { viewModel?.showSignOutConfirmation = $0 }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button(
+                String(localized: "Cerrar Sesion"),
+                role: .destructive
+            ) {
+                viewModel?.signOut()
+            }
+        } message: {
+            Text(String(localized: "Estas seguro que deseas cerrar sesion?"))
+        }
+        .confirmationDialog(
+            String(localized: "Eliminar Cuenta"),
+            isPresented: Binding(
+                get: { viewModel?.showDeleteConfirmation ?? false },
+                set: { viewModel?.showDeleteConfirmation = $0 }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button(
+                String(localized: "Eliminar Cuenta"),
+                role: .destructive
+            ) {
+                viewModel?.deleteAccount()
+            }
+        } message: {
+            Text(
+                String(
+                    localized: "Esta accion es irreversible. Se eliminaran todos tus datos."
+                )
+            )
+        }
+        .alert(
+            String(localized: "Error"),
+            isPresented: Binding(
+                get: { viewModel?.showError ?? false },
+                set: { viewModel?.showError = $0 }
+            )
+        ) {
+            Button(String(localized: "Aceptar"), role: .cancel) {}
+        } message: {
+            Text(viewModel?.errorMessage ?? "")
+        }
+    }
+
+    // MARK: - Profile Header
+
+    private var profileHeader: some View {
+        VStack(spacing: AppSpacing.medium) {
+            if let photoURL = viewModel?.photoURL,
+               let url = URL(string: photoURL) {
+                AsyncImage(url: url) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    avatarPlaceholder
+                }
+                .frame(width: 80, height: 80)
+                .clipShape(Circle())
+            } else {
+                avatarPlaceholder
+            }
+
+            VStack(spacing: AppSpacing.extraSmall) {
+                Text(viewModel?.displayName ?? "")
+                    .font(AppTypography.title2)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                Text(viewModel?.email ?? "")
+                    .font(AppTypography.subheadline)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .cardStyle()
+    }
+
+    private var avatarPlaceholder: some View {
+        Image(systemName: "person.circle.fill")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 80, height: 80)
+            .foregroundStyle(AppTheme.Colors.primary.opacity(0.3))
+    }
+
+    // MARK: - Account Section
+
+    private var accountSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text(String(localized: "Cuenta"))
+                .font(AppTypography.title3)
+                .foregroundStyle(AppTheme.Colors.textPrimary)
+
+            profileRow(
+                icon: "person",
+                title: viewModel?.displayName ?? "",
+                subtitle: String(localized: "Nombre")
+            )
+
+            profileRow(
+                icon: "envelope",
+                title: viewModel?.email ?? "",
+                subtitle: String(localized: "Email")
+            )
+
+            profileRow(
+                icon: "shield.checkered",
+                title: viewModel?.userProfile?.authProvider
+                    .capitalized ?? "N/A",
+                subtitle: String(localized: "Proveedor de autenticacion")
+            )
+        }
+        .cardStyle()
+    }
+
+    private func profileRow(
+        icon: String,
+        title: String,
+        subtitle: String
+    ) -> some View {
+        HStack(spacing: AppSpacing.medium) {
+            Image(systemName: icon)
+                .foregroundStyle(AppTheme.Colors.primary)
+                .frame(width: 32, height: 32)
+                .background(AppTheme.Colors.primary.opacity(0.1))
+                .clipShape(
+                    RoundedRectangle(
+                        cornerRadius: AppTheme.CornerRadius.small
+                    )
+                )
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                Text(subtitle)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+            }
+
+            Spacer()
+        }
+    }
+
+    // MARK: - Danger Zone
+
+    private var dangerZoneSection: some View {
+        VStack(spacing: AppSpacing.medium) {
+            Button {
+                viewModel?.showSignOutConfirmation = true
+            } label: {
+                HStack {
+                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                    Text(String(localized: "Cerrar Sesion"))
+                        .font(AppTypography.headline)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(AppTheme.Colors.cardBackground)
+                .foregroundStyle(AppTheme.Colors.error)
+                .clipShape(
+                    RoundedRectangle(
+                        cornerRadius: AppTheme.CornerRadius.medium
+                    )
+                )
+                .overlay(
+                    RoundedRectangle(
+                        cornerRadius: AppTheme.CornerRadius.medium
+                    )
+                    .stroke(AppTheme.Colors.error.opacity(0.3), lineWidth: 1)
+                )
+            }
+
+            Button {
+                viewModel?.showDeleteConfirmation = true
+            } label: {
+                HStack {
+                    Image(systemName: "trash")
+                    Text(String(localized: "Eliminar Cuenta"))
+                        .font(AppTypography.headline)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(AppTheme.Colors.error.opacity(0.1))
+                .foregroundStyle(AppTheme.Colors.error)
+                .clipShape(
+                    RoundedRectangle(
+                        cornerRadius: AppTheme.CornerRadius.medium
+                    )
+                )
+            }
+        }
+    }
+}
