@@ -25,7 +25,7 @@ struct DashboardView: View {
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
-            Text("dashboard.bienvenido")
+            Text("dashboard.welcome")
                 .font(AppTypography.title2)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
@@ -47,7 +47,7 @@ struct DashboardView: View {
             spacing: AppSpacing.medium
         ) {
             StatCard(
-                title: "dashboard.ingresos_mensuales",
+                title: "dashboard.monthly_income",
                 value: viewModel.totalMonthlyIncome
                     .formatted(.currency(code: defaultCurrency)),
                 icon: "dollarsign.circle.fill",
@@ -62,7 +62,7 @@ struct DashboardView: View {
             )
 
             StatCard(
-                title: "dashboard.ocupacion",
+                title: "dashboard.occupancy",
                 value: String(
                     format: "%.0f%%",
                     viewModel.occupancyRate

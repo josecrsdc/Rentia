@@ -75,7 +75,7 @@ struct PaymentListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: AppSpacing.small) {
                 filterChip(
-                    title: "payments.todos",
+                    title: "payments.all",
                     isSelected: viewModel.selectedFilter == nil
                 ) {
                     viewModel.selectedFilter = nil
@@ -83,7 +83,7 @@ struct PaymentListView: View {
 
                 ForEach(PaymentStatus.allCases, id: \.self) { status in
                     filterChip(
-                        title: status.displayNameKey,
+                        title: status.localizedName,
                         isSelected: viewModel.selectedFilter == status
                     ) {
                         viewModel.selectedFilter = status

@@ -80,7 +80,7 @@ struct PropertyCard: View {
     }
 
     private var statusPill: some View {
-        Text(property.status.displayNameKey)
+        Text(property.status.localizedName)
             .font(AppTypography.caption2)
             .fontWeight(.medium)
             .padding(.horizontal, AppSpacing.small)

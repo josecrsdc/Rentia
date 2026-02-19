@@ -1,2265 +1,2308 @@
 {
-  "sourceLanguage": "es",
-  "strings": {
-    "": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": ""
+  "sourceLanguage" : "es",
+  "strings" : {
+    "" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
     },
-    "%lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld"
+    "%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
           }
         }
       }
     },
-    "%lld m²": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld m²"
+    "%lld m²" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld m²"
           }
         }
       }
     },
-    "account.delete": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete Account"
+    "account.delete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Account"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar Cuenta"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar Cuenta"
           }
         }
       }
     },
-    "account.delete.confirmation.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "This action is irreversible. All your data will be deleted."
+    "account.delete.confirmation.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action is irreversible. All your data will be deleted."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esta acción es irreversible. Se eliminarán todos tus datos."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta acción es irreversible. Se eliminarán todos tus datos."
           }
         }
       }
     },
-    "account.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Account"
+    "account.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cuenta"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuenta"
           }
         }
       }
     },
-    "auth.continuar_con_google": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Continue with Google"
+    "auth.continue_with_google" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue with Google"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Continuar con Google"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar con Google"
           }
         }
       }
     },
-    "auth.rentia": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rentia"
+    "auth.error.internal_authentication" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Internal authentication error."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rentia"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error interno de autenticación."
           }
         }
       }
     },
-    "auth.sign_out": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign Out"
+    "auth.rentia" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rentia"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar Sesión"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rentia"
           }
         }
       }
     },
-    "auth.sign_out.confirmation.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Are you sure you want to sign out?"
+    "auth.sign_out" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign Out"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Estás seguro de que deseas cerrar sesión?"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar Sesión"
           }
         }
       }
     },
-    "auth.tagline": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Manage your properties intelligently"
+    "auth.sign_out.confirmation.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to sign out?"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gestiona tus propiedades de forma inteligente"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Estás seguro de que deseas cerrar sesión?"
           }
         }
       }
     },
-    "auth.terms_notice": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "By continuing, you agree to our Terms of Service and Privacy Policy"
+    "auth.tagline" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage your properties intelligently"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Al continuar, aceptas nuestros Términos de Servicio y Política de Privacidad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestiona tus propiedades de forma inteligente"
           }
         }
       }
     },
-    "common.accept": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Accept"
+    "auth.terms_notice" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By continuing, you agree to our Terms of Service and Privacy Policy"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aceptar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al continuar, aceptas nuestros Términos de Servicio y Política de Privacidad"
           }
         }
       }
     },
-    "common.cancel": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
+    "common.accept" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accept"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancelar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceptar"
           }
         }
       }
     },
-    "common.debug": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Debug"
+    "common.cancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Debug"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
           }
         }
       }
     },
-    "common.delete": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete"
+    "common.debug" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
           }
         }
       }
     },
-    "common.edit": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit"
+    "common.delete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Editar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar"
           }
         }
       }
     },
-    "common.error": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error"
+    "common.edit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar"
           }
         }
       }
     },
-    "common.no_se_pudo_encontrar_la_ventana_principal": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Could not find the main window."
+    "common.error" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo encontrar la ventana principal."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
           }
         }
       }
     },
-    "common.save_changes": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save Changes"
+    "common.main_window_not_found" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not find the main window."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guardar Cambios"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo encontrar la ventana principal."
           }
         }
       }
     },
-    "common.select": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select"
+    "common.no_authenticated_user" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No authenticated user."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seleccionar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay usuario autenticado."
           }
         }
       }
     },
-    "dashboard.bienvenido": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Welcome"
+    "common.save_changes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Changes"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bienvenido"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar Cambios"
           }
         }
       }
     },
-    "dashboard.empty_recent_payments": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recent payments will appear here"
+    "common.select" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Los pagos recientes aparecerán aquí"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccionar"
           }
         }
       }
     },
-    "dashboard.ingresos_mensuales": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Monthly income"
+    "common.unable_to_get_auth_token" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not obtain the authentication token."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ingresos Mensuales"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo obtener el token de autenticación."
           }
         }
       }
     },
-    "dashboard.ocupacion": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Occupancy"
+    "dashboard.active_tenants" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active tenants"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocupacion"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inquilinos Activos"
           }
         }
       }
     },
-    "dashboard.recent_activity.empty.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No recent activity"
+    "dashboard.empty_recent_payments" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent payments will appear here"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin actividad reciente"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los pagos recientes aparecerán aquí"
           }
         }
       }
     },
-    "payments.adicional": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Additional"
+    "dashboard.monthly_income" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monthly income"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Adicional"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingresos mensuales"
           }
         }
       }
     },
-    "payments.asignacion": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Assignment"
+    "dashboard.occupancy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Occupancy"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Asignación"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocupación"
           }
         }
       }
     },
-    "payments.cantidad": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Amount"
+    "dashboard.pending_payments" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pending payments"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cantidad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagos Pendientes"
           }
         }
       }
     },
-    "payments.delete.confirmation.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "This action cannot be undone. The payment will be permanently deleted."
+    "dashboard.properties_summary" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Summary of your properties"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esta acción no se puede deshacer. Se eliminará el pago permanentemente."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumen de tus propiedades"
           }
         }
       }
     },
-    "payments.empty.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Registered payments will appear here"
+    "dashboard.recent_activity.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No recent activity"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Los pagos registrados aparecerán aquí"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin actividad reciente"
           }
         }
       }
     },
-    "payments.fecha_de_vencimiento": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Due date"
+    "dashboard.recent_activity.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent activity"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fecha de vencimiento"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad Reciente"
           }
         }
       }
     },
-    "payments.fechas": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dates"
+    "dashboard.welcome" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fechas"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenido"
           }
         }
       }
     },
-    "payments.monto": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Amount"
+    "payments.additional" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Additional"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Monto"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicional"
           }
         }
       }
     },
-    "payments.notas": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Notes"
+    "payments.all" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Notas"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
           }
         }
       }
     },
-    "payments.notes.contact_tenant": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contact the tenant"
+    "payments.amount" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contactar al inquilino"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cantidad"
           }
         }
       }
     },
-    "payments.status.overdue": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Overdue"
+    "payments.assignment" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assignment"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vencido"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Asignación"
           }
         }
       }
     },
-    "payments.status.paid": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Paid"
+    "payments.dates" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dates"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pagado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechas"
           }
         }
       }
     },
-    "payments.status.partial": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partial"
+    "payments.delete.confirmation.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action cannot be undone. The payment will be permanently deleted."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Parcial"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta acción no se puede deshacer. Se eliminará el pago permanentemente."
           }
         }
       }
     },
-    "payments.status.pending": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pending"
+    "payments.delete.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Payment"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pendiente"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar Pago"
           }
         }
       }
     },
-    "payments.todos": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All"
+    "payments.detail.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payment Detail"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detalle del Pago"
           }
         }
       }
     },
-    "properties.area": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Area"
+    "payments.due_date" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due date"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Area"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fecha de vencimiento"
           }
         }
       }
     },
-    "properties.cop": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "COP"
+    "payments.edit.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Payment"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "COP"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Pago"
           }
         }
       }
     },
-    "properties.delete.confirmation.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "This action cannot be undone. The property will be permanently deleted."
+    "payments.empty.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registered payments will appear here"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esta acción no se puede deshacer. Se eliminará la propiedad permanentemente."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los pagos registrados aparecerán aquí"
           }
         }
       }
     },
-    "properties.detail.status": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Status"
+    "payments.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No payments"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin pagos"
           }
         }
       }
     },
-    "properties.detail.type": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Type"
+    "payments.information" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Information"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tipo"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información"
           }
         }
       }
     },
-    "properties.detalles": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Details"
+    "payments.new.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Payment"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detalles"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuevo Pago"
           }
         }
       }
     },
-    "properties.empty.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add your first property to get started"
+    "payments.notes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agrega tu primera propiedad para comenzar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notas"
           }
         }
       }
     },
-    "properties.eur": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "EUR"
+    "payments.notes.contact_tenant" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact the tenant"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "EUR"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contactar al inquilino"
           }
         }
       }
     },
-    "properties.mxn": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MXN"
+    "payments.payment_date" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payment date"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MXN"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fecha de pago"
           }
         }
       }
     },
-    "properties.status.available": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Available"
+    "payments.payment_method" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payment method"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Disponible"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metodo de pago"
           }
         }
       }
     },
-    "properties.status.maintenance": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Maintenance"
+    "payments.property" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Property"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantenimiento"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Propiedad"
           }
         }
       }
     },
-    "properties.status.rented": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rented"
+    "payments.property_not_found" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Property not found"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alquilada"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Propiedad no encontrada"
           }
         }
       }
     },
-    "properties.tipo": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Type"
+    "payments.record" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record Payment"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tipo"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar Pago"
           }
         }
       }
     },
-    "properties.type.apartment": {},
-    "properties.type.commercial": {},
-    "properties.type.garage": {},
-    "properties.type.house": {},
-    "properties.type.land": {},
-    "properties.usd": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "USD"
+    "payments.status.overdue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overdue"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "USD"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vencido"
           }
         }
       }
     },
-    "settings.preferences.appearance": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Appearance"
+    "payments.status.paid" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paid"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apariencia"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagado"
           }
         }
       }
     },
-    "settings.preferences.appearance.dark": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dark"
+    "payments.status.partial" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partial"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Oscuro"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcial"
           }
         }
       }
     },
-    "settings.preferences.appearance.light": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Light"
+    "payments.status.pending" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pending"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Claro"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendiente"
           }
         }
       }
     },
-    "settings.preferences.appearance.system": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "System"
+    "payments.tenant_not_found" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenant not found"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sistema"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inquilino no encontrado"
           }
         }
       }
     },
-    "settings.preferences.default_currency": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Default currency"
+    "properties.add" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Property"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Moneda por defecto"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar Propiedad"
           }
         }
       }
     },
-    "settings.preferences.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preferences"
+    "properties.address" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preferencias"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direccion"
           }
         }
       }
     },
-    "settings.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings"
+    "properties.area" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Area"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Area"
           }
         }
       }
     },
-    "tabs.dashboard": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Home"
+    "properties.area_m2" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Area (m²)"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inicio"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Area (m²)"
           }
         }
       }
     },
-    "tabs.payments": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Payments"
+    "properties.basic_information" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basic information"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pagos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información Básica"
           }
         }
       }
     },
-    "tabs.properties": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Properties"
+    "properties.bathrooms" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bathrooms"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Propiedades"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baños"
           }
         }
       }
     },
-    "tabs.settings": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings"
+    "properties.cop" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "COP"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "COP"
           }
         }
       }
     },
-    "tabs.tenants": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tenants"
+    "properties.create" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create Property"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inquilinos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear Propiedad"
           }
         }
       }
     },
-    "tenants.contacto": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contact"
+    "properties.create_new_tenant" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create new tenant"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contacto"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear nuevo inquilino"
           }
         }
       }
     },
-    "tenants.delete.confirmation.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "This action cannot be undone. The tenant will be permanently deleted."
+    "properties.create_tenant" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create Tenant"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esta acción no se puede deshacer. Se eliminará el inquilino permanentemente."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear Inquilino"
           }
         }
       }
     },
-    "tenants.deposito": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deposit"
+    "properties.currency" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Currency"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Depósito"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moneda"
           }
         }
       }
     },
-    "tenants.email": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Email"
+    "properties.delete.confirmation.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action cannot be undone. The property will be permanently deleted."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Email"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta acción no se puede deshacer. Se eliminará la propiedad permanentemente."
           }
         }
       }
     },
-    "tenants.empty.message": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add your first tenant to get started"
+    "properties.delete.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Property"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agrega tu primer inquilino para comenzar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar Propiedad"
           }
         }
       }
     },
-    "tenants.identificacion": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ID number"
+    "properties.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Identificacion"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descripción"
           }
         }
       }
     },
-    "tenants.numero_de_identificacion": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ID number"
+    "properties.detail.status" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Número de identificación"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estado"
           }
         }
       }
     },
-    "tenants.status.active": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Active"
+    "properties.detail.type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Activo"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo"
           }
         }
       }
     },
-    "tenants.status.inactive": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inactive"
+    "properties.details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Details"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inactivo"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detalles"
           }
         }
       }
     },
-    "properties.no_tenants_registered": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No tenants registered"
+    "properties.edit.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Property"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay inquilinos registrados"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Propiedad"
           }
         }
       }
     },
-    "auth.error.internal_authentication": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Internal authentication error."
+    "properties.empty.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your first property to get started"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error interno de autenticación."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega tu primera propiedad para comenzar"
           }
         }
       }
     },
-    "common.no_authenticated_user": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No authenticated user."
+    "properties.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No properties"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay usuario autenticado."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin propiedades"
           }
         }
       }
     },
-    "common.unable_to_get_auth_token": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Could not obtain the authentication token."
+    "properties.eur" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EUR"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo obtener el token de autenticación."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EUR"
           }
         }
       }
     },
-    "dashboard.recent_activity.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recent activity"
+    "properties.financial_information" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Financial information"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actividad Reciente"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información Financiera"
           }
         }
       }
     },
-    "dashboard.active_tenants": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Active tenants"
+    "properties.monthly_rent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monthly rent"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inquilinos Activos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renta mensual"
           }
         }
       }
     },
-    "dashboard.pending_payments": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pending payments"
+    "properties.mxn" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MXN"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pagos Pendientes"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MXN"
           }
         }
       }
     },
-    "dashboard.properties_summary": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Summary of your properties"
+    "properties.name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Property name"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resumen de tus propiedades"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre de la propiedad"
           }
         }
       }
     },
-    "payments.detail.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Payment Detail"
+    "properties.new.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Property"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detalle del Pago"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueva Propiedad"
           }
         }
       }
     },
-    "payments.edit.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit Payment"
+    "properties.no_assigned_tenants" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No tenants assigned"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Editar Pago"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin inquilinos asignados"
           }
         }
       }
     },
-    "payments.delete.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete Payment"
+    "properties.no_payments_recorded" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No payments recorded"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar Pago"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin pagos registrados"
           }
         }
       }
     },
-    "payments.payment_date": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Payment date"
+    "properties.no_tenants_registered" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No tenants registered"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fecha de pago"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay inquilinos registrados"
           }
         }
       }
     },
-    "payments.information": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Information"
+    "properties.rooms" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rooms"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Información"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habitaciones"
           }
         }
       }
     },
-    "payments.tenant_not_found": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tenant not found"
+    "properties.search" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search properties..."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inquilino no encontrado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar propiedades..."
           }
         }
       }
     },
-    "payments.payment_method": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Payment method"
+    "properties.select_tenant_helper" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select the tenant who rents this property"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Metodo de pago"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecciona el inquilino que alquila esta propiedad"
           }
         }
       }
     },
-    "payments.new.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New Payment"
+    "properties.status" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nuevo Pago"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estado"
           }
         }
       }
     },
-    "payments.property": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Property"
+    "properties.status.available" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Propiedad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disponible"
           }
         }
       }
     },
-    "payments.property_not_found": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Property not found"
+    "properties.status.maintenance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenance"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Propiedad no encontrada"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantenimiento"
           }
         }
       }
     },
-    "payments.record": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Record Payment"
+    "properties.status.rented" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rented"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Registrar Pago"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alquilada"
           }
         }
       }
     },
-    "payments.empty.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No payments"
+    "properties.tenant" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenant"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin pagos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inquilino"
           }
         }
       }
     },
-    "properties.add": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add Property"
+    "properties.type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agregar Propiedad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo"
           }
         }
       }
     },
-    "properties.area_m2": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Area (m²)"
+    "properties.type.apartment" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apartment"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Area (m²)"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apartamento"
           }
         }
       }
     },
-    "properties.bathrooms": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bathrooms"
+    "properties.type.commercial" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commercial"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Baños"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local comercial"
           }
         }
       }
     },
-    "properties.search": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search properties..."
+    "properties.type.garage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Garage"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscar propiedades..."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Garaje"
           }
         }
       }
     },
-    "properties.create_tenant": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create Tenant"
+    "properties.type.house" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "House"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crear Inquilino"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Casa"
           }
         }
       }
     },
-    "properties.create_new_tenant": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create new tenant"
+    "properties.type.land" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Land"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crear nuevo inquilino"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terreno"
           }
         }
       }
     },
-    "properties.create": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create Property"
+    "properties.usd" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "USD"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crear Propiedad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "USD"
           }
         }
       }
     },
-    "properties.description": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Description"
+    "settings.debug.delete_all_data" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete all data"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Descripción"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar todos los datos"
           }
         }
       }
     },
-    "properties.address": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Address"
+    "settings.debug.load_seed_data" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load test data"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Direccion"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargar datos de prueba"
           }
         }
       }
     },
-    "properties.edit.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit Property"
+    "settings.preferences.appearance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Editar Propiedad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia"
           }
         }
       }
     },
-    "properties.delete.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete Property"
+    "settings.preferences.appearance.dark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar Propiedad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oscuro"
           }
         }
       }
     },
-    "properties.status": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Status"
+    "settings.preferences.appearance.light" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Estado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claro"
           }
         }
       }
     },
-    "properties.rooms": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rooms"
+    "settings.preferences.appearance.system" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Habitaciones"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema"
           }
         }
       }
     },
-    "properties.basic_information": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Basic information"
+    "settings.preferences.default_currency" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default currency"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Información Básica"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moneda por defecto"
           }
         }
       }
     },
-    "properties.financial_information": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Financial information"
+    "settings.preferences.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferences"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Información Financiera"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferencias"
           }
         }
       }
     },
-    "properties.tenant": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tenant"
+    "settings.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inquilino"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes"
           }
         }
       }
     },
-    "properties.currency": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Currency"
+    "settings.user.fallback_name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Moneda"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuario"
           }
         }
       }
     },
-    "properties.name": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Property name"
+    "tabs.dashboard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombre de la propiedad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio"
           }
         }
       }
     },
-    "properties.new.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New Property"
+    "tabs.payments" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payments"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nueva Propiedad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagos"
           }
         }
       }
     },
-    "properties.monthly_rent": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Monthly rent"
+    "tabs.properties" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Properties"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Renta mensual"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Propiedades"
           }
         }
       }
     },
-    "properties.select_tenant_helper": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select the tenant who rents this property"
+    "tabs.settings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selecciona el inquilino que alquila esta propiedad"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes"
           }
         }
       }
     },
-    "properties.no_assigned_tenants": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No tenants assigned"
+    "tabs.tenants" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenants"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin inquilinos asignados"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inquilinos"
           }
         }
       }
     },
-    "properties.no_payments_recorded": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No payments recorded"
+    "tenants.add" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Tenant"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin pagos registrados"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar Inquilino"
           }
         }
       }
     },
-    "properties.empty.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No properties"
+    "tenants.contact" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin propiedades"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contacto"
           }
         }
       }
     },
-    "settings.debug.load_seed_data": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Load test data"
+    "tenants.delete.confirmation.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action cannot be undone. The tenant will be permanently deleted."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cargar datos de prueba"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta acción no se puede deshacer. Se eliminará el inquilino permanentemente."
           }
         }
       }
     },
-    "settings.debug.delete_all_data": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete all data"
+    "tenants.delete.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Tenant"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar todos los datos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar Inquilino"
           }
         }
       }
     },
-    "settings.user.fallback_name": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "User"
+    "tenants.deposit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deposit"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Usuario"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depósito"
           }
         }
       }
     },
-    "tenants.add": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add Tenant"
+    "tenants.edit.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Tenant"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agregar Inquilino"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar Inquilino"
           }
         }
       }
     },
-    "tenants.last_name": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Last name"
+    "tenants.email" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apellido"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
           }
         }
       }
     },
-    "tenants.search": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search tenants..."
+    "tenants.empty.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your first tenant to get started"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscar inquilinos..."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega tu primer inquilino para comenzar"
           }
         }
       }
     },
-    "tenants.lease": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lease"
+    "tenants.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No tenants"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contrato"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin inquilinos"
           }
         }
       }
     },
-    "tenants.edit.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit Tenant"
+    "tenants.end" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Editar Inquilino"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin"
           }
         }
       }
     },
-    "tenants.delete.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete Tenant"
+    "tenants.first_name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First name"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar Inquilino"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre"
           }
         }
       }
     },
-    "tenants.end": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "End"
+    "tenants.id_number" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID number"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fin"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de identificación"
           }
         }
       }
     },
-    "tenants.lease_end": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lease end date"
+    "tenants.identification" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identification"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fin del contrato"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identificación"
           }
         }
       }
     },
-    "tenants.personal_information": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Personal information"
+    "tenants.last_name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last name"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Información Personal"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apellido"
           }
         }
       }
     },
-    "tenants.start": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Start"
+    "tenants.lease" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lease"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inicio"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrato"
           }
         }
       }
     },
-    "tenants.lease_start": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lease start date"
+    "tenants.lease_end" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lease end date"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inicio del contrato"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin del contrato"
           }
         }
       }
     },
-    "tenants.no_properties_registered": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No properties registered"
+    "tenants.lease_start" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lease start date"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay propiedades registradas"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio del contrato"
           }
         }
       }
     },
-    "tenants.first_name": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "First name"
+    "tenants.new.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Tenant"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombre"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuevo Inquilino"
           }
         }
       }
     },
-    "tenants.new.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New Tenant"
+    "tenants.no_properties_registered" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No properties registered"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nuevo Inquilino"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay propiedades registradas"
           }
         }
       }
     },
-    "tenants.rent": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rent"
+    "tenants.personal_information" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal information"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Renta"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información Personal"
           }
         }
       }
     },
-    "tenants.select_properties_helper": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select the properties associated with this tenant"
+    "tenants.phone" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selecciona las propiedades asociadas a este inquilino"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telefono"
           }
         }
       }
     },
-    "tenants.empty.title": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No tenants"
+    "tenants.rent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rent"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin inquilinos"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renta"
           }
         }
       }
     },
-    "tenants.phone": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Phone"
+    "tenants.search" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search tenants..."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Telefono"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar inquilinos..."
           }
         }
       }
     },
-    "tenants.lease_until": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contrato hasta: %@"
+    "tenants.select_properties_helper" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select the properties associated with this tenant"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lease until: %@"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecciona las propiedades asociadas a este inquilino"
+          }
+        }
+      }
+    },
+    "tenants.start" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio"
+          }
+        }
+      }
+    },
+    "tenants.status.active" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activo"
+          }
+        }
+      }
+    },
+    "tenants.status.inactive" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactive"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactivo"
           }
         }
       }
     }
   },
-  "version": "1.1"
+  "version" : "1.1"
 }

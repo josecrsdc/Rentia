@@ -76,7 +76,7 @@ struct TenantDetailView: View {
                 Text(tenant.fullName)
                     .font(AppTypography.title2)
 
-                Text(tenant.status.displayNameKey)
+                Text(tenant.status.localizedName)
                     .font(AppTypography.caption)
                     .padding(.horizontal, AppSpacing.small)
                     .padding(.vertical, AppSpacing.extraSmall)
@@ -99,7 +99,7 @@ struct TenantDetailView: View {
 
     private func contactSection(_ tenant: Tenant) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("tenants.contacto")
+            Text("tenants.contact")
                 .font(AppTypography.title3)
 
             detailRow(
@@ -117,7 +117,7 @@ struct TenantDetailView: View {
             if let idNumber = tenant.idNumber, !idNumber.isEmpty {
                 detailRow(
                     icon: "person.text.rectangle",
-                    label: "tenants.identificacion",
+                    label: "tenants.identification",
                     value: idNumber
                 )
             }
@@ -149,7 +149,7 @@ struct TenantDetailView: View {
 
                     Spacer()
 
-                    Text(property.status.displayNameKey)
+                    Text(property.status.localizedName)
                         .font(AppTypography.caption2)
                         .padding(.horizontal, AppSpacing.small)
                         .padding(.vertical, AppSpacing.extraSmall)
@@ -193,7 +193,7 @@ struct TenantDetailView: View {
 
             detailRow(
                 icon: "shield",
-                label: "tenants.deposito",
+                label: "tenants.deposit",
                 value: tenant.depositAmount
                     .formatted(.currency(code: defaultCurrency))
             )

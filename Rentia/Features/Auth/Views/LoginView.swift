@@ -68,7 +68,7 @@ struct LoginView: View {
     private var signInButtons: some View {
         VStack(spacing: AppSpacing.medium) {
             SocialSignInButton(
-                title: "auth.continuar_con_google",
+                title: "auth.continue_with_google",
                 icon: "globe",
                 action: { viewModel?.signInWithGoogle() }
             )

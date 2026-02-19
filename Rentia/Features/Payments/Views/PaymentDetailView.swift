@@ -65,7 +65,7 @@ struct PaymentDetailView: View {
                 .font(AppTypography.moneyLarge)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
-            Text(payment.status.displayNameKey)
+            Text(payment.status.localizedName)
                 .font(AppTypography.headline)
                 .padding(.horizontal, AppSpacing.medium)
                 .padding(.vertical, AppSpacing.small)
@@ -91,7 +91,7 @@ struct PaymentDetailView: View {
 
     private var assignmentCard: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("payments.asignacion")
+            Text("payments.assignment")
                 .font(AppTypography.title3)
 
             if let tenant {
@@ -116,7 +116,7 @@ struct PaymentDetailView: View {
 
                     Spacer()
 
-                    Text(tenant.status.displayNameKey)
+                    Text(tenant.status.localizedName)
                         .font(AppTypography.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, AppSpacing.small)
@@ -170,7 +170,7 @@ struct PaymentDetailView: View {
 
                     Spacer()
 
-                    Text(property.status.displayNameKey)
+                    Text(property.status.localizedName)
                         .font(AppTypography.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, AppSpacing.small)
@@ -206,7 +206,7 @@ struct PaymentDetailView: View {
 
             detailRow(
                 icon: "calendar.badge.clock",
-                label: "payments.fecha_de_vencimiento",
+                label: "payments.due_date",
                 value: payment.dueDate.shortFormatted
             )
 
@@ -221,7 +221,7 @@ struct PaymentDetailView: View {
             if let notes = payment.notes, !notes.isEmpty {
                 VStack(alignment: .leading, spacing: AppSpacing.small) {
                     Label(
-                        "payments.notas",
+                        "payments.notes",
                         systemImage: "note.text"
                     )
                     .font(AppTypography.body)

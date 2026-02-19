@@ -72,11 +72,11 @@ struct PropertyFormView: View {
                 text: $viewModel.address
             )
 
-            Picker("properties.tipo",
+            Picker("properties.type",
                 selection: $viewModel.type
             ) {
                 ForEach(PropertyType.allCases, id: \.self) { type in
-                    Label(type.displayNameKey, systemImage: type.icon)
+                    Label(type.localizedName, systemImage: type.icon)
                         .tag(type)
                 }
             }
@@ -85,7 +85,7 @@ struct PropertyFormView: View {
                 selection: $viewModel.status
             ) {
                 ForEach(PropertyStatus.allCases, id: \.self) { status in
-                    Text(status.displayNameKey).tag(status)
+                    Text(status.localizedName).tag(status)
                 }
             }
         }
@@ -162,7 +162,7 @@ struct PropertyFormView: View {
     }
 
     private var detailsSection: some View {
-        Section("properties.detalles") {
+        Section("properties.details") {
             if viewModel.type.supportsRoomsBathrooms {
                 TextField(
                     "properties.rooms",

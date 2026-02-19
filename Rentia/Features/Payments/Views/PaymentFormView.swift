@@ -46,7 +46,7 @@ struct PaymentFormView: View {
     // MARK: - Sections
 
     private var selectionSection: some View {
-        Section("payments.asignacion") {
+        Section("payments.assignment") {
             Picker("properties.tenant",
                 selection: $viewModel.tenantId
             ) {
@@ -68,9 +68,9 @@ struct PaymentFormView: View {
     }
 
     private var amountSection: some View {
-        Section("payments.monto") {
+        Section("payments.amount") {
             TextField(
-                "payments.cantidad",
+                "payments.amount",
                 text: $viewModel.amount
             )
             .keyboardType(.decimalPad)
@@ -79,20 +79,20 @@ struct PaymentFormView: View {
                 selection: $viewModel.status
             ) {
                 ForEach(PaymentStatus.allCases, id: \.self) { status in
-                    Text(status.displayNameKey).tag(status)
+                    Text(status.localizedName).tag(status)
                 }
             }
         }
     }
 
     private var datesSection: some View {
-        Section("payments.fechas") {
+        Section("payments.dates") {
             DatePicker("payments.payment_date",
                 selection: $viewModel.date,
                 displayedComponents: .date
             )
 
-            DatePicker("payments.fecha_de_vencimiento",
+            DatePicker("payments.due_date",
                 selection: $viewModel.dueDate,
                 displayedComponents: .date
             )
@@ -100,14 +100,14 @@ struct PaymentFormView: View {
     }
 
     private var additionalSection: some View {
-        Section("payments.adicional") {
+        Section("payments.additional") {
             TextField(
                 "payments.payment_method",
                 text: $viewModel.paymentMethod
             )
 
             TextField(
-                "payments.notas",
+                "payments.notes",
                 text: $viewModel.notes,
                 axis: .vertical
             )

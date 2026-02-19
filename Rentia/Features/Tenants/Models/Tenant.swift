@@ -8,7 +8,7 @@ enum TenantStatus: String, Codable, CaseIterable, Sendable {
     case active
     case inactive
 
-    var displayNameKey: LocalizedStringKey {
+    var localizedName: LocalizedStringKey {
         switch self {
         case .active: "tenants.status.active"
         case .inactive: "tenants.status.inactive"

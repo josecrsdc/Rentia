@@ -98,7 +98,7 @@ enum AuthError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .missingRootViewController:
-            String(localized: "common.no_se_pudo_encontrar_la_ventana_principal")
+            String(localized: "common.main_window_not_found")
         case .missingIDToken:
             String(localized: "common.unable_to_get_auth_token")
         case .noCurrentUser:

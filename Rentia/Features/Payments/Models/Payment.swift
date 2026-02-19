@@ -10,7 +10,7 @@ enum PaymentStatus: String, Codable, CaseIterable, Sendable {
     case overdue
     case partial
 
-    var displayNameKey: LocalizedStringKey {
+    var localizedName: LocalizedStringKey {
         switch self {
         case .pending: "payments.status.pending"
         case .paid: "payments.status.paid"

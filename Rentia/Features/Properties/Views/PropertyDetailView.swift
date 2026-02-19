@@ -104,7 +104,7 @@ struct PropertyDetailView: View {
 
     private func propertyDetails(_ property: Property) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("properties.detalles")
+            Text("properties.details")
                 .font(AppTypography.title3)
 
             if let description = property.description, !description.isEmpty {
@@ -116,13 +116,13 @@ struct PropertyDetailView: View {
             detailRow(
                 icon: "tag",
                 label: "properties.detail.type",
-                value: property.type.displayNameKey
+                value: property.type.localizedName
             )
 
             detailRow(
                 icon: "circle.fill",
                 label: "properties.detail.status",
-                value: property.status.displayNameKey
+                value: property.status.localizedName
             )
 
             if let area = property.area {
@@ -191,7 +191,7 @@ struct PropertyDetailView: View {
 
             Spacer()
 
-                    Text(tenant.status.displayNameKey)
+                    Text(tenant.status.localizedName)
                         .font(AppTypography.caption2)
                 .fontWeight(.medium)
                 .padding(.horizontal, AppSpacing.small)

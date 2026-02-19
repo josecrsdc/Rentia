@@ -58,14 +58,14 @@ struct TenantFormView: View {
             )
 
             TextField(
-                "tenants.numero_de_identificacion",
+                "tenants.id_number",
                 text: $viewModel.idNumber
             )
         }
     }
 
     private var contactSection: some View {
-        Section("tenants.contacto") {
+        Section("tenants.contact") {
             TextField(
                 "tenants.email",
                 text: $viewModel.email
@@ -159,7 +159,7 @@ struct TenantFormView: View {
             .keyboardType(.decimalPad)
 
             TextField(
-                "tenants.deposito",
+                "tenants.deposit",
                 text: $viewModel.depositAmount
             )
             .keyboardType(.decimalPad)
@@ -168,7 +168,7 @@ struct TenantFormView: View {
                 selection: $viewModel.status
             ) {
                 ForEach(TenantStatus.allCases, id: \.self) { status in
-                    Text(status.displayNameKey).tag(status)
+                    Text(status.localizedName).tag(status)
                 }
             }
         }
