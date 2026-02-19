@@ -6,9 +6,9 @@ struct PreferencesView: View {
 
     private let availableCurrencies = ["EUR", "USD", "MXN", "COP"]
     private let appearanceOptions = [
-        ("system", String(localized: "Sistema")),
-        ("light", String(localized: "Claro")),
-        ("dark", String(localized: "Oscuro")),
+        ("system", "settings.preferences.appearance.system"),
+        ("light", "settings.preferences.appearance.light"),
+        ("dark", "settings.preferences.appearance.dark"),
     ]
 
     var body: some View {
@@ -22,12 +22,12 @@ struct PreferencesView: View {
             }
             .padding(AppSpacing.medium)
         }
-        .navigationTitle(String(localized: "Preferencias"))
+        .navigationTitle("settings.preferences.title")
     }
 
     private var preferencesSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Preferencias"))
+            Text("settings.preferences.title")
                 .font(AppTypography.title3)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
@@ -42,7 +42,7 @@ struct PreferencesView: View {
                         )
                     )
 
-                Text(String(localized: "Moneda por defecto"))
+                Text("settings.preferences.default_currency")
                     .font(AppTypography.body)
                     .foregroundStyle(AppTheme.Colors.textPrimary)
 
@@ -67,7 +67,7 @@ struct PreferencesView: View {
                         )
                     )
 
-                Text(String(localized: "Apariencia"))
+                Text("settings.preferences.appearance")
                     .font(AppTypography.body)
                     .foregroundStyle(AppTheme.Colors.textPrimary)
 

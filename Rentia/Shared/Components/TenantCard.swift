@@ -68,7 +68,7 @@ struct TenantCard: View {
     }
 
     private var statusPill: some View {
-        Text(tenant.status.displayName)
+        Text(LocalizedStringKey(tenant.status.displayNameKey))
             .font(AppTypography.caption2)
             .fontWeight(.medium)
             .padding(.horizontal, AppSpacing.small)

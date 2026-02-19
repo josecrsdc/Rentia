@@ -14,18 +14,16 @@ struct PaymentListView: View {
             } else if viewModel.payments.isEmpty {
                 EmptyStateView(
                     icon: "creditcard",
-                    title: String(localized: "Sin pagos"),
-                    message: String(
-                        localized: "Los pagos registrados apareceran aqui"
-                    ),
-                    actionTitle: String(localized: "Registrar Pago"),
+                    title: "payments.sin_pagos",
+                    message: "payments.empty.message",
+                    actionTitle: "payments.registrar_pago",
                     action: { showCreatePayment = true }
                 )
             } else {
                 paymentList
             }
         }
-        .navigationTitle(String(localized: "Pagos"))
+        .navigationTitle("tabs.payments")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: PaymentDestination.form(nil)) {
@@ -46,11 +44,10 @@ struct PaymentListView: View {
         }
         .refreshable { viewModel.loadPayments() }
         .onAppear { viewModel.loadPayments() }
-        .alert(
-            String(localized: "Error"),
+        .alert("common.error",
             isPresented: $viewModel.showError
         ) {
-            Button(String(localized: "Aceptar"), role: .cancel) {}
+            Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
@@ -78,7 +75,7 @@ struct PaymentListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: AppSpacing.small) {
                 filterChip(
-                    title: String(localized: "Todos"),
+                    title: "payments.todos",
                     isSelected: viewModel.selectedFilter == nil
                 ) {
                     viewModel.selectedFilter = nil
@@ -86,7 +83,7 @@ struct PaymentListView: View {
 
                 ForEach(PaymentStatus.allCases, id: \.self) { status in
                     filterChip(
-                        title: status.displayName,
+                        title: LocalizedStringKey(status.displayNameKey),
                         isSelected: viewModel.selectedFilter == status
                     ) {
                         viewModel.selectedFilter = status
@@ -97,7 +94,7 @@ struct PaymentListView: View {
     }
 
     private func filterChip(
-        title: String,
+        title: LocalizedStringKey,
         isSelected: Bool,
         action: @escaping () -> Void
     ) -> some View {

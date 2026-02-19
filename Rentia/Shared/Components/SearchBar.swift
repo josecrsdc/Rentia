@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SearchBar: View {
     @Binding var text: String
-    let placeholder: String
+    let placeholder: LocalizedStringKey
 
     var body: some View {
         HStack(spacing: AppSpacing.small) {

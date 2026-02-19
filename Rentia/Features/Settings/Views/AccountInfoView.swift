@@ -15,9 +15,8 @@ struct AccountInfoView: View {
             }
             .padding(AppSpacing.medium)
         }
-        .navigationTitle(String(localized: "Cuenta"))
-        .confirmationDialog(
-            String(localized: "Eliminar Cuenta"),
+        .navigationTitle("account.title")
+        .confirmationDialog("account.delete",
             isPresented: Binding(
                 get: { viewModel?.showDeleteConfirmation ?? false },
                 set: { viewModel?.showDeleteConfirmation = $0 }
@@ -25,26 +24,21 @@ struct AccountInfoView: View {
             titleVisibility: .visible
         ) {
             Button(
-                String(localized: "Eliminar Cuenta"),
+                "account.delete",
                 role: .destructive
             ) {
                 viewModel?.deleteAccount()
             }
         } message: {
-            Text(
-                String(
-                    localized: "Esta accion es irreversible. Se eliminaran todos tus datos."
-                )
-            )
+            Text("account.delete.confirmation.message")
         }
-        .alert(
-            String(localized: "Error"),
+        .alert("common.error",
             isPresented: Binding(
                 get: { viewModel?.showError ?? false },
                 set: { viewModel?.showError = $0 }
             )
         ) {
-            Button(String(localized: "Aceptar"), role: .cancel) {}
+            Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel?.errorMessage ?? "")
         }
@@ -52,27 +46,27 @@ struct AccountInfoView: View {
 
     private var accountSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Cuenta"))
+            Text("account.title")
                 .font(AppTypography.title3)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
             profileRow(
                 icon: "person",
                 title: viewModel?.displayName ?? "",
-                subtitle: String(localized: "Nombre")
+                subtitle: "tenants.nombre"
             )
 
             profileRow(
                 icon: "envelope",
                 title: viewModel?.email ?? "",
-                subtitle: String(localized: "Email")
+                subtitle: "tenants.email"
             )
 
             profileRow(
                 icon: "shield.checkered",
                 title: viewModel?.userProfile?.authProvider
                     .capitalized ?? "N/A",
-                subtitle: String(localized: "Proveedor de autenticacion")
+                subtitle: "settings.proveedor_de_autenticacion"
             )
         }
         .cardStyle()
@@ -114,7 +108,7 @@ struct AccountInfoView: View {
         } label: {
             HStack {
                 Image(systemName: "trash")
-                Text(String(localized: "Eliminar Cuenta"))
+                Text("account.delete")
                     .font(AppTypography.headline)
             }
             .frame(maxWidth: .infinity)

@@ -14,18 +14,16 @@ struct PropertyListView: View {
             } else if viewModel.properties.isEmpty {
                 EmptyStateView(
                     icon: "building.2",
-                    title: String(localized: "Sin propiedades"),
-                    message: String(
-                        localized: "Agrega tu primera propiedad para comenzar"
-                    ),
-                    actionTitle: String(localized: "Agregar Propiedad"),
+                    title: "properties.sin_propiedades",
+                    message: "properties.empty.message",
+                    actionTitle: "properties.agregar_propiedad",
                     action: { showCreateProperty = true }
                 )
             } else {
                 propertyList
             }
         }
-        .navigationTitle(String(localized: "Propiedades"))
+        .navigationTitle("tabs.properties")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: PropertyDestination.form(nil)) {
@@ -62,11 +60,10 @@ struct PropertyListView: View {
         }
         .refreshable { viewModel.loadProperties() }
         .onAppear { viewModel.loadProperties() }
-        .alert(
-            String(localized: "Error"),
+        .alert("common.error",
             isPresented: $viewModel.showError
         ) {
-            Button(String(localized: "Aceptar"), role: .cancel) {}
+            Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
@@ -77,7 +74,7 @@ struct PropertyListView: View {
             VStack(spacing: AppSpacing.medium) {
                 SearchBar(
                     text: $viewModel.searchText,
-                    placeholder: String(localized: "Buscar propiedades...")
+                    placeholder: "properties.buscar_propiedades"
                 )
 
                 ForEach(viewModel.filteredProperties) { property in

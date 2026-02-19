@@ -11,13 +11,13 @@ enum AppTab: Int, CaseIterable, Identifiable {
 
     var id: Int { rawValue }
 
-    var title: String {
+    var titleKey: LocalizedStringKey {
         switch self {
-        case .dashboard: String(localized: "Inicio")
-        case .properties: String(localized: "Propiedades")
-        case .tenants: String(localized: "Inquilinos")
-        case .payments: String(localized: "Pagos")
-        case .settings: String(localized: "Ajustes")
+        case .dashboard: "tabs.dashboard"
+        case .properties: "tabs.properties"
+        case .tenants: "tabs.tenants"
+        case .payments: "tabs.payments"
+        case .settings: "tabs.settings"
         }
     }
 

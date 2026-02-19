@@ -21,8 +21,8 @@ struct PaymentFormView: View {
         }
         .navigationTitle(
             paymentId != nil
-                ? String(localized: "Editar Pago")
-                : String(localized: "Nuevo Pago")
+                ? "payments.editar_pago"
+                : "payments.nuevo_pago"
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
@@ -34,11 +34,10 @@ struct PaymentFormView: View {
         .onChange(of: viewModel.didSave) {
             if viewModel.didSave { dismiss() }
         }
-        .alert(
-            String(localized: "Error"),
+        .alert("common.error",
             isPresented: $viewModel.showError
         ) {
-            Button(String(localized: "Aceptar"), role: .cancel) {}
+            Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
@@ -47,22 +46,20 @@ struct PaymentFormView: View {
     // MARK: - Sections
 
     private var selectionSection: some View {
-        Section(String(localized: "Asignacion")) {
-            Picker(
-                String(localized: "Inquilino"),
+        Section("payments.asignacion") {
+            Picker("properties.inquilino",
                 selection: $viewModel.tenantId
             ) {
-                Text(String(localized: "Seleccionar")).tag("")
+                Text("common.select").tag("")
                 ForEach(viewModel.tenants) { tenant in
                     Text(tenant.fullName).tag(tenant.id ?? "")
                 }
             }
 
-            Picker(
-                String(localized: "Propiedad"),
+            Picker("payments.propiedad",
                 selection: $viewModel.propertyId
             ) {
-                Text(String(localized: "Seleccionar")).tag("")
+                Text("common.select").tag("")
                 ForEach(viewModel.properties) { property in
                     Text(property.name).tag(property.id ?? "")
                 }
@@ -71,34 +68,31 @@ struct PaymentFormView: View {
     }
 
     private var amountSection: some View {
-        Section(String(localized: "Monto")) {
+        Section("payments.monto") {
             TextField(
-                String(localized: "Cantidad"),
+                "payments.cantidad",
                 text: $viewModel.amount
             )
             .keyboardType(.decimalPad)
 
-            Picker(
-                String(localized: "Estado"),
+            Picker("properties.estado",
                 selection: $viewModel.status
             ) {
                 ForEach(PaymentStatus.allCases, id: \.self) { status in
-                    Text(status.displayName).tag(status)
+                    Text(LocalizedStringKey(status.displayNameKey)).tag(status)
                 }
             }
         }
     }
 
     private var datesSection: some View {
-        Section(String(localized: "Fechas")) {
-            DatePicker(
-                String(localized: "Fecha de pago"),
+        Section("payments.fechas") {
+            DatePicker("payments.fecha_de_pago",
                 selection: $viewModel.date,
                 displayedComponents: .date
             )
 
-            DatePicker(
-                String(localized: "Fecha de vencimiento"),
+            DatePicker("payments.fecha_de_vencimiento",
                 selection: $viewModel.dueDate,
                 displayedComponents: .date
             )
@@ -106,14 +100,14 @@ struct PaymentFormView: View {
     }
 
     private var additionalSection: some View {
-        Section(String(localized: "Adicional")) {
+        Section("payments.adicional") {
             TextField(
-                String(localized: "Metodo de pago"),
+                "payments.metodo_de_pago",
                 text: $viewModel.paymentMethod
             )
 
             TextField(
-                String(localized: "Notas"),
+                "payments.notas",
                 text: $viewModel.notes,
                 axis: .vertical
             )
@@ -125,8 +119,8 @@ struct PaymentFormView: View {
         Section {
             PrimaryButton(
                 title: viewModel.isEditing
-                    ? String(localized: "Guardar Cambios")
-                    : String(localized: "Registrar Pago"),
+                    ? "common.save_changes"
+                    : "payments.registrar_pago",
                 isLoading: viewModel.isLoading
             ) {
                 viewModel.save()

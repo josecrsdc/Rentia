@@ -23,30 +23,27 @@ struct PaymentDetailView: View {
                 paymentContent(payment)
             }
         }
-        .navigationTitle(String(localized: "Detalle del Pago"))
+        .navigationTitle("payments.detalle_del_pago")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(
                     value: PaymentDestination.form(paymentId)
                 ) {
-                    Text(String(localized: "Editar"))
+                    Text("common.edit")
                 }
             }
         }
         .onAppear { loadPayment() }
-        .alert(
-            String(localized: "Eliminar Pago"),
+        .alert("payments.eliminar_pago",
             isPresented: $showDeleteConfirmation
         ) {
-            Button(String(localized: "Cancelar"), role: .cancel) {}
-            Button(String(localized: "Eliminar"), role: .destructive) {
+            Button("common.cancel", role: .cancel) {}
+            Button("common.delete", role: .destructive) {
                 deletePayment()
             }
         } message: {
-            Text(
-                String(localized: "Esta accion no se puede deshacer. Se eliminara el pago permanentemente.")
-            )
+            Text("payments.delete.confirmation.message")
         }
     }
 
@@ -68,7 +65,7 @@ struct PaymentDetailView: View {
                 .font(AppTypography.moneyLarge)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
-            Text(payment.status.displayName)
+            Text(LocalizedStringKey(payment.status.displayNameKey))
                 .font(AppTypography.headline)
                 .padding(.horizontal, AppSpacing.medium)
                 .padding(.vertical, AppSpacing.small)
@@ -94,7 +91,7 @@ struct PaymentDetailView: View {
 
     private var assignmentCard: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Asignacion"))
+            Text("payments.asignacion")
                 .font(AppTypography.title3)
 
             if let tenant {
@@ -119,7 +116,7 @@ struct PaymentDetailView: View {
 
                     Spacer()
 
-                    Text(tenant.status.displayName)
+                    Text(LocalizedStringKey(tenant.status.displayNameKey))
                         .font(AppTypography.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, AppSpacing.small)
@@ -140,7 +137,7 @@ struct PaymentDetailView: View {
                 HStack(spacing: AppSpacing.small) {
                     Image(systemName: "person.slash")
                         .foregroundStyle(AppTheme.Colors.textLight)
-                    Text(String(localized: "Inquilino no encontrado"))
+                    Text("payments.inquilino_no_encontrado")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -173,7 +170,7 @@ struct PaymentDetailView: View {
 
                     Spacer()
 
-                    Text(property.status.displayName)
+                    Text(LocalizedStringKey(property.status.displayNameKey))
                         .font(AppTypography.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, AppSpacing.small)
@@ -186,7 +183,7 @@ struct PaymentDetailView: View {
                 HStack(spacing: AppSpacing.small) {
                     Image(systemName: "building.2.slash")
                         .foregroundStyle(AppTheme.Colors.textLight)
-                    Text(String(localized: "Propiedad no encontrada"))
+                    Text("payments.propiedad_no_encontrada")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -198,25 +195,25 @@ struct PaymentDetailView: View {
 
     private func detailsCard(_ payment: Payment) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Informacion"))
+            Text("payments.informacion")
                 .font(AppTypography.title3)
 
             detailRow(
                 icon: "calendar",
-                label: String(localized: "Fecha de pago"),
+                label: "payments.fecha_de_pago",
                 value: payment.date.shortFormatted
             )
 
             detailRow(
                 icon: "calendar.badge.clock",
-                label: String(localized: "Fecha de vencimiento"),
+                label: "payments.fecha_de_vencimiento",
                 value: payment.dueDate.shortFormatted
             )
 
             if let method = payment.paymentMethod, !method.isEmpty {
                 detailRow(
                     icon: "creditcard",
-                    label: String(localized: "Metodo de pago"),
+                    label: "payments.metodo_de_pago",
                     value: method
                 )
             }
@@ -224,7 +221,7 @@ struct PaymentDetailView: View {
             if let notes = payment.notes, !notes.isEmpty {
                 VStack(alignment: .leading, spacing: AppSpacing.small) {
                     Label(
-                        String(localized: "Notas"),
+                        "payments.notas",
                         systemImage: "note.text"
                     )
                     .font(AppTypography.body)
@@ -241,7 +238,7 @@ struct PaymentDetailView: View {
 
     private func detailRow(
         icon: String,
-        label: String,
+        label: LocalizedStringKey,
         value: String
     ) -> some View {
         HStack {
@@ -281,7 +278,7 @@ struct PaymentDetailView: View {
         } label: {
             HStack {
                 Image(systemName: "trash")
-                Text(String(localized: "Eliminar Pago"))
+                Text("payments.eliminar_pago")
             }
             .font(AppTypography.body)
             .fontWeight(.medium)

@@ -22,7 +22,7 @@ struct SettingsView: View {
                 .padding(AppSpacing.medium)
             }
         }
-        .navigationTitle(String(localized: "Ajustes"))
+        .navigationTitle("settings.title")
         .onAppear {
             if viewModel == nil {
                 viewModel = ProfileViewModel(
@@ -31,8 +31,7 @@ struct SettingsView: View {
             }
             viewModel?.loadProfile()
         }
-        .confirmationDialog(
-            String(localized: "Cerrar Sesion"),
+        .confirmationDialog("auth.sign_out",
             isPresented: Binding(
                 get: { viewModel?.showSignOutConfirmation ?? false },
                 set: { viewModel?.showSignOutConfirmation = $0 }
@@ -40,22 +39,21 @@ struct SettingsView: View {
             titleVisibility: .visible
         ) {
             Button(
-                String(localized: "Cerrar Sesion"),
+                "auth.sign_out",
                 role: .destructive
             ) {
                 viewModel?.signOut()
             }
         } message: {
-            Text(String(localized: "Estas seguro que deseas cerrar sesion?"))
+            Text("auth.sign_out.confirmation.message")
         }
-        .alert(
-            String(localized: "Error"),
+        .alert("common.error",
             isPresented: Binding(
                 get: { viewModel?.showError ?? false },
                 set: { viewModel?.showError = $0 }
             )
         ) {
-            Button(String(localized: "Aceptar"), role: .cancel) {}
+            Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel?.errorMessage ?? "")
         }
@@ -119,7 +117,7 @@ struct SettingsView: View {
                         )
                     )
 
-                Text(String(localized: "Cuenta"))
+                Text("account.title")
                     .font(AppTypography.body)
                     .foregroundStyle(AppTheme.Colors.textPrimary)
 
@@ -155,7 +153,7 @@ struct SettingsView: View {
                         )
                     )
 
-                Text(String(localized: "Preferencias"))
+                Text("settings.preferences.title")
                     .font(AppTypography.body)
                     .foregroundStyle(AppTheme.Colors.textPrimary)
 
@@ -192,7 +190,7 @@ struct SettingsView: View {
                         )
                     )
 
-                Text("Debug")
+                Text("common.debug")
                     .font(AppTypography.body)
                     .foregroundStyle(AppTheme.Colors.textPrimary)
 
@@ -223,7 +221,7 @@ struct SettingsView: View {
             } label: {
                 HStack {
                     Image(systemName: "rectangle.portrait.and.arrow.right")
-                    Text(String(localized: "Cerrar Sesion"))
+                    Text("auth.sign_out")
                         .font(AppTypography.headline)
                 }
                 .frame(maxWidth: .infinity)

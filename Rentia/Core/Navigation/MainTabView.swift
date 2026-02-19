@@ -6,7 +6,7 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             ForEach(AppTab.allCases) { tab in
-                Tab(tab.title, systemImage: tab.icon, value: tab) {
+                Tab(tab.titleKey, systemImage: tab.icon, value: tab) {
                     navigationContent(for: tab)
                 }
             }

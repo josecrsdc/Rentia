@@ -9,12 +9,12 @@ enum PaymentStatus: String, Codable, CaseIterable, Sendable {
     case overdue
     case partial
 
-    var displayName: String {
+    var displayNameKey: String {
         switch self {
-        case .pending: String(localized: "Pendiente")
-        case .paid: String(localized: "Pagado")
-        case .overdue: String(localized: "Vencido")
-        case .partial: String(localized: "Parcial")
+        case .pending: "payments.status.pending"
+        case .paid: "payments.status.paid"
+        case .overdue: "payments.status.overdue"
+        case .partial: "payments.status.partial"
         }
     }
 

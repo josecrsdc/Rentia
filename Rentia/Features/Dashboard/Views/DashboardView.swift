@@ -16,7 +16,7 @@ struct DashboardView: View {
             .padding(AppSpacing.medium)
         }
         .background(AppTheme.Colors.background)
-        .navigationTitle(String(localized: "Inicio"))
+        .navigationTitle("tabs.dashboard")
         .refreshable { viewModel.loadData() }
         .onAppear { viewModel.loadData() }
     }
@@ -25,11 +25,11 @@ struct DashboardView: View {
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
-            Text(String(localized: "Bienvenido"))
+            Text("dashboard.bienvenido")
                 .font(AppTypography.title2)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
-            Text(String(localized: "Resumen de tus propiedades"))
+            Text("dashboard.resumen_de_tus_propiedades")
                 .font(AppTypography.subheadline)
                 .foregroundStyle(AppTheme.Colors.textSecondary)
         }
@@ -47,7 +47,7 @@ struct DashboardView: View {
             spacing: AppSpacing.medium
         ) {
             StatCard(
-                title: String(localized: "Ingresos Mensuales"),
+                title: "dashboard.ingresos_mensuales",
                 value: viewModel.totalMonthlyIncome
                     .formatted(.currency(code: defaultCurrency)),
                 icon: "dollarsign.circle.fill",
@@ -55,14 +55,14 @@ struct DashboardView: View {
             )
 
             StatCard(
-                title: String(localized: "Pagos Pendientes"),
+                title: "dashboard.pagos_pendientes",
                 value: "\(viewModel.pendingPaymentsCount)",
                 icon: "clock.fill",
                 color: AppTheme.Colors.warning
             )
 
             StatCard(
-                title: String(localized: "Ocupacion"),
+                title: "dashboard.ocupacion",
                 value: String(
                     format: "%.0f%%",
                     viewModel.occupancyRate
@@ -72,7 +72,7 @@ struct DashboardView: View {
             )
 
             StatCard(
-                title: String(localized: "Inquilinos Activos"),
+                title: "dashboard.inquilinos_activos",
                 value: "\(viewModel.activeTenants)",
                 icon: "person.2.fill",
                 color: AppTheme.Colors.primary
@@ -84,17 +84,15 @@ struct DashboardView: View {
 
     private var recentActivitySection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Actividad Reciente"))
+            Text("dashboard.actividad_reciente")
                 .font(AppTypography.title3)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
             if viewModel.recentPayments.isEmpty {
                 EmptyStateView(
                     icon: "clock",
-                    title: String(localized: "Sin actividad reciente"),
-                    message: String(
-                        localized: "Los pagos recientes apareceran aqui"
-                    )
+                    title: "dashboard.recent_activity.empty.title",
+                    message: "dashboard.empty_recent_payments"
                 )
             } else {
                 ForEach(viewModel.recentPayments) { payment in

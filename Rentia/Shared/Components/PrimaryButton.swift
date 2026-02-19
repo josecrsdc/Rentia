@@ -1,12 +1,12 @@
 import SwiftUI
 
 struct PrimaryButton: View {
-    let title: String
+    let title: LocalizedStringKey
     let isLoading: Bool
     let action: () -> Void
 
     init(
-        title: String,
+        title: LocalizedStringKey,
         isLoading: Bool = false,
         action: @escaping () -> Void
     ) {

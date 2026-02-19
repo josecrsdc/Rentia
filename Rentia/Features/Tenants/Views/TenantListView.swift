@@ -14,18 +14,16 @@ struct TenantListView: View {
             } else if viewModel.tenants.isEmpty {
                 EmptyStateView(
                     icon: "person.2",
-                    title: String(localized: "Sin inquilinos"),
-                    message: String(
-                        localized: "Agrega tu primer inquilino para comenzar"
-                    ),
-                    actionTitle: String(localized: "Agregar Inquilino"),
+                    title: "tenants.sin_inquilinos",
+                    message: "tenants.empty.message",
+                    actionTitle: "tenants.agregar_inquilino",
                     action: { showCreateTenant = true }
                 )
             } else {
                 tenantList
             }
         }
-        .navigationTitle(String(localized: "Inquilinos"))
+        .navigationTitle("tabs.tenants")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: TenantDestination.form(nil)) {
@@ -54,11 +52,10 @@ struct TenantListView: View {
         }
         .refreshable { viewModel.loadTenants() }
         .onAppear { viewModel.loadTenants() }
-        .alert(
-            String(localized: "Error"),
+        .alert("common.error",
             isPresented: $viewModel.showError
         ) {
-            Button(String(localized: "Aceptar"), role: .cancel) {}
+            Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
@@ -69,7 +66,7 @@ struct TenantListView: View {
             VStack(spacing: AppSpacing.medium) {
                 SearchBar(
                     text: $viewModel.searchText,
-                    placeholder: String(localized: "Buscar inquilinos...")
+                    placeholder: "tenants.buscar_inquilinos"
                 )
 
                 ForEach(viewModel.filteredTenants) { tenant in

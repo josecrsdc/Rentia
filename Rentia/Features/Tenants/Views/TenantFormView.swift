@@ -21,8 +21,8 @@ struct TenantFormView: View {
         }
         .navigationTitle(
             tenantId != nil
-                ? String(localized: "Editar Inquilino")
-                : String(localized: "Nuevo Inquilino")
+                ? "tenants.editar_inquilino"
+                : "tenants.nuevo_inquilino"
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
@@ -34,11 +34,10 @@ struct TenantFormView: View {
         .onChange(of: viewModel.didSave) {
             if viewModel.didSave { dismiss() }
         }
-        .alert(
-            String(localized: "Error"),
+        .alert("common.error",
             isPresented: $viewModel.showError
         ) {
-            Button(String(localized: "Aceptar"), role: .cancel) {}
+            Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
@@ -47,28 +46,28 @@ struct TenantFormView: View {
     // MARK: - Sections
 
     private var personalInfoSection: some View {
-        Section(String(localized: "Informacion Personal")) {
+        Section("tenants.informacion_personal") {
             TextField(
-                String(localized: "Nombre"),
+                "tenants.nombre",
                 text: $viewModel.firstName
             )
 
             TextField(
-                String(localized: "Apellido"),
+                "tenants.apellido",
                 text: $viewModel.lastName
             )
 
             TextField(
-                String(localized: "Numero de Identificacion"),
+                "tenants.numero_de_identificacion",
                 text: $viewModel.idNumber
             )
         }
     }
 
     private var contactSection: some View {
-        Section(String(localized: "Contacto")) {
+        Section("tenants.contacto") {
             TextField(
-                String(localized: "Email"),
+                "tenants.email",
                 text: $viewModel.email
             )
             .keyboardType(.emailAddress)
@@ -76,7 +75,7 @@ struct TenantFormView: View {
             .autocorrectionDisabled()
 
             TextField(
-                String(localized: "Telefono"),
+                "tenants.telefono",
                 text: $viewModel.phone
             )
             .keyboardType(.phonePad)
@@ -87,7 +86,7 @@ struct TenantFormView: View {
     private var propertiesSection: some View {
         Section {
             if viewModel.availableProperties.isEmpty {
-                Text(String(localized: "No hay propiedades registradas"))
+                Text("tenants.no_hay_propiedades_registradas")
                     .foregroundStyle(AppTheme.Colors.textSecondary)
             } else {
                 ForEach(viewModel.availableProperties) { property in
@@ -95,11 +94,11 @@ struct TenantFormView: View {
                 }
             }
         } header: {
-            Text(String(localized: "Propiedades"))
+            Text("tabs.properties")
         } footer: {
             if !viewModel.availableProperties.isEmpty {
                 Text(
-                    String(localized: "Selecciona las propiedades asociadas a este inquilino")
+                    "tenants.selecciona_las_propiedades_asociadas_a_este_inquilino"
                 )
             }
         }
@@ -142,37 +141,34 @@ struct TenantFormView: View {
     }
 
     private var leaseSection: some View {
-        Section(String(localized: "Contrato")) {
-            DatePicker(
-                String(localized: "Inicio del contrato"),
+        Section("tenants.contrato") {
+            DatePicker("tenants.inicio_del_contrato",
                 selection: $viewModel.leaseStartDate,
                 displayedComponents: .date
             )
 
-            DatePicker(
-                String(localized: "Fin del contrato"),
+            DatePicker("tenants.fin_del_contrato",
                 selection: $viewModel.leaseEndDate,
                 displayedComponents: .date
             )
 
             TextField(
-                String(localized: "Renta mensual"),
+                "properties.renta_mensual",
                 text: $viewModel.monthlyRent
             )
             .keyboardType(.decimalPad)
 
             TextField(
-                String(localized: "Deposito"),
+                "tenants.deposito",
                 text: $viewModel.depositAmount
             )
             .keyboardType(.decimalPad)
 
-            Picker(
-                String(localized: "Estado"),
+            Picker("properties.estado",
                 selection: $viewModel.status
             ) {
                 ForEach(TenantStatus.allCases, id: \.self) { status in
-                    Text(status.displayName).tag(status)
+                    Text(LocalizedStringKey(status.displayNameKey)).tag(status)
                 }
             }
         }
@@ -182,8 +178,8 @@ struct TenantFormView: View {
         Section {
             PrimaryButton(
                 title: viewModel.isEditing
-                    ? String(localized: "Guardar Cambios")
-                    : String(localized: "Agregar Inquilino"),
+                    ? "common.save_changes"
+                    : "tenants.agregar_inquilino",
                 isLoading: viewModel.isLoading
             ) {
                 viewModel.save()

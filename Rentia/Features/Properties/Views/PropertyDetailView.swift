@@ -30,23 +30,20 @@ struct PropertyDetailView: View {
                 NavigationLink(
                     value: PropertyDestination.form(propertyId)
                 ) {
-                    Text(String(localized: "Editar"))
+                    Text("common.edit")
                 }
             }
         }
         .onAppear { loadProperty() }
-        .alert(
-            String(localized: "Eliminar Propiedad"),
+        .alert("properties.eliminar_propiedad",
             isPresented: $showDeleteConfirmation
         ) {
-            Button(String(localized: "Cancelar"), role: .cancel) {}
-            Button(String(localized: "Eliminar"), role: .destructive) {
+            Button("common.cancel", role: .cancel) {}
+            Button("common.delete", role: .destructive) {
                 deleteProperty()
             }
         } message: {
-            Text(
-                String(localized: "Esta accion no se puede deshacer. Se eliminara la propiedad permanentemente.")
-            )
+            Text("properties.delete.confirmation.message")
         }
     }
 
@@ -107,7 +104,7 @@ struct PropertyDetailView: View {
 
     private func propertyDetails(_ property: Property) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Detalles"))
+            Text("properties.detalles")
                 .font(AppTypography.title3)
 
             if let description = property.description, !description.isEmpty {
@@ -118,20 +115,20 @@ struct PropertyDetailView: View {
 
             detailRow(
                 icon: "tag",
-                label: String(localized: "Tipo"),
-                value: property.type.displayName
+                label: "properties.detail.type",
+                value: property.type.displayNameKey
             )
 
             detailRow(
                 icon: "circle.fill",
-                label: String(localized: "Estado"),
-                value: property.status.displayName
+                label: "properties.detail.status",
+                value: property.status.displayNameKey
             )
 
             if let area = property.area {
                 detailRow(
                     icon: "square.dashed",
-                    label: String(localized: "Area"),
+                    label: "properties.area",
                     value: "\(Int(area)) m²"
                 )
             }
@@ -144,7 +141,7 @@ struct PropertyDetailView: View {
 
     private var tenantsSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Inquilinos"))
+            Text("tabs.tenants")
                 .font(AppTypography.title3)
 
             if tenants.isEmpty {
@@ -152,7 +149,7 @@ struct PropertyDetailView: View {
                     Image(systemName: "person.2.slash")
                         .foregroundStyle(AppTheme.Colors.textLight)
 
-                    Text(String(localized: "Sin inquilinos asignados"))
+                    Text("properties.sin_inquilinos_asignados")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -194,8 +191,8 @@ struct PropertyDetailView: View {
 
             Spacer()
 
-            Text(tenant.status.displayName)
-                .font(AppTypography.caption2)
+                    Text(LocalizedStringKey(tenant.status.displayNameKey))
+                        .font(AppTypography.caption2)
                 .fontWeight(.medium)
                 .padding(.horizontal, AppSpacing.small)
                 .padding(.vertical, AppSpacing.extraSmall)
@@ -221,7 +218,7 @@ struct PropertyDetailView: View {
 
     private var paymentsSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Pagos"))
+            Text("tabs.payments")
                 .font(AppTypography.title3)
 
             if payments.isEmpty {
@@ -229,7 +226,7 @@ struct PropertyDetailView: View {
                     Image(systemName: "creditcard.trianglebadge.exclamationmark")
                         .foregroundStyle(AppTheme.Colors.textLight)
 
-                    Text(String(localized: "Sin pagos registrados"))
+                    Text("properties.sin_pagos_registrados")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -250,7 +247,7 @@ struct PropertyDetailView: View {
 
     private func detailRow(
         icon: String,
-        label: String,
+        label: LocalizedStringKey,
         value: String
     ) -> some View {
         HStack {
@@ -274,14 +271,14 @@ struct PropertyDetailView: View {
             return AnyView(
                 HStack(spacing: AppSpacing.medium) {
                     StatCard(
-                        title: String(localized: "Habitaciones"),
+                        title: "properties.habitaciones",
                         value: "\(property.rooms)",
                         icon: "bed.double",
                         color: AppTheme.Colors.primary
                     )
 
                     StatCard(
-                        title: String(localized: "Banos"),
+                        title: "properties.banos",
                         value: "\(property.bathrooms)",
                         icon: "shower",
                         color: AppTheme.Colors.secondary
@@ -294,7 +291,7 @@ struct PropertyDetailView: View {
         return AnyView(
             HStack(spacing: AppSpacing.medium) {
                 StatCard(
-                    title: String(localized: "Area"),
+                    title: "properties.area",
                     value: areaValue,
                     icon: "square.dashed",
                     color: AppTheme.Colors.primary
@@ -315,7 +312,7 @@ struct PropertyDetailView: View {
         } label: {
             HStack {
                 Image(systemName: "trash")
-                Text(String(localized: "Eliminar Propiedad"))
+                Text("properties.eliminar_propiedad")
             }
             .font(AppTypography.body)
             .fontWeight(.medium)

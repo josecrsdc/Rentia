@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SocialSignInButton: View {
-    let title: String
+    let title: LocalizedStringKey
     let icon: String
     let isSystemImage: Bool
     let backgroundColor: Color
@@ -9,7 +9,7 @@ struct SocialSignInButton: View {
     let action: () -> Void
 
     init(
-        title: String,
+        title: LocalizedStringKey,
         icon: String,
         isSystemImage: Bool = true,
         backgroundColor: Color = AppTheme.Colors.cardBackground,

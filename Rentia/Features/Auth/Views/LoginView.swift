@@ -32,14 +32,13 @@ struct LoginView: View {
                 )
             }
         }
-        .alert(
-            String(localized: "Error"),
+        .alert("common.error",
             isPresented: Binding(
                 get: { viewModel?.showError ?? false },
                 set: { viewModel?.showError = $0 }
             )
         ) {
-            Button(String(localized: "Aceptar"), role: .cancel) {}
+            Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel?.errorMessage ?? "")
         }
@@ -53,11 +52,11 @@ struct LoginView: View {
                 .font(.system(size: 64))
                 .foregroundStyle(AppTheme.Colors.primary)
 
-            Text("Rentia")
+            Text("auth.rentia")
                 .font(AppTypography.largeTitle)
                 .foregroundStyle(AppTheme.Colors.primary)
 
-            Text(String(localized: "Gestiona tus propiedades de forma inteligente"))
+            Text("auth.tagline")
                 .font(AppTypography.subheadline)
                 .foregroundStyle(AppTheme.Colors.textSecondary)
                 .multilineTextAlignment(.center)
@@ -69,7 +68,7 @@ struct LoginView: View {
     private var signInButtons: some View {
         VStack(spacing: AppSpacing.medium) {
             SocialSignInButton(
-                title: String(localized: "Continuar con Google"),
+                title: "auth.continuar_con_google",
                 icon: "globe",
                 action: { viewModel?.signInWithGoogle() }
             )
@@ -95,7 +94,7 @@ struct LoginView: View {
     // MARK: - Terms
 
     private var termsText: some View {
-        Text(String(localized: "Al continuar, aceptas nuestros Terminos de Servicio y Politica de Privacidad"))
+        Text("auth.terms_notice")
             .font(AppTypography.caption)
             .foregroundStyle(AppTheme.Colors.textLight)
             .multilineTextAlignment(.center)

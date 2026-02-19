@@ -10,13 +10,13 @@ enum PropertyType: String, Codable, CaseIterable, Sendable {
     case garage
     case land
 
-    var displayName: String {
+    var displayNameKey: String {
         switch self {
-        case .apartment: String(localized: "Apartamento")
-        case .house: String(localized: "Casa")
-        case .commercial: String(localized: "Comercial")
-        case .garage: String(localized: "Plaza de garaje")
-        case .land: String(localized: "Terreno")
+        case .apartment: "properties.type.apartment"
+        case .house: "properties.type.house"
+        case .commercial: "properties.type.commercial"
+        case .garage: "properties.type.garage"
+        case .land: "properties.type.land"
         }
     }
 
@@ -42,11 +42,11 @@ enum PropertyStatus: String, Codable, CaseIterable, Sendable {
     case rented
     case maintenance
 
-    var displayName: String {
+    var displayNameKey: String {
         switch self {
-        case .available: String(localized: "Disponible")
-        case .rented: String(localized: "Alquilada")
-        case .maintenance: String(localized: "Mantenimiento")
+        case .available: "properties.status.available"
+        case .rented: "properties.status.rented"
+        case .maintenance: "properties.status.maintenance"
         }
     }
 }

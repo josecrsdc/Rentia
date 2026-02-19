@@ -30,23 +30,20 @@ struct TenantDetailView: View {
                 NavigationLink(
                     value: TenantDestination.form(tenantId)
                 ) {
-                    Text(String(localized: "Editar"))
+                    Text("common.edit")
                 }
             }
         }
         .onAppear { loadTenant() }
-        .alert(
-            String(localized: "Eliminar Inquilino"),
+        .alert("tenants.eliminar_inquilino",
             isPresented: $showDeleteConfirmation
         ) {
-            Button(String(localized: "Cancelar"), role: .cancel) {}
-            Button(String(localized: "Eliminar"), role: .destructive) {
+            Button("common.cancel", role: .cancel) {}
+            Button("common.delete", role: .destructive) {
                 deleteTenant()
             }
         } message: {
-            Text(
-                String(localized: "Esta accion no se puede deshacer. Se eliminara el inquilino permanentemente.")
-            )
+            Text("tenants.delete.confirmation.message")
         }
     }
 
@@ -79,7 +76,7 @@ struct TenantDetailView: View {
                 Text(tenant.fullName)
                     .font(AppTypography.title2)
 
-                Text(tenant.status.displayName)
+                Text(LocalizedStringKey(tenant.status.displayNameKey))
                     .font(AppTypography.caption)
                     .padding(.horizontal, AppSpacing.small)
                     .padding(.vertical, AppSpacing.extraSmall)
@@ -102,25 +99,25 @@ struct TenantDetailView: View {
 
     private func contactSection(_ tenant: Tenant) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Contacto"))
+            Text("tenants.contacto")
                 .font(AppTypography.title3)
 
             detailRow(
                 icon: "envelope",
-                label: String(localized: "Email"),
+                label: "tenants.email",
                 value: tenant.email
             )
 
             detailRow(
                 icon: "phone",
-                label: String(localized: "Telefono"),
+                label: "tenants.telefono",
                 value: tenant.phone
             )
 
             if let idNumber = tenant.idNumber, !idNumber.isEmpty {
                 detailRow(
                     icon: "person.text.rectangle",
-                    label: String(localized: "Identificacion"),
+                    label: "tenants.identificacion",
                     value: idNumber
                 )
             }
@@ -131,7 +128,7 @@ struct TenantDetailView: View {
 
     private var propertiesSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Propiedades"))
+            Text("tabs.properties")
                 .font(AppTypography.title3)
 
             ForEach(properties) { property in
@@ -152,7 +149,7 @@ struct TenantDetailView: View {
 
                     Spacer()
 
-                    Text(property.status.displayName)
+                    Text(LocalizedStringKey(property.status.displayNameKey))
                         .font(AppTypography.caption2)
                         .padding(.horizontal, AppSpacing.small)
                         .padding(.vertical, AppSpacing.extraSmall)
@@ -168,13 +165,13 @@ struct TenantDetailView: View {
 
     private func leaseSection(_ tenant: Tenant) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Contrato"))
+            Text("tenants.contrato")
                 .font(AppTypography.title3)
 
             if let start = tenant.leaseStartDate {
                 detailRow(
                     icon: "calendar",
-                    label: String(localized: "Inicio"),
+                    label: "tenants.inicio",
                     value: start.shortFormatted
                 )
             }
@@ -182,21 +179,21 @@ struct TenantDetailView: View {
             if let end = tenant.leaseEndDate {
                 detailRow(
                     icon: "calendar.badge.clock",
-                    label: String(localized: "Fin"),
+                    label: "tenants.fin",
                     value: end.shortFormatted
                 )
             }
 
             detailRow(
                 icon: "dollarsign.circle",
-                label: String(localized: "Renta"),
+                label: "tenants.renta",
                 value: tenant.monthlyRent
                     .formatted(.currency(code: defaultCurrency))
             )
 
             detailRow(
                 icon: "shield",
-                label: String(localized: "Deposito"),
+                label: "tenants.deposito",
                 value: tenant.depositAmount
                     .formatted(.currency(code: defaultCurrency))
             )
@@ -207,7 +204,7 @@ struct TenantDetailView: View {
 
     private func detailRow(
         icon: String,
-        label: String,
+        label: LocalizedStringKey,
         value: String
     ) -> some View {
         HStack {
@@ -234,7 +231,7 @@ struct TenantDetailView: View {
 
     private var paymentsSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Pagos"))
+            Text("tabs.payments")
                 .font(AppTypography.title3)
 
             if payments.isEmpty {
@@ -242,7 +239,7 @@ struct TenantDetailView: View {
                     Image(systemName: "creditcard.trianglebadge.exclamationmark")
                         .foregroundStyle(AppTheme.Colors.textLight)
 
-                    Text(String(localized: "Sin pagos registrados"))
+                    Text("properties.sin_pagos_registrados")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -267,7 +264,7 @@ struct TenantDetailView: View {
         } label: {
             HStack {
                 Image(systemName: "trash")
-                Text(String(localized: "Eliminar Inquilino"))
+                Text("tenants.eliminar_inquilino")
             }
             .font(AppTypography.body)
             .fontWeight(.medium)

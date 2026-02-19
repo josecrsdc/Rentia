@@ -15,7 +15,7 @@ struct DebugView: View {
             }
             .padding(AppSpacing.medium)
         }
-        .navigationTitle("Debug")
+        .navigationTitle("common.debug")
     }
 
     private enum SeedingState {
@@ -26,7 +26,7 @@ struct DebugView: View {
 
     private var debugSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("Debug")
+            Text("common.debug")
                 .font(AppTypography.title3)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
@@ -44,7 +44,7 @@ struct DebugView: View {
                     } else {
                         Image(systemName: "tray.and.arrow.down")
                     }
-                    Text(String(localized: "Cargar datos de prueba"))
+                    Text("settings.cargar_datos_de_prueba")
                         .font(AppTypography.headline)
                 }
                 .frame(maxWidth: .infinity)
@@ -73,7 +73,7 @@ struct DebugView: View {
                     } else {
                         Image(systemName: "trash")
                     }
-                    Text(String(localized: "Eliminar todos los datos"))
+                    Text("settings.eliminar_todos_los_datos")
                         .font(AppTypography.headline)
                 }
                 .frame(maxWidth: .infinity)

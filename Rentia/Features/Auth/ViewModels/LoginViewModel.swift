@@ -45,7 +45,7 @@ final class LoginViewModel {
         switch result {
         case .success(let authorization):
             guard let nonce = currentNonce else {
-                errorMessage = String(localized: "Error interno de autenticacion.")
+                errorMessage = String(localized: "auth.error_interno_de_autenticacion")
                 showError = true
                 isLoading = false
                 return
