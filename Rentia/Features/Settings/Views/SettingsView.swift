@@ -4,9 +4,6 @@ struct SettingsView: View {
     @Environment(\.container) private var container
     @State private var viewModel: ProfileViewModel?
     @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
-    #if DEBUG
-    @State private var seedingState: SeedingState = .idle
-    #endif
 
     private let availableCurrencies = ["EUR", "USD", "MXN", "COP"]
 
@@ -19,10 +16,10 @@ struct SettingsView: View {
                 VStack(spacing: AppSpacing.large) {
                     profileHeader
                     accountSection
-                    preferencesSection
                     #if DEBUG
-                    debugSection
+                    debugLinkSection
                     #endif
+                    preferencesSection
                     dangerZoneSection
                 }
                 .padding(AppSpacing.medium)
@@ -53,27 +50,6 @@ struct SettingsView: View {
             }
         } message: {
             Text(String(localized: "Estas seguro que deseas cerrar sesion?"))
-        }
-        .confirmationDialog(
-            String(localized: "Eliminar Cuenta"),
-            isPresented: Binding(
-                get: { viewModel?.showDeleteConfirmation ?? false },
-                set: { viewModel?.showDeleteConfirmation = $0 }
-            ),
-            titleVisibility: .visible
-        ) {
-            Button(
-                String(localized: "Eliminar Cuenta"),
-                role: .destructive
-            ) {
-                viewModel?.deleteAccount()
-            }
-        } message: {
-            Text(
-                String(
-                    localized: "Esta accion es irreversible. Se eliminaran todos tus datos."
-                )
-            )
         }
         .alert(
             String(localized: "Error"),
@@ -132,62 +108,78 @@ struct SettingsView: View {
     // MARK: - Account Section
 
     private var accountSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Cuenta"))
-                .font(AppTypography.title3)
-                .foregroundStyle(AppTheme.Colors.textPrimary)
-
-            profileRow(
-                icon: "person",
-                title: viewModel?.displayName ?? "",
-                subtitle: String(localized: "Nombre")
-            )
-
-            profileRow(
-                icon: "envelope",
-                title: viewModel?.email ?? "",
-                subtitle: String(localized: "Email")
-            )
-
-            profileRow(
-                icon: "shield.checkered",
-                title: viewModel?.userProfile?.authProvider
-                    .capitalized ?? "N/A",
-                subtitle: String(localized: "Proveedor de autenticacion")
-            )
-        }
-        .cardStyle()
-    }
-
-    private func profileRow(
-        icon: String,
-        title: String,
-        subtitle: String
-    ) -> some View {
-        HStack(spacing: AppSpacing.medium) {
-            Image(systemName: icon)
-                .foregroundStyle(AppTheme.Colors.primary)
-                .frame(width: 32, height: 32)
-                .background(AppTheme.Colors.primary.opacity(0.1))
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: AppTheme.CornerRadius.small
+        NavigationLink {
+            AccountInfoView(viewModel: viewModel)
+        } label: {
+            HStack(spacing: AppSpacing.medium) {
+                Image(systemName: "person")
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 32, height: 32)
+                    .background(AppTheme.Colors.primary.opacity(0.1))
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: AppTheme.CornerRadius.small
+                        )
                     )
-                )
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
+                Text(String(localized: "Cuenta"))
                     .font(AppTypography.body)
                     .foregroundStyle(AppTheme.Colors.textPrimary)
 
-                Text(subtitle)
-                    .font(AppTypography.caption)
+                Spacer()
+
+                Image(systemName: "chevron.right")
                     .foregroundStyle(AppTheme.Colors.textSecondary)
             }
-
-            Spacer()
+            .padding(AppSpacing.medium)
+            .frame(maxWidth: .infinity)
+            .background(AppTheme.Colors.cardBackground)
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: AppTheme.CornerRadius.medium
+                )
+            )
         }
+        .buttonStyle(.plain)
     }
+
+    #if DEBUG
+    private var debugLinkSection: some View {
+        NavigationLink {
+            DebugView()
+        } label: {
+            HStack(spacing: AppSpacing.medium) {
+                Image(systemName: "wrench.and.screwdriver")
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 32, height: 32)
+                    .background(AppTheme.Colors.primary.opacity(0.1))
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: AppTheme.CornerRadius.small
+                        )
+                    )
+
+                Text("Debug")
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+            }
+            .padding(AppSpacing.medium)
+            .frame(maxWidth: .infinity)
+            .background(AppTheme.Colors.cardBackground)
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: AppTheme.CornerRadius.medium
+                )
+            )
+        }
+        .buttonStyle(.plain)
+    }
+    #endif
 
     // MARK: - Preferences Section
 
@@ -225,83 +217,6 @@ struct SettingsView: View {
         .cardStyle()
     }
 
-    // MARK: - Debug
-
-    #if DEBUG
-    private enum SeedingState {
-        case idle
-        case loading
-        case done
-    }
-
-    private var debugSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("Debug")
-                .font(AppTypography.title3)
-                .foregroundStyle(AppTheme.Colors.textPrimary)
-
-            Button {
-                seedingState = .loading
-                Task {
-                    await DataSeeder().seed()
-                    seedingState = .idle
-                }
-            } label: {
-                HStack {
-                    if seedingState == .loading {
-                        ProgressView()
-                            .controlSize(.small)
-                    } else {
-                        Image(systemName: "tray.and.arrow.down")
-                    }
-                    Text(String(localized: "Cargar datos de prueba"))
-                        .font(AppTypography.headline)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .background(AppTheme.Colors.primary.opacity(0.1))
-                .foregroundStyle(AppTheme.Colors.primary)
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: AppTheme.CornerRadius.medium
-                    )
-                )
-            }
-            .disabled(seedingState == .loading)
-
-            Button {
-                seedingState = .loading
-                Task {
-                    await DataSeeder().deleteAll()
-                    seedingState = .idle
-                }
-            } label: {
-                HStack {
-                    if seedingState == .loading {
-                        ProgressView()
-                            .controlSize(.small)
-                    } else {
-                        Image(systemName: "trash")
-                    }
-                    Text(String(localized: "Eliminar todos los datos"))
-                        .font(AppTypography.headline)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .background(AppTheme.Colors.warning.opacity(0.1))
-                .foregroundStyle(AppTheme.Colors.warning)
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: AppTheme.CornerRadius.medium
-                    )
-                )
-            }
-            .disabled(seedingState == .loading)
-        }
-        .cardStyle()
-    }
-    #endif
-
     // MARK: - Danger Zone
 
     private var dangerZoneSection: some View {
@@ -328,25 +243,6 @@ struct SettingsView: View {
                         cornerRadius: AppTheme.CornerRadius.medium
                     )
                     .stroke(AppTheme.Colors.error.opacity(0.3), lineWidth: 1)
-                )
-            }
-
-            Button {
-                viewModel?.showDeleteConfirmation = true
-            } label: {
-                HStack {
-                    Image(systemName: "trash")
-                    Text(String(localized: "Eliminar Cuenta"))
-                        .font(AppTypography.headline)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .background(AppTheme.Colors.error.opacity(0.1))
-                .foregroundStyle(AppTheme.Colors.error)
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: AppTheme.CornerRadius.medium
-                    )
                 )
             }
         }
