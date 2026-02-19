@@ -19,14 +19,21 @@ struct TenantCard: View {
                     .lineLimit(1)
 
                 if let leaseEnd = tenant.leaseEndDate {
+                    let isExpired = leaseEnd < Date()
                     Text(
-                        String(
-                            format: "tenants.lease_until",
-                            arguments: [leaseEnd.shortFormatted]
-                        )
+                        isExpired
+                            ? String(localized: "tenants.lease_expired")
+                            : String(
+                                format: String(localized: "tenants.lease_until"),
+                                leaseEnd.shortFormatted
+                            )
                     )
                     .font(AppTypography.caption2)
-                    .foregroundStyle(AppTheme.Colors.textLight)
+                    .foregroundStyle(
+                        isExpired
+                            ? AppTheme.Colors.warning.opacity(0.85)
+                            : AppTheme.Colors.textLight
+                    )
                 }
             }
 

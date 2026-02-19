@@ -2127,6 +2127,38 @@
         }
       }
     },
+    "tenants.lease_expired" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lease expired"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrato vencido"
+          }
+        }
+      }
+    },
+    "tenants.lease_until" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lease until %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrato hasta %@"
+          }
+        }
+      }
+    },
     "tenants.lease_start" : {
       "localizations" : {
         "en" : {
