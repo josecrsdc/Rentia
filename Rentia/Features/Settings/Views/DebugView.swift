@@ -44,7 +44,7 @@ struct DebugView: View {
                     } else {
                         Image(systemName: "tray.and.arrow.down")
                     }
-                    Text("settings.cargar_datos_de_prueba")
+                    Text("settings.debug.load_seed_data")
                         .font(AppTypography.headline)
                 }
                 .frame(maxWidth: .infinity)
@@ -73,7 +73,7 @@ struct DebugView: View {
                     } else {
                         Image(systemName: "trash")
                     }
-                    Text("settings.eliminar_todos_los_datos")
+                    Text("settings.debug.delete_all_data")
                         .font(AppTypography.headline)
                 }
                 .frame(maxWidth: .infinity)

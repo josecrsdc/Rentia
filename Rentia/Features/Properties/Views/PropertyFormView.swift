@@ -23,8 +23,8 @@ struct PropertyFormView: View {
         }
         .navigationTitle(
             propertyId != nil
-                ? "properties.editar_propiedad"
-                : "properties.nueva_propiedad"
+                ? "properties.edit.title"
+                : "properties.new.title"
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
@@ -61,14 +61,14 @@ struct PropertyFormView: View {
     // MARK: - Sections
 
     private var basicInfoSection: some View {
-        Section("properties.informacion_basica") {
+        Section("properties.basic_information") {
             TextField(
-                "properties.nombre_de_la_propiedad",
+                "properties.name",
                 text: $viewModel.name
             )
 
             TextField(
-                "properties.direccion",
+                "properties.address",
                 text: $viewModel.address
             )
 
@@ -81,7 +81,7 @@ struct PropertyFormView: View {
                 }
             }
 
-            Picker("properties.estado",
+            Picker("properties.status",
                 selection: $viewModel.status
             ) {
                 ForEach(PropertyStatus.allCases, id: \.self) { status in
@@ -95,7 +95,7 @@ struct PropertyFormView: View {
         Section {
             if viewModel.tenants.isEmpty {
                 VStack(spacing: AppSpacing.medium) {
-                    Text("properties.no_hay_inquilinos_registrados")
+                    Text("properties.no_tenants_registered")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
 
@@ -103,7 +103,7 @@ struct PropertyFormView: View {
                         viewModel.showCreateTenant = true
                     } label: {
                         Label(
-                            "properties.crear_inquilino",
+                            "properties.create_tenant",
                             systemImage: "person.badge.plus"
                         )
                         .font(AppTypography.body)
@@ -113,7 +113,7 @@ struct PropertyFormView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, AppSpacing.small)
             } else {
-                Picker("properties.inquilino",
+                Picker("properties.tenant",
                     selection: $viewModel.selectedTenantId
                 ) {
                     Text("common.select")
@@ -127,30 +127,30 @@ struct PropertyFormView: View {
                     viewModel.showCreateTenant = true
                 } label: {
                     Label(
-                        "properties.crear_nuevo_inquilino",
+                        "properties.create_new_tenant",
                         systemImage: "person.badge.plus"
                     )
                     .font(AppTypography.caption)
                 }
             }
         } header: {
-            Text("properties.inquilino")
+            Text("properties.tenant")
         } footer: {
             Text(
-                "properties.selecciona_el_inquilino_que_alquila_esta_propiedad"
+                "properties.select_tenant_helper"
             )
         }
     }
 
     private var financialSection: some View {
-        Section("properties.informacion_financiera") {
+        Section("properties.financial_information") {
             TextField(
-                "properties.renta_mensual",
+                "properties.monthly_rent",
                 text: $viewModel.monthlyRent
             )
             .keyboardType(.decimalPad)
 
-            Picker("properties.moneda",
+            Picker("properties.currency",
                 selection: $viewModel.currency
             ) {
                 Text("properties.usd").tag("USD")
@@ -165,26 +165,26 @@ struct PropertyFormView: View {
         Section("properties.detalles") {
             if viewModel.type.supportsRoomsBathrooms {
                 TextField(
-                    "properties.habitaciones",
+                    "properties.rooms",
                     text: $viewModel.rooms
                 )
                 .keyboardType(.numberPad)
 
                 TextField(
-                    "properties.banos",
+                    "properties.bathrooms",
                     text: $viewModel.bathrooms
                 )
                 .keyboardType(.numberPad)
             }
 
             TextField(
-                "properties.area_m",
+                "properties.area_m2",
                 text: $viewModel.area
             )
             .keyboardType(.decimalPad)
 
             TextField(
-                "properties.descripcion",
+                "properties.description",
                 text: $viewModel.propertyDescription,
                 axis: .vertical
             )
@@ -197,7 +197,7 @@ struct PropertyFormView: View {
             PrimaryButton(
                 title: viewModel.isEditing
                     ? "common.save_changes"
-                    : "properties.crear_propiedad",
+                    : "properties.create",
                 isLoading: viewModel.isLoading
             ) {
                 viewModel.save()

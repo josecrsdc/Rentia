@@ -20,7 +20,7 @@ final class ProfileViewModel {
     var displayName: String {
         userProfile?.displayName
             ?? Auth.auth().currentUser?.displayName
-            ?? String(localized: "settings.usuario")
+            ?? String(localized: "settings.user.fallback_name")
     }
 
     var email: String {

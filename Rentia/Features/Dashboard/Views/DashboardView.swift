@@ -29,7 +29,7 @@ struct DashboardView: View {
                 .font(AppTypography.title2)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
-            Text("dashboard.resumen_de_tus_propiedades")
+            Text("dashboard.properties_summary")
                 .font(AppTypography.subheadline)
                 .foregroundStyle(AppTheme.Colors.textSecondary)
         }
@@ -55,7 +55,7 @@ struct DashboardView: View {
             )
 
             StatCard(
-                title: "dashboard.pagos_pendientes",
+                title: "dashboard.pending_payments",
                 value: "\(viewModel.pendingPaymentsCount)",
                 icon: "clock.fill",
                 color: AppTheme.Colors.warning
@@ -72,7 +72,7 @@ struct DashboardView: View {
             )
 
             StatCard(
-                title: "dashboard.inquilinos_activos",
+                title: "dashboard.active_tenants",
                 value: "\(viewModel.activeTenants)",
                 icon: "person.2.fill",
                 color: AppTheme.Colors.primary
@@ -84,7 +84,7 @@ struct DashboardView: View {
 
     private var recentActivitySection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("dashboard.actividad_reciente")
+            Text("dashboard.recent_activity.title")
                 .font(AppTypography.title3)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 

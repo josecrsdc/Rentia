@@ -21,8 +21,8 @@ struct PaymentFormView: View {
         }
         .navigationTitle(
             paymentId != nil
-                ? "payments.editar_pago"
-                : "payments.nuevo_pago"
+                ? "payments.edit.title"
+                : "payments.new.title"
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
@@ -47,7 +47,7 @@ struct PaymentFormView: View {
 
     private var selectionSection: some View {
         Section("payments.asignacion") {
-            Picker("properties.inquilino",
+            Picker("properties.tenant",
                 selection: $viewModel.tenantId
             ) {
                 Text("common.select").tag("")
@@ -56,7 +56,7 @@ struct PaymentFormView: View {
                 }
             }
 
-            Picker("payments.propiedad",
+            Picker("payments.property",
                 selection: $viewModel.propertyId
             ) {
                 Text("common.select").tag("")
@@ -75,7 +75,7 @@ struct PaymentFormView: View {
             )
             .keyboardType(.decimalPad)
 
-            Picker("properties.estado",
+            Picker("properties.status",
                 selection: $viewModel.status
             ) {
                 ForEach(PaymentStatus.allCases, id: \.self) { status in
@@ -87,7 +87,7 @@ struct PaymentFormView: View {
 
     private var datesSection: some View {
         Section("payments.fechas") {
-            DatePicker("payments.fecha_de_pago",
+            DatePicker("payments.payment_date",
                 selection: $viewModel.date,
                 displayedComponents: .date
             )
@@ -102,7 +102,7 @@ struct PaymentFormView: View {
     private var additionalSection: some View {
         Section("payments.adicional") {
             TextField(
-                "payments.metodo_de_pago",
+                "payments.payment_method",
                 text: $viewModel.paymentMethod
             )
 
@@ -120,7 +120,7 @@ struct PaymentFormView: View {
             PrimaryButton(
                 title: viewModel.isEditing
                     ? "common.save_changes"
-                    : "payments.registrar_pago",
+                    : "payments.record",
                 isLoading: viewModel.isLoading
             ) {
                 viewModel.save()

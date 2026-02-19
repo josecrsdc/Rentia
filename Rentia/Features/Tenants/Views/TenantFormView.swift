@@ -21,8 +21,8 @@ struct TenantFormView: View {
         }
         .navigationTitle(
             tenantId != nil
-                ? "tenants.editar_inquilino"
-                : "tenants.nuevo_inquilino"
+                ? "tenants.edit.title"
+                : "tenants.new.title"
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
@@ -46,14 +46,14 @@ struct TenantFormView: View {
     // MARK: - Sections
 
     private var personalInfoSection: some View {
-        Section("tenants.informacion_personal") {
+        Section("tenants.personal_information") {
             TextField(
-                "tenants.nombre",
+                "tenants.first_name",
                 text: $viewModel.firstName
             )
 
             TextField(
-                "tenants.apellido",
+                "tenants.last_name",
                 text: $viewModel.lastName
             )
 
@@ -75,7 +75,7 @@ struct TenantFormView: View {
             .autocorrectionDisabled()
 
             TextField(
-                "tenants.telefono",
+                "tenants.phone",
                 text: $viewModel.phone
             )
             .keyboardType(.phonePad)
@@ -86,7 +86,7 @@ struct TenantFormView: View {
     private var propertiesSection: some View {
         Section {
             if viewModel.availableProperties.isEmpty {
-                Text("tenants.no_hay_propiedades_registradas")
+                Text("tenants.no_properties_registered")
                     .foregroundStyle(AppTheme.Colors.textSecondary)
             } else {
                 ForEach(viewModel.availableProperties) { property in
@@ -98,7 +98,7 @@ struct TenantFormView: View {
         } footer: {
             if !viewModel.availableProperties.isEmpty {
                 Text(
-                    "tenants.selecciona_las_propiedades_asociadas_a_este_inquilino"
+                    "tenants.select_properties_helper"
                 )
             }
         }
@@ -141,19 +141,19 @@ struct TenantFormView: View {
     }
 
     private var leaseSection: some View {
-        Section("tenants.contrato") {
-            DatePicker("tenants.inicio_del_contrato",
+        Section("tenants.lease") {
+            DatePicker("tenants.lease_start",
                 selection: $viewModel.leaseStartDate,
                 displayedComponents: .date
             )
 
-            DatePicker("tenants.fin_del_contrato",
+            DatePicker("tenants.lease_end",
                 selection: $viewModel.leaseEndDate,
                 displayedComponents: .date
             )
 
             TextField(
-                "properties.renta_mensual",
+                "properties.monthly_rent",
                 text: $viewModel.monthlyRent
             )
             .keyboardType(.decimalPad)
@@ -164,7 +164,7 @@ struct TenantFormView: View {
             )
             .keyboardType(.decimalPad)
 
-            Picker("properties.estado",
+            Picker("properties.status",
                 selection: $viewModel.status
             ) {
                 ForEach(TenantStatus.allCases, id: \.self) { status in
@@ -179,7 +179,7 @@ struct TenantFormView: View {
             PrimaryButton(
                 title: viewModel.isEditing
                     ? "common.save_changes"
-                    : "tenants.agregar_inquilino",
+                    : "tenants.add",
                 isLoading: viewModel.isLoading
             ) {
                 viewModel.save()

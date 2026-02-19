@@ -35,7 +35,7 @@ struct PropertyDetailView: View {
             }
         }
         .onAppear { loadProperty() }
-        .alert("properties.eliminar_propiedad",
+        .alert("properties.delete.title",
             isPresented: $showDeleteConfirmation
         ) {
             Button("common.cancel", role: .cancel) {}
@@ -149,7 +149,7 @@ struct PropertyDetailView: View {
                     Image(systemName: "person.2.slash")
                         .foregroundStyle(AppTheme.Colors.textLight)
 
-                    Text("properties.sin_inquilinos_asignados")
+                    Text("properties.no_assigned_tenants")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -226,7 +226,7 @@ struct PropertyDetailView: View {
                     Image(systemName: "creditcard.trianglebadge.exclamationmark")
                         .foregroundStyle(AppTheme.Colors.textLight)
 
-                    Text("properties.sin_pagos_registrados")
+                    Text("properties.no_payments_recorded")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -271,14 +271,14 @@ struct PropertyDetailView: View {
             return AnyView(
                 HStack(spacing: AppSpacing.medium) {
                     StatCard(
-                        title: "properties.habitaciones",
+                        title: "properties.rooms",
                         value: "\(property.rooms)",
                         icon: "bed.double",
                         color: AppTheme.Colors.primary
                     )
 
                     StatCard(
-                        title: "properties.banos",
+                        title: "properties.bathrooms",
                         value: "\(property.bathrooms)",
                         icon: "shower",
                         color: AppTheme.Colors.secondary
@@ -312,7 +312,7 @@ struct PropertyDetailView: View {
         } label: {
             HStack {
                 Image(systemName: "trash")
-                Text("properties.eliminar_propiedad")
+                Text("properties.delete.title")
             }
             .font(AppTypography.body)
             .fontWeight(.medium)

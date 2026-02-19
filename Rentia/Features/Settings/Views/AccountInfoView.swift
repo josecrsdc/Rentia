@@ -53,7 +53,7 @@ struct AccountInfoView: View {
             profileRow(
                 icon: "person",
                 title: viewModel?.displayName ?? "",
-                subtitle: "tenants.nombre"
+                subtitle: "tenants.first_name"
             )
 
             profileRow(

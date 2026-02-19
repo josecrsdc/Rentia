@@ -14,9 +14,9 @@ struct PropertyListView: View {
             } else if viewModel.properties.isEmpty {
                 EmptyStateView(
                     icon: "building.2",
-                    title: "properties.sin_propiedades",
+                    title: "properties.empty.title",
                     message: "properties.empty.message",
-                    actionTitle: "properties.agregar_propiedad",
+                    actionTitle: "properties.add",
                     action: { showCreateProperty = true }
                 )
             } else {
@@ -74,7 +74,7 @@ struct PropertyListView: View {
             VStack(spacing: AppSpacing.medium) {
                 SearchBar(
                     text: $viewModel.searchText,
-                    placeholder: "properties.buscar_propiedades"
+                    placeholder: "properties.search"
                 )
 
                 ForEach(viewModel.filteredProperties) { property in

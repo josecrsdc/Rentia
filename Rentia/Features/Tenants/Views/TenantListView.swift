@@ -14,9 +14,9 @@ struct TenantListView: View {
             } else if viewModel.tenants.isEmpty {
                 EmptyStateView(
                     icon: "person.2",
-                    title: "tenants.sin_inquilinos",
+                    title: "tenants.empty.title",
                     message: "tenants.empty.message",
-                    actionTitle: "tenants.agregar_inquilino",
+                    actionTitle: "tenants.add",
                     action: { showCreateTenant = true }
                 )
             } else {
@@ -66,7 +66,7 @@ struct TenantListView: View {
             VStack(spacing: AppSpacing.medium) {
                 SearchBar(
                     text: $viewModel.searchText,
-                    placeholder: "tenants.buscar_inquilinos"
+                    placeholder: "tenants.search"
                 )
 
                 ForEach(viewModel.filteredTenants) { tenant in

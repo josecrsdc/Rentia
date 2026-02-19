@@ -23,7 +23,7 @@ struct PaymentDetailView: View {
                 paymentContent(payment)
             }
         }
-        .navigationTitle("payments.detalle_del_pago")
+        .navigationTitle("payments.detail.title")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -35,7 +35,7 @@ struct PaymentDetailView: View {
             }
         }
         .onAppear { loadPayment() }
-        .alert("payments.eliminar_pago",
+        .alert("payments.delete.title",
             isPresented: $showDeleteConfirmation
         ) {
             Button("common.cancel", role: .cancel) {}
@@ -137,7 +137,7 @@ struct PaymentDetailView: View {
                 HStack(spacing: AppSpacing.small) {
                     Image(systemName: "person.slash")
                         .foregroundStyle(AppTheme.Colors.textLight)
-                    Text("payments.inquilino_no_encontrado")
+                    Text("payments.tenant_not_found")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -183,7 +183,7 @@ struct PaymentDetailView: View {
                 HStack(spacing: AppSpacing.small) {
                     Image(systemName: "building.2.slash")
                         .foregroundStyle(AppTheme.Colors.textLight)
-                    Text("payments.propiedad_no_encontrada")
+                    Text("payments.property_not_found")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -195,12 +195,12 @@ struct PaymentDetailView: View {
 
     private func detailsCard(_ payment: Payment) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("payments.informacion")
+            Text("payments.information")
                 .font(AppTypography.title3)
 
             detailRow(
                 icon: "calendar",
-                label: "payments.fecha_de_pago",
+                label: "payments.payment_date",
                 value: payment.date.shortFormatted
             )
 
@@ -213,7 +213,7 @@ struct PaymentDetailView: View {
             if let method = payment.paymentMethod, !method.isEmpty {
                 detailRow(
                     icon: "creditcard",
-                    label: "payments.metodo_de_pago",
+                    label: "payments.payment_method",
                     value: method
                 )
             }
@@ -278,7 +278,7 @@ struct PaymentDetailView: View {
         } label: {
             HStack {
                 Image(systemName: "trash")
-                Text("payments.eliminar_pago")
+                Text("payments.delete.title")
             }
             .font(AppTypography.body)
             .fontWeight(.medium)

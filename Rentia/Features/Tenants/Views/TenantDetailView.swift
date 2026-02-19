@@ -35,7 +35,7 @@ struct TenantDetailView: View {
             }
         }
         .onAppear { loadTenant() }
-        .alert("tenants.eliminar_inquilino",
+        .alert("tenants.delete.title",
             isPresented: $showDeleteConfirmation
         ) {
             Button("common.cancel", role: .cancel) {}
@@ -110,7 +110,7 @@ struct TenantDetailView: View {
 
             detailRow(
                 icon: "phone",
-                label: "tenants.telefono",
+                label: "tenants.phone",
                 value: tenant.phone
             )
 
@@ -165,13 +165,13 @@ struct TenantDetailView: View {
 
     private func leaseSection(_ tenant: Tenant) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("tenants.contrato")
+            Text("tenants.lease")
                 .font(AppTypography.title3)
 
             if let start = tenant.leaseStartDate {
                 detailRow(
                     icon: "calendar",
-                    label: "tenants.inicio",
+                    label: "tenants.start",
                     value: start.shortFormatted
                 )
             }
@@ -179,14 +179,14 @@ struct TenantDetailView: View {
             if let end = tenant.leaseEndDate {
                 detailRow(
                     icon: "calendar.badge.clock",
-                    label: "tenants.fin",
+                    label: "tenants.end",
                     value: end.shortFormatted
                 )
             }
 
             detailRow(
                 icon: "dollarsign.circle",
-                label: "tenants.renta",
+                label: "tenants.rent",
                 value: tenant.monthlyRent
                     .formatted(.currency(code: defaultCurrency))
             )
@@ -239,7 +239,7 @@ struct TenantDetailView: View {
                     Image(systemName: "creditcard.trianglebadge.exclamationmark")
                         .foregroundStyle(AppTheme.Colors.textLight)
 
-                    Text("properties.sin_pagos_registrados")
+                    Text("properties.no_payments_recorded")
                         .font(AppTypography.body)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -264,7 +264,7 @@ struct TenantDetailView: View {
         } label: {
             HStack {
                 Image(systemName: "trash")
-                Text("tenants.eliminar_inquilino")
+                Text("tenants.delete.title")
             }
             .font(AppTypography.body)
             .fontWeight(.medium)

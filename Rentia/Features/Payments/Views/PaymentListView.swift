@@ -14,9 +14,9 @@ struct PaymentListView: View {
             } else if viewModel.payments.isEmpty {
                 EmptyStateView(
                     icon: "creditcard",
-                    title: "payments.sin_pagos",
+                    title: "payments.empty.title",
                     message: "payments.empty.message",
-                    actionTitle: "payments.registrar_pago",
+                    actionTitle: "payments.record",
                     action: { showCreatePayment = true }
                 )
             } else {

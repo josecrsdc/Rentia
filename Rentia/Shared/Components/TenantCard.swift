@@ -21,7 +21,8 @@ struct TenantCard: View {
                 if let leaseEnd = tenant.leaseEndDate {
                     Text(
                         String(
-                            localized: "Contrato hasta: \(leaseEnd.shortFormatted)"
+                            localized: "tenants.lease_until",
+                            arguments: [leaseEnd.shortFormatted]
                         )
                     )
                     .font(AppTypography.caption2)
@@ -68,7 +69,7 @@ struct TenantCard: View {
     }
 
     private var statusPill: some View {
-        Text(tenant.status.displayNameKey)
+        Text(LocalizedStringKey(tenant.status.displayNameKey))
             .font(AppTypography.caption2)
             .fontWeight(.medium)
             .padding(.horizontal, AppSpacing.small)

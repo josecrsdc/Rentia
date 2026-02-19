@@ -100,9 +100,9 @@ enum AuthError: LocalizedError {
         case .missingRootViewController:
             String(localized: "common.no_se_pudo_encontrar_la_ventana_principal")
         case .missingIDToken:
-            String(localized: "common.no_se_pudo_obtener_el_token_de_autenticacion")
+            String(localized: "common.unable_to_get_auth_token")
         case .noCurrentUser:
-            String(localized: "common.no_hay_usuario_autenticado")
+            String(localized: "common.no_authenticated_user")
         }
     }
 }
