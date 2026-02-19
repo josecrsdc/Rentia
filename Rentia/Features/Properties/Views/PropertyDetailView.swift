@@ -270,21 +270,37 @@ struct PropertyDetailView: View {
     }
 
     private func propertyStats(_ property: Property) -> some View {
-        HStack(spacing: AppSpacing.medium) {
-            StatCard(
-                title: String(localized: "Habitaciones"),
-                value: "\(property.rooms)",
-                icon: "bed.double",
-                color: AppTheme.Colors.primary
-            )
+        if property.type.supportsRoomsBathrooms {
+            return AnyView(
+                HStack(spacing: AppSpacing.medium) {
+                    StatCard(
+                        title: String(localized: "Habitaciones"),
+                        value: "\(property.rooms)",
+                        icon: "bed.double",
+                        color: AppTheme.Colors.primary
+                    )
 
-            StatCard(
-                title: String(localized: "Banos"),
-                value: "\(property.bathrooms)",
-                icon: "shower",
-                color: AppTheme.Colors.secondary
+                    StatCard(
+                        title: String(localized: "Banos"),
+                        value: "\(property.bathrooms)",
+                        icon: "shower",
+                        color: AppTheme.Colors.secondary
+                    )
+                }
             )
         }
+
+        let areaValue = property.area.map { "\(Int($0)) m²" } ?? "—"
+        return AnyView(
+            HStack(spacing: AppSpacing.medium) {
+                StatCard(
+                    title: String(localized: "Area"),
+                    value: areaValue,
+                    icon: "square.dashed",
+                    color: AppTheme.Colors.primary
+                )
+            }
+        )
     }
 
     private func initials(for tenant: Tenant) -> String {

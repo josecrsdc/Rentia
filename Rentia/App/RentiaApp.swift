@@ -4,6 +4,7 @@ import SwiftUI
 @main
 struct RentiaApp: App {
     @State private var container: DIContainer
+    @AppStorage("appearanceMode") private var appearanceMode = "system"
 
     init() {
         FirebaseApp.configure()
@@ -21,6 +22,7 @@ struct RentiaApp: App {
         WindowGroup {
             rootView
                 .environment(\.container, container)
+                .preferredColorScheme(preferredColorScheme)
                 .onAppear {
                     container.authState.startListening()
                 }
@@ -35,6 +37,17 @@ struct RentiaApp: App {
             MainTabView()
         } else {
             LoginView()
+        }
+    }
+
+    private var preferredColorScheme: ColorScheme? {
+        switch appearanceMode {
+        case "light":
+            return .light
+        case "dark":
+            return .dark
+        default:
+            return nil
         }
     }
 }

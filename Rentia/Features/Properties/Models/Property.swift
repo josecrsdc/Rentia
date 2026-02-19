@@ -6,15 +6,17 @@ import Foundation
 enum PropertyType: String, Codable, CaseIterable, Sendable {
     case apartment
     case house
-    case room
     case commercial
+    case garage
+    case land
 
     var displayName: String {
         switch self {
         case .apartment: String(localized: "Apartamento")
         case .house: String(localized: "Casa")
-        case .room: String(localized: "Habitacion")
         case .commercial: String(localized: "Comercial")
+        case .garage: String(localized: "Plaza de garaje")
+        case .land: String(localized: "Terreno")
         }
     }
 
@@ -22,9 +24,14 @@ enum PropertyType: String, Codable, CaseIterable, Sendable {
         switch self {
         case .apartment: "building.2"
         case .house: "house"
-        case .room: "bed.double"
         case .commercial: "storefront"
+        case .garage: "car.fill"
+        case .land: "leaf"
         }
+    }
+
+    var supportsRoomsBathrooms: Bool {
+        self != .garage && self != .land
     }
 }
 

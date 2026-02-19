@@ -3,9 +3,6 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.container) private var container
     @State private var viewModel: ProfileViewModel?
-    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
-
-    private let availableCurrencies = ["EUR", "USD", "MXN", "COP"]
 
     var body: some View {
         ZStack {
@@ -16,10 +13,10 @@ struct SettingsView: View {
                 VStack(spacing: AppSpacing.large) {
                     profileHeader
                     accountSection
+                    preferencesLinkSection
                     #if DEBUG
                     debugLinkSection
                     #endif
-                    preferencesSection
                     dangerZoneSection
                 }
                 .padding(AppSpacing.medium)
@@ -143,6 +140,42 @@ struct SettingsView: View {
         .buttonStyle(.plain)
     }
 
+    private var preferencesLinkSection: some View {
+        NavigationLink {
+            PreferencesView()
+        } label: {
+            HStack(spacing: AppSpacing.medium) {
+                Image(systemName: "slider.horizontal.3")
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 32, height: 32)
+                    .background(AppTheme.Colors.primary.opacity(0.1))
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: AppTheme.CornerRadius.small
+                        )
+                    )
+
+                Text(String(localized: "Preferencias"))
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+            }
+            .padding(AppSpacing.medium)
+            .frame(maxWidth: .infinity)
+            .background(AppTheme.Colors.cardBackground)
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: AppTheme.CornerRadius.medium
+                )
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
     #if DEBUG
     private var debugLinkSection: some View {
         NavigationLink {
@@ -180,42 +213,6 @@ struct SettingsView: View {
         .buttonStyle(.plain)
     }
     #endif
-
-    // MARK: - Preferences Section
-
-    private var preferencesSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text(String(localized: "Preferencias"))
-                .font(AppTypography.title3)
-                .foregroundStyle(AppTheme.Colors.textPrimary)
-
-            HStack(spacing: AppSpacing.medium) {
-                Image(systemName: "dollarsign.circle")
-                    .foregroundStyle(AppTheme.Colors.primary)
-                    .frame(width: 32, height: 32)
-                    .background(AppTheme.Colors.primary.opacity(0.1))
-                    .clipShape(
-                        RoundedRectangle(
-                            cornerRadius: AppTheme.CornerRadius.small
-                        )
-                    )
-
-                Text(String(localized: "Moneda por defecto"))
-                    .font(AppTypography.body)
-                    .foregroundStyle(AppTheme.Colors.textPrimary)
-
-                Spacer()
-
-                Picker("", selection: $defaultCurrency) {
-                    ForEach(availableCurrencies, id: \.self) { currency in
-                        Text(currency).tag(currency)
-                    }
-                }
-                .tint(AppTheme.Colors.primary)
-            }
-        }
-        .cardStyle()
-    }
 
     // MARK: - Danger Zone
 

@@ -36,6 +36,20 @@ final class PropertyFormViewModel {
         && (status != .rented || selectedTenantId != nil)
     }
 
+    func normalizeRoomsBathroomsForType() {
+        if type.supportsRoomsBathrooms {
+            if (Int(rooms) ?? 0) <= 0 {
+                rooms = "1"
+            }
+            if (Int(bathrooms) ?? 0) <= 0 {
+                bathrooms = "1"
+            }
+        } else {
+            rooms = "0"
+            bathrooms = "0"
+        }
+    }
+
     func loadTenants() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
 
@@ -72,6 +86,7 @@ final class PropertyFormViewModel {
                 propertyDescription = property.description ?? ""
                 rooms = "\(property.rooms)"
                 bathrooms = "\(property.bathrooms)"
+                normalizeRoomsBathroomsForType()
                 if let propertyArea = property.area {
                     area = String(format: "%.0f", propertyArea)
                 }
@@ -115,8 +130,8 @@ final class PropertyFormViewModel {
             status: status,
             description: propertyDescription.trimmed.isEmpty
                 ? nil : propertyDescription.trimmed,
-            rooms: Int(rooms) ?? 1,
-            bathrooms: Int(bathrooms) ?? 1,
+            rooms: type.supportsRoomsBathrooms ? (Int(rooms) ?? 1) : 0,
+            bathrooms: type.supportsRoomsBathrooms ? (Int(bathrooms) ?? 1) : 0,
             area: Double(area),
             imageURLs: [],
             createdAt: Date()

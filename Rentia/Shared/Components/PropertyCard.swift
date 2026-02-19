@@ -34,19 +34,28 @@ struct PropertyCard: View {
             }
 
             HStack {
-                Label(
-                    "\(property.rooms)",
-                    systemImage: "bed.double"
-                )
-                .font(AppTypography.caption)
-                .foregroundStyle(AppTheme.Colors.textSecondary)
+                if property.type.supportsRoomsBathrooms {
+                    Label(
+                        "\(property.rooms)",
+                        systemImage: "bed.double"
+                    )
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
 
-                Label(
-                    "\(property.bathrooms)",
-                    systemImage: "shower"
-                )
-                .font(AppTypography.caption)
-                .foregroundStyle(AppTheme.Colors.textSecondary)
+                    Label(
+                        "\(property.bathrooms)",
+                        systemImage: "shower"
+                    )
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                } else if let area = property.area {
+                    Label(
+                        "\(Int(area)) m²",
+                        systemImage: "square.dashed"
+                    )
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
 
                 Spacer()
 

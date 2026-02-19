@@ -71,16 +71,35 @@ final class DataSeeder {
             let prop4Id = try await firestoreService.create(
                 Property(
                     ownerId: userId,
-                    name: "Habitacion Universitaria",
-                    address: "Calle Estudiantes 7, 3A, Sevilla",
-                    type: .room,
+                    name: "Plaza de Garaje Centro",
+                    address: "Calle Estudiantes 7, Sevilla",
+                    type: .garage,
                     monthlyRent: 350,
                     currency: "EUR",
                     status: .maintenance,
-                    description: "Habitacion individual cerca de la universidad",
-                    rooms: 1,
-                    bathrooms: 1,
+                    description: "Plaza de garaje amplia cerca de la universidad",
+                    rooms: 0,
+                    bathrooms: 0,
                     area: 18,
+                    imageURLs: [],
+                    createdAt: Date()
+                ),
+                in: "properties"
+            )
+
+            let prop5Id = try await firestoreService.create(
+                Property(
+                    ownerId: userId,
+                    name: "Terreno en la Sierra",
+                    address: "Camino del Pinar, Segovia",
+                    type: .land,
+                    monthlyRent: 600,
+                    currency: "EUR",
+                    status: .available,
+                    description: "Terreno rustico con acceso directo por camino",
+                    rooms: 0,
+                    bathrooms: 0,
+                    area: 1200,
                     imageURLs: [],
                     createdAt: Date()
                 ),

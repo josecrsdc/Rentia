@@ -39,6 +39,9 @@ struct PropertyFormView: View {
         .onChange(of: viewModel.status) {
             viewModel.clearTenantIfNeeded()
         }
+        .onChange(of: viewModel.type) {
+            viewModel.normalizeRoomsBathroomsForType()
+        }
         .sheet(isPresented: $viewModel.showCreateTenant) {
             viewModel.loadTenants()
         } content: {
@@ -165,17 +168,19 @@ struct PropertyFormView: View {
 
     private var detailsSection: some View {
         Section(String(localized: "Detalles")) {
-            TextField(
-                String(localized: "Habitaciones"),
-                text: $viewModel.rooms
-            )
-            .keyboardType(.numberPad)
+            if viewModel.type.supportsRoomsBathrooms {
+                TextField(
+                    String(localized: "Habitaciones"),
+                    text: $viewModel.rooms
+                )
+                .keyboardType(.numberPad)
 
-            TextField(
-                String(localized: "Banos"),
-                text: $viewModel.bathrooms
-            )
-            .keyboardType(.numberPad)
+                TextField(
+                    String(localized: "Banos"),
+                    text: $viewModel.bathrooms
+                )
+                .keyboardType(.numberPad)
+            }
 
             TextField(
                 String(localized: "Area (m²)"),

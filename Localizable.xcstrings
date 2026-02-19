@@ -7,6 +7,9 @@
     "%lld" : {
 
     },
+    "%lld m²" : {
+
+    },
     "Aceptar" : {
       "localizations" : {
         "en" : {
@@ -109,6 +112,9 @@
           }
         }
       }
+    },
+    "Apariencia" : {
+
     },
     "Apartamento" : {
       "localizations" : {
@@ -235,6 +241,9 @@
           }
         }
       }
+    },
+    "Claro" : {
+
     },
     "Comercial" : {
       "localizations" : {
@@ -586,6 +595,7 @@
       }
     },
     "Habitacion" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -910,6 +920,9 @@
         }
       }
     },
+    "Oscuro" : {
+
+    },
     "Pagado" : {
       "localizations" : {
         "en" : {
@@ -970,6 +983,9 @@
           }
         }
       }
+    },
+    "Plaza de garaje" : {
+
     },
     "Preferencias" : {
 
@@ -1112,6 +1128,9 @@
         }
       }
     },
+    "Sistema" : {
+
+    },
     "Telefono" : {
       "localizations" : {
         "en" : {
@@ -1121,6 +1140,9 @@
           }
         }
       }
+    },
+    "Terreno" : {
+
     },
     "Tipo" : {
       "localizations" : {
