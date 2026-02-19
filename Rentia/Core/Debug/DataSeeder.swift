@@ -261,7 +261,7 @@ final class DataSeeder {
                     ) ?? Date(),
                     status: .overdue,
                     paymentMethod: nil,
-                    notes: "Contactar al inquilino",
+                    notes: String(localized: "payments.notes.contact_tenant"),
                     createdAt: Date()
                 ),
                 in: "payments"

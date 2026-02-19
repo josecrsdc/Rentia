@@ -43,7 +43,7 @@ struct PaymentCard: View {
     }
 
     private var statusPill: some View {
-        Text(LocalizedStringKey(payment.status.displayNameKey))
+        Text(payment.status.displayNameKey)
             .font(AppTypography.caption2)
             .fontWeight(.medium)
             .padding(.horizontal, AppSpacing.small)

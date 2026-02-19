@@ -1,5 +1,6 @@
 import FirebaseFirestore
 import Foundation
+import SwiftUI
 
 // MARK: - Tenant Status
 
@@ -7,7 +8,7 @@ enum TenantStatus: String, Codable, CaseIterable, Sendable {
     case active
     case inactive
 
-    var displayNameKey: String {
+    var displayNameKey: LocalizedStringKey {
         switch self {
         case .active: "tenants.status.active"
         case .inactive: "tenants.status.inactive"

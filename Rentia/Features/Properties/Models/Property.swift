@@ -1,5 +1,6 @@
 import FirebaseFirestore
 import Foundation
+import SwiftUI
 
 // MARK: - Property Type
 
@@ -10,7 +11,7 @@ enum PropertyType: String, Codable, CaseIterable, Sendable {
     case garage
     case land
 
-    var displayNameKey: String {
+    var displayNameKey: LocalizedStringKey {
         switch self {
         case .apartment: "properties.type.apartment"
         case .house: "properties.type.house"
@@ -42,7 +43,7 @@ enum PropertyStatus: String, Codable, CaseIterable, Sendable {
     case rented
     case maintenance
 
-    var displayNameKey: String {
+    var displayNameKey: LocalizedStringKey {
         switch self {
         case .available: "properties.status.available"
         case .rented: "properties.status.rented"

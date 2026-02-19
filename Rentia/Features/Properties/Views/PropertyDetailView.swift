@@ -191,7 +191,7 @@ struct PropertyDetailView: View {
 
             Spacer()
 
-                    Text(LocalizedStringKey(tenant.status.displayNameKey))
+                    Text(tenant.status.displayNameKey)
                         .font(AppTypography.caption2)
                 .fontWeight(.medium)
                 .padding(.horizontal, AppSpacing.small)
@@ -248,7 +248,7 @@ struct PropertyDetailView: View {
     private func detailRow(
         icon: String,
         label: LocalizedStringKey,
-        value: String
+        value: LocalizedStringKey
     ) -> some View {
         HStack {
             Image(systemName: icon)

@@ -5,7 +5,7 @@ struct PreferencesView: View {
     @AppStorage("appearanceMode") private var appearanceMode = "system"
 
     private let availableCurrencies = ["EUR", "USD", "MXN", "COP"]
-    private let appearanceOptions = [
+    private let appearanceOptions: [(String, LocalizedStringKey)] = [
         ("system", "settings.preferences.appearance.system"),
         ("light", "settings.preferences.appearance.light"),
         ("dark", "settings.preferences.appearance.dark"),

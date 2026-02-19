@@ -79,7 +79,7 @@ struct PaymentFormView: View {
                 selection: $viewModel.status
             ) {
                 ForEach(PaymentStatus.allCases, id: \.self) { status in
-                    Text(LocalizedStringKey(status.displayNameKey)).tag(status)
+                    Text(status.displayNameKey).tag(status)
                 }
             }
         }

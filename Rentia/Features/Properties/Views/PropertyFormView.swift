@@ -76,7 +76,7 @@ struct PropertyFormView: View {
                 selection: $viewModel.type
             ) {
                 ForEach(PropertyType.allCases, id: \.self) { type in
-                    Label(LocalizedStringKey(type.displayNameKey), systemImage: type.icon)
+                    Label(type.displayNameKey, systemImage: type.icon)
                         .tag(type)
                 }
             }
@@ -85,7 +85,7 @@ struct PropertyFormView: View {
                 selection: $viewModel.status
             ) {
                 ForEach(PropertyStatus.allCases, id: \.self) { status in
-                    Text(LocalizedStringKey(status.displayNameKey)).tag(status)
+                    Text(status.displayNameKey).tag(status)
                 }
             }
         }

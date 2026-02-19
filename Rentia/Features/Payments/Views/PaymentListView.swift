@@ -83,7 +83,7 @@ struct PaymentListView: View {
 
                 ForEach(PaymentStatus.allCases, id: \.self) { status in
                     filterChip(
-                        title: LocalizedStringKey(status.displayNameKey),
+                        title: status.displayNameKey,
                         isSelected: viewModel.selectedFilter == status
                     ) {
                         viewModel.selectedFilter = status

@@ -76,7 +76,7 @@ struct TenantDetailView: View {
                 Text(tenant.fullName)
                     .font(AppTypography.title2)
 
-                Text(LocalizedStringKey(tenant.status.displayNameKey))
+                Text(tenant.status.displayNameKey)
                     .font(AppTypography.caption)
                     .padding(.horizontal, AppSpacing.small)
                     .padding(.vertical, AppSpacing.extraSmall)
@@ -149,7 +149,7 @@ struct TenantDetailView: View {
 
                     Spacer()
 
-                    Text(LocalizedStringKey(property.status.displayNameKey))
+                    Text(property.status.displayNameKey)
                         .font(AppTypography.caption2)
                         .padding(.horizontal, AppSpacing.small)
                         .padding(.vertical, AppSpacing.extraSmall)

@@ -168,7 +168,7 @@ struct TenantFormView: View {
                 selection: $viewModel.status
             ) {
                 ForEach(TenantStatus.allCases, id: \.self) { status in
-                    Text(LocalizedStringKey(status.displayNameKey)).tag(status)
+                    Text(status.displayNameKey).tag(status)
                 }
             }
         }

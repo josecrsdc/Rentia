@@ -521,17 +521,6 @@
         }
       }
     },
-    "Esta accion es irreversible. Se eliminaran todos tus datos." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esta accion es irreversible. Se eliminaran todos tus datos."
-          }
-        }
-      }
-    },
     "payments.adicional" : {
       "localizations" : {
         "en" : {
@@ -788,6 +777,22 @@
         }
       }
     },
+    "payments.notes.contact_tenant" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact the tenant"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contactar al inquilino"
+          }
+        }
+      }
+    },
     "payments.nuevo_pago" : {
       "localizations" : {
         "en" : {
@@ -869,7 +874,6 @@
       }
     },
     "payments.status.overdue" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -886,7 +890,6 @@
       }
     },
     "payments.status.paid" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -903,7 +906,6 @@
       }
     },
     "payments.status.partial" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -920,7 +922,6 @@
       }
     },
     "payments.status.pending" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1496,6 +1497,54 @@
         }
       }
     },
+    "properties.status.available" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disponible"
+          }
+        }
+      }
+    },
+    "properties.status.maintenance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenance"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantenimiento"
+          }
+        }
+      }
+    },
+    "properties.status.rented" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rented"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alquilada"
+          }
+        }
+      }
+    },
     "properties.tipo" : {
       "localizations" : {
         "en" : {
@@ -1511,6 +1560,21 @@
           }
         }
       }
+    },
+    "properties.type.apartment" : {
+
+    },
+    "properties.type.commercial" : {
+
+    },
+    "properties.type.garage" : {
+
+    },
+    "properties.type.house" : {
+
+    },
+    "properties.type.land" : {
+
     },
     "properties.usd" : {
       "localizations" : {
@@ -1572,6 +1636,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apariencia"
+          }
+        }
+      }
+    },
+    "settings.preferences.appearance.dark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oscuro"
+          }
+        }
+      }
+    },
+    "settings.preferences.appearance.light" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claro"
+          }
+        }
+      }
+    },
+    "settings.preferences.appearance.system" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema"
           }
         }
       }
@@ -2100,6 +2212,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sin inquilinos"
+          }
+        }
+      }
+    },
+    "tenants.status.active" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activo"
+          }
+        }
+      }
+    },
+    "tenants.status.inactive" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactive"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactivo"
           }
         }
       }

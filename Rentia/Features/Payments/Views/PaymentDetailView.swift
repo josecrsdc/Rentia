@@ -65,7 +65,7 @@ struct PaymentDetailView: View {
                 .font(AppTypography.moneyLarge)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
-            Text(LocalizedStringKey(payment.status.displayNameKey))
+            Text(payment.status.displayNameKey)
                 .font(AppTypography.headline)
                 .padding(.horizontal, AppSpacing.medium)
                 .padding(.vertical, AppSpacing.small)
@@ -116,7 +116,7 @@ struct PaymentDetailView: View {
 
                     Spacer()
 
-                    Text(LocalizedStringKey(tenant.status.displayNameKey))
+                    Text(tenant.status.displayNameKey)
                         .font(AppTypography.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, AppSpacing.small)
@@ -170,7 +170,7 @@ struct PaymentDetailView: View {
 
                     Spacer()
 
-                    Text(LocalizedStringKey(property.status.displayNameKey))
+                    Text(property.status.displayNameKey)
                         .font(AppTypography.caption2)
                         .fontWeight(.medium)
                         .padding(.horizontal, AppSpacing.small)
