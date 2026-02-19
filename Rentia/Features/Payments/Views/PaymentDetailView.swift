@@ -3,6 +3,8 @@ import SwiftUI
 struct PaymentDetailView: View {
     let paymentId: String
     @State private var payment: Payment?
+    @State private var tenant: Tenant?
+    @State private var property: Property?
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
     @Environment(\.dismiss) private var dismiss
@@ -51,6 +53,7 @@ struct PaymentDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 amountHeader(payment)
+                assignmentCard
                 detailsCard(payment)
                 deleteButton
             }
@@ -84,6 +87,112 @@ struct PaymentDetailView: View {
             x: AppTheme.Shadows.cardX,
             y: AppTheme.Shadows.cardY
         )
+    }
+
+    // MARK: - Assignment Card
+
+    private var assignmentCard: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text(String(localized: "Asignacion"))
+                .font(AppTypography.title3)
+
+            if let tenant {
+                HStack(spacing: AppSpacing.small) {
+                    Text(tenantInitials(tenant))
+                        .font(AppTypography.caption)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white)
+                        .frame(width: 36, height: 36)
+                        .background(AppTheme.Colors.primary)
+                        .clipShape(Circle())
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(tenant.fullName)
+                            .font(AppTypography.body)
+
+                        Text(tenant.email)
+                            .font(AppTypography.caption)
+                            .foregroundStyle(AppTheme.Colors.textSecondary)
+                            .lineLimit(1)
+                    }
+
+                    Spacer()
+
+                    Text(tenant.status.displayName)
+                        .font(AppTypography.caption2)
+                        .fontWeight(.medium)
+                        .padding(.horizontal, AppSpacing.small)
+                        .padding(.vertical, AppSpacing.extraSmall)
+                        .background(
+                            tenant.status == .active
+                                ? AppTheme.Colors.success.opacity(0.15)
+                                : AppTheme.Colors.textSecondary.opacity(0.15)
+                        )
+                        .foregroundStyle(
+                            tenant.status == .active
+                                ? AppTheme.Colors.success
+                                : AppTheme.Colors.textSecondary
+                        )
+                        .clipShape(Capsule())
+                }
+            } else {
+                HStack(spacing: AppSpacing.small) {
+                    Image(systemName: "person.slash")
+                        .foregroundStyle(AppTheme.Colors.textLight)
+                    Text(String(localized: "Inquilino no encontrado"))
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+            }
+
+            Divider()
+
+            if let property {
+                HStack(spacing: AppSpacing.small) {
+                    Image(systemName: property.type.icon)
+                        .font(.title3)
+                        .foregroundStyle(AppTheme.Colors.primary)
+                        .frame(width: 36, height: 36)
+                        .background(AppTheme.Colors.primary.opacity(0.1))
+                        .clipShape(
+                            RoundedRectangle(
+                                cornerRadius: AppTheme.CornerRadius.small
+                            )
+                        )
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(property.name)
+                            .font(AppTypography.body)
+
+                        Text(property.address)
+                            .font(AppTypography.caption)
+                            .foregroundStyle(AppTheme.Colors.textSecondary)
+                            .lineLimit(1)
+                    }
+
+                    Spacer()
+
+                    Text(property.status.displayName)
+                        .font(AppTypography.caption2)
+                        .fontWeight(.medium)
+                        .padding(.horizontal, AppSpacing.small)
+                        .padding(.vertical, AppSpacing.extraSmall)
+                        .background(AppTheme.Colors.primary.opacity(0.1))
+                        .foregroundStyle(AppTheme.Colors.primary)
+                        .clipShape(Capsule())
+                }
+            } else {
+                HStack(spacing: AppSpacing.small) {
+                    Image(systemName: "building.2.slash")
+                        .foregroundStyle(AppTheme.Colors.textLight)
+                    Text(String(localized: "Propiedad no encontrada"))
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
     }
 
     private func detailsCard(_ payment: Payment) -> some View {
@@ -159,6 +268,12 @@ struct PaymentDetailView: View {
         }
     }
 
+    private func tenantInitials(_ tenant: Tenant) -> String {
+        let first = tenant.firstName.prefix(1).uppercased()
+        let last = tenant.lastName.prefix(1).uppercased()
+        return "\(first)\(last)"
+    }
+
     private var deleteButton: some View {
         Button(role: .destructive) {
             showDeleteConfirmation = true
@@ -196,10 +311,21 @@ struct PaymentDetailView: View {
     private func loadPayment() {
         Task {
             do {
-                payment = try await firestoreService.read(
+                let loadedPayment: Payment = try await firestoreService.read(
                     id: paymentId,
                     from: "payments"
                 )
+                payment = loadedPayment
+                async let tenantResult: Tenant = firestoreService.read(
+                    id: loadedPayment.tenantId,
+                    from: "tenants"
+                )
+                async let propertyResult: Property = firestoreService.read(
+                    id: loadedPayment.propertyId,
+                    from: "properties"
+                )
+                tenant = try? await tenantResult
+                property = try? await propertyResult
             } catch {
                 // Handle error
             }

@@ -207,6 +207,9 @@
         }
       }
     },
+    "Cargar datos de prueba" : {
+
+    },
     "Casa" : {
       "localizations" : {
         "en" : {
@@ -280,6 +283,12 @@
     "COP" : {
 
     },
+    "Crear Inquilino" : {
+
+    },
+    "Crear nuevo inquilino" : {
+
+    },
     "Crear Propiedad" : {
       "localizations" : {
         "en" : {
@@ -299,6 +308,9 @@
           }
         }
       }
+    },
+    "Debug" : {
+
     },
     "Deposito" : {
       "localizations" : {
@@ -420,6 +432,9 @@
 
     },
     "Eliminar Propiedad" : {
+
+    },
+    "Eliminar todos los datos" : {
 
     },
     "Email" : {
@@ -684,6 +699,9 @@
         }
       }
     },
+    "Inquilino no encontrado" : {
+
+    },
     "Inquilinos" : {
       "localizations" : {
         "en" : {
@@ -765,6 +783,9 @@
       }
     },
     "MXN" : {
+
+    },
+    "No hay inquilinos registrados" : {
 
     },
     "No hay propiedades registradas" : {
@@ -950,6 +971,9 @@
         }
       }
     },
+    "Propiedad no encontrada" : {
+
+    },
     "Propiedades" : {
       "localizations" : {
         "en" : {
@@ -1013,6 +1037,9 @@
         }
       }
     },
+    "Selecciona el inquilino que alquila esta propiedad" : {
+
+    },
     "Selecciona las propiedades asociadas a este inquilino" : {
 
     },
@@ -1058,6 +1085,9 @@
           }
         }
       }
+    },
+    "Sin pagos registrados" : {
+
     },
     "Sin propiedades" : {
       "localizations" : {

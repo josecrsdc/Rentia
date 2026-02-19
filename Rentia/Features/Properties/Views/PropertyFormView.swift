@@ -12,6 +12,9 @@ struct PropertyFormView: View {
 
             Form {
                 basicInfoSection
+                if viewModel.status == .rented {
+                    tenantSection
+                }
                 financialSection
                 detailsSection
                 saveButton
@@ -25,12 +28,23 @@ struct PropertyFormView: View {
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
+            viewModel.loadTenants()
             if let propertyId {
                 viewModel.loadProperty(id: propertyId)
             }
         }
         .onChange(of: viewModel.didSave) {
             if viewModel.didSave { dismiss() }
+        }
+        .onChange(of: viewModel.status) {
+            viewModel.clearTenantIfNeeded()
+        }
+        .sheet(isPresented: $viewModel.showCreateTenant) {
+            viewModel.loadTenants()
+        } content: {
+            NavigationStack {
+                TenantFormView(tenantId: nil)
+            }
         }
         .alert(
             String(localized: "Error"),
@@ -74,6 +88,58 @@ struct PropertyFormView: View {
                     Text(status.displayName).tag(status)
                 }
             }
+        }
+    }
+
+    private var tenantSection: some View {
+        Section {
+            if viewModel.tenants.isEmpty {
+                VStack(spacing: AppSpacing.medium) {
+                    Text(String(localized: "No hay inquilinos registrados"))
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+
+                    Button {
+                        viewModel.showCreateTenant = true
+                    } label: {
+                        Label(
+                            String(localized: "Crear Inquilino"),
+                            systemImage: "person.badge.plus"
+                        )
+                        .font(AppTypography.body)
+                        .fontWeight(.medium)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, AppSpacing.small)
+            } else {
+                Picker(
+                    String(localized: "Inquilino"),
+                    selection: $viewModel.selectedTenantId
+                ) {
+                    Text(String(localized: "Seleccionar"))
+                        .tag(nil as String?)
+                    ForEach(viewModel.tenants) { tenant in
+                        Text(tenant.fullName).tag(tenant.id as String?)
+                    }
+                }
+
+                Button {
+                    viewModel.showCreateTenant = true
+                } label: {
+                    Label(
+                        String(localized: "Crear nuevo inquilino"),
+                        systemImage: "person.badge.plus"
+                    )
+                    .font(AppTypography.caption)
+                }
+            }
+        } header: {
+            Text(String(localized: "Inquilino"))
+        } footer: {
+            Text(
+                String(localized: "Selecciona el inquilino que alquila esta propiedad")
+            )
         }
     }
 

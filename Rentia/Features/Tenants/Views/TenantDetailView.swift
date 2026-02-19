@@ -302,19 +302,19 @@ struct TenantDetailView: View {
                     from: "tenants"
                 )
                 tenant = loadedTenant
-                async let propertiesTask: Void = loadProperties(
-                    for: loadedTenant.propertyIds
-                )
-                async let paymentsTask: [Payment] = firestoreService.readAll(
+                await loadProperties(for: loadedTenant.propertyIds)
+            } catch {
+                // Handle error
+            }
+
+            payments = (
+                try? await firestoreService.readAll(
                     from: "payments",
                     whereField: "tenantId",
                     isEqualTo: tenantId
                 )
-                await propertiesTask
-                payments = (try? await paymentsTask) ?? []
-            } catch {
-                // Handle error
-            }
+            ) ?? []
+
             isLoading = false
         }
     }

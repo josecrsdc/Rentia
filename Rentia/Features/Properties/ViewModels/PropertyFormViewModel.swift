@@ -13,6 +13,9 @@ final class PropertyFormViewModel {
     var rooms = "1"
     var bathrooms = "1"
     var area = ""
+    var selectedTenantId: String?
+    var tenants: [Tenant] = []
+    var showCreateTenant = false
     var isLoading = false
     var errorMessage: String?
     var showError = false
@@ -20,6 +23,7 @@ final class PropertyFormViewModel {
 
     private let firestoreService = FirestoreService()
     private var editingPropertyId: String?
+    private var previousTenantId: String?
 
     var isEditing: Bool {
         editingPropertyId != nil
@@ -29,6 +33,24 @@ final class PropertyFormViewModel {
         name.isNotEmpty
         && address.isNotEmpty
         && (Double(monthlyRent) ?? 0) > 0
+        && (status != .rented || selectedTenantId != nil)
+    }
+
+    func loadTenants() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        Task {
+            do {
+                tenants = try await firestoreService.readAll(
+                    from: "tenants",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+        }
     }
 
     func loadProperty(id: String) {
@@ -53,11 +75,28 @@ final class PropertyFormViewModel {
                 if let propertyArea = property.area {
                     area = String(format: "%.0f", propertyArea)
                 }
+
+                if property.status == .rented {
+                    let assignedTenants: [Tenant] = try await firestoreService
+                        .readAll(
+                            from: "tenants",
+                            whereField: "propertyIds",
+                            arrayContains: id
+                        )
+                    selectedTenantId = assignedTenants.first?.id
+                    previousTenantId = selectedTenantId
+                }
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true
             }
             isLoading = false
+        }
+    }
+
+    func clearTenantIfNeeded() {
+        if status != .rented {
+            selectedTenantId = nil
         }
     }
 
@@ -85,24 +124,63 @@ final class PropertyFormViewModel {
 
         Task {
             do {
+                let savedPropertyId: String
                 if let propertyId = editingPropertyId {
                     try await firestoreService.update(
                         property,
                         id: propertyId,
                         in: "properties"
                     )
+                    savedPropertyId = propertyId
                 } else {
-                    _ = try await firestoreService.create(
+                    savedPropertyId = try await firestoreService.create(
                         property,
                         in: "properties"
                     )
                 }
+
+                try await updateTenantAssignment(
+                    propertyId: savedPropertyId
+                )
+
                 didSave = true
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true
             }
             isLoading = false
+        }
+    }
+
+    private func updateTenantAssignment(propertyId: String) async throws {
+        if let prevId = previousTenantId, prevId != selectedTenantId {
+            var prevTenant: Tenant = try await firestoreService.read(
+                id: prevId,
+                from: "tenants"
+            )
+            prevTenant.propertyIds.removeAll { $0 == propertyId }
+            try await firestoreService.update(
+                prevTenant,
+                id: prevId,
+                in: "tenants"
+            )
+        }
+
+        if status == .rented,
+           let tenantId = selectedTenantId,
+           tenantId != previousTenantId {
+            var newTenant: Tenant = try await firestoreService.read(
+                id: tenantId,
+                from: "tenants"
+            )
+            if !newTenant.propertyIds.contains(propertyId) {
+                newTenant.propertyIds.append(propertyId)
+            }
+            try await firestoreService.update(
+                newTenant,
+                id: tenantId,
+                in: "tenants"
+            )
         }
     }
 }

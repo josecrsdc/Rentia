@@ -330,26 +330,30 @@ struct PropertyDetailView: View {
     private func loadProperty() {
         Task {
             do {
-                async let propertyResult: Property = firestoreService.read(
+                property = try await firestoreService.read(
                     id: propertyId,
                     from: "properties"
                 )
-                async let tenantsResult: [Tenant] = firestoreService.readAll(
+            } catch {
+                // Handle error
+            }
+
+            tenants = (
+                try? await firestoreService.readAll(
                     from: "tenants",
                     whereField: "propertyIds",
                     arrayContains: propertyId
                 )
-                async let paymentsResult: [Payment] = firestoreService.readAll(
+            ) ?? []
+
+            payments = (
+                try? await firestoreService.readAll(
                     from: "payments",
                     whereField: "propertyId",
                     isEqualTo: propertyId
                 )
-                property = try await propertyResult
-                tenants = try await tenantsResult
-                payments = try await paymentsResult
-            } catch {
-                // Handle error
-            }
+            ) ?? []
+
             isLoading = false
         }
     }
