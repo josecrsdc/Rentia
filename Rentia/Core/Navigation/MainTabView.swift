@@ -33,9 +33,9 @@ struct MainTabView: View {
             NavigationStack {
                 PaymentListView()
             }
-        case .profile:
+        case .settings:
             NavigationStack {
-                ProfileView()
+                SettingsView()
             }
         }
     }

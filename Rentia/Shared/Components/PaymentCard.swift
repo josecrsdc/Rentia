@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PaymentCard: View {
     let payment: Payment
+    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
 
     var body: some View {
         HStack(spacing: AppSpacing.medium) {
@@ -17,7 +18,7 @@ struct PaymentCard: View {
                 )
 
             VStack(alignment: .leading, spacing: AppSpacing.extraSmall) {
-                Text(payment.amount.formatted(.currency(code: "USD")))
+                Text(payment.amount.formatted(.currency(code: defaultCurrency)))
                     .font(AppTypography.moneySmall)
                     .foregroundStyle(AppTheme.Colors.textPrimary)
 

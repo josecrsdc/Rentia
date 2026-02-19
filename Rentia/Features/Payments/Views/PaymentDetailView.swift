@@ -7,6 +7,7 @@ struct PaymentDetailView: View {
     @State private var property: Property?
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
+    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
     @Environment(\.dismiss) private var dismiss
 
     private let firestoreService = FirestoreService()
@@ -63,7 +64,7 @@ struct PaymentDetailView: View {
 
     private func amountHeader(_ payment: Payment) -> some View {
         VStack(spacing: AppSpacing.medium) {
-            Text(payment.amount.formatted(.currency(code: "USD")))
+            Text(payment.amount.formatted(.currency(code: defaultCurrency)))
                 .font(AppTypography.moneyLarge)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 

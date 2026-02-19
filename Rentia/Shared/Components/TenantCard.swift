@@ -2,6 +2,7 @@ import SwiftUI
 
 struct TenantCard: View {
     let tenant: Tenant
+    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
 
     var body: some View {
         HStack(spacing: AppSpacing.medium) {
@@ -34,7 +35,7 @@ struct TenantCard: View {
                 statusPill
 
                 Text(
-                    tenant.monthlyRent.formatted(.currency(code: "USD"))
+                    tenant.monthlyRent.formatted(.currency(code: defaultCurrency))
                 )
                 .font(AppTypography.moneySmall)
                 .foregroundStyle(AppTheme.Colors.primary)

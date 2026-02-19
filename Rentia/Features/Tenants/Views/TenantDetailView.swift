@@ -7,6 +7,7 @@ struct TenantDetailView: View {
     @State private var payments: [Payment] = []
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
+    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
     @Environment(\.dismiss) private var dismiss
 
     private let firestoreService = FirestoreService()
@@ -190,14 +191,14 @@ struct TenantDetailView: View {
                 icon: "dollarsign.circle",
                 label: String(localized: "Renta"),
                 value: tenant.monthlyRent
-                    .formatted(.currency(code: "USD"))
+                    .formatted(.currency(code: defaultCurrency))
             )
 
             detailRow(
                 icon: "shield",
                 label: String(localized: "Deposito"),
                 value: tenant.depositAmount
-                    .formatted(.currency(code: "USD"))
+                    .formatted(.currency(code: defaultCurrency))
             )
         }
         .frame(maxWidth: .infinity, alignment: .leading)

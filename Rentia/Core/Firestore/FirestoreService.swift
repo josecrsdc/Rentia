@@ -60,6 +60,42 @@ final class FirestoreService: Sendable {
         }
     }
 
+    nonisolated func readAll<T: Codable>(
+        from collection: String,
+        whereField field1: String,
+        isEqualTo value1: Any,
+        whereField field2: String,
+        isEqualTo value2: Any
+    ) async throws -> [T] {
+        let snapshot = try await database
+            .collection(collection)
+            .whereField(field1, isEqualTo: value1)
+            .whereField(field2, isEqualTo: value2)
+            .getDocuments()
+
+        return snapshot.documents.compactMap { document in
+            try? document.data(as: T.self)
+        }
+    }
+
+    nonisolated func readAll<T: Codable>(
+        from collection: String,
+        whereField field1: String,
+        arrayContains value1: Any,
+        whereField field2: String,
+        isEqualTo value2: Any
+    ) async throws -> [T] {
+        let snapshot = try await database
+            .collection(collection)
+            .whereField(field1, arrayContains: value1)
+            .whereField(field2, isEqualTo: value2)
+            .getDocuments()
+
+        return snapshot.documents.compactMap { document in
+            try? document.data(as: T.self)
+        }
+    }
+
     nonisolated func update<T: Codable>(
         _ item: T,
         id: String,

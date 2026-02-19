@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DashboardView: View {
     @State private var viewModel = DashboardViewModel()
+    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
 
     var body: some View {
         ScrollView {
@@ -48,7 +49,7 @@ struct DashboardView: View {
             StatCard(
                 title: String(localized: "Ingresos Mensuales"),
                 value: viewModel.totalMonthlyIncome
-                    .formatted(.currency(code: "USD")),
+                    .formatted(.currency(code: defaultCurrency)),
                 icon: "dollarsign.circle.fill",
                 color: AppTheme.Colors.success
             )

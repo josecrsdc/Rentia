@@ -7,7 +7,7 @@ final class PropertyFormViewModel {
     var address = ""
     var type: PropertyType = .apartment
     var monthlyRent = ""
-    var currency = "USD"
+    var currency = UserDefaults.standard.string(forKey: "defaultCurrency") ?? "EUR"
     var status: PropertyStatus = .available
     var propertyDescription = ""
     var rooms = "1"

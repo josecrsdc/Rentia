@@ -1,11 +1,14 @@
 import SwiftUI
 
-struct ProfileView: View {
+struct SettingsView: View {
     @Environment(\.container) private var container
     @State private var viewModel: ProfileViewModel?
+    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
     #if DEBUG
     @State private var seedingState: SeedingState = .idle
     #endif
+
+    private let availableCurrencies = ["EUR", "USD", "MXN", "COP"]
 
     var body: some View {
         ZStack {
@@ -16,6 +19,7 @@ struct ProfileView: View {
                 VStack(spacing: AppSpacing.large) {
                     profileHeader
                     accountSection
+                    preferencesSection
                     #if DEBUG
                     debugSection
                     #endif
@@ -24,7 +28,7 @@ struct ProfileView: View {
                 .padding(AppSpacing.medium)
             }
         }
-        .navigationTitle(String(localized: "Perfil"))
+        .navigationTitle(String(localized: "Ajustes"))
         .onAppear {
             if viewModel == nil {
                 viewModel = ProfileViewModel(
@@ -183,6 +187,42 @@ struct ProfileView: View {
 
             Spacer()
         }
+    }
+
+    // MARK: - Preferences Section
+
+    private var preferencesSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text(String(localized: "Preferencias"))
+                .font(AppTypography.title3)
+                .foregroundStyle(AppTheme.Colors.textPrimary)
+
+            HStack(spacing: AppSpacing.medium) {
+                Image(systemName: "dollarsign.circle")
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 32, height: 32)
+                    .background(AppTheme.Colors.primary.opacity(0.1))
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: AppTheme.CornerRadius.small
+                        )
+                    )
+
+                Text(String(localized: "Moneda por defecto"))
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                Spacer()
+
+                Picker("", selection: $defaultCurrency) {
+                    ForEach(availableCurrencies, id: \.self) { currency in
+                        Text(currency).tag(currency)
+                    }
+                }
+                .tint(AppTheme.Colors.primary)
+            }
+        }
+        .cardStyle()
     }
 
     // MARK: - Debug

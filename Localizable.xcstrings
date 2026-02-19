@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "es",
   "strings" : {
+    "" : {
+
+    },
     "%lld" : {
 
     },
@@ -83,6 +86,9 @@
           }
         }
       }
+    },
+    "Ajustes" : {
+
     },
     "Al continuar, aceptas nuestros Terminos de Servicio y Politica de Privacidad" : {
       "localizations" : {
@@ -772,6 +778,9 @@
         }
       }
     },
+    "Moneda por defecto" : {
+
+    },
     "Monto" : {
       "localizations" : {
         "en" : {
@@ -952,6 +961,7 @@
       }
     },
     "Perfil" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -960,6 +970,9 @@
           }
         }
       }
+    },
+    "Preferencias" : {
+
     },
     "Propiedad" : {
       "localizations" : {

@@ -7,7 +7,7 @@ enum AppTab: Int, CaseIterable, Identifiable {
     case properties
     case tenants
     case payments
-    case profile
+    case settings
 
     var id: Int { rawValue }
 
@@ -17,7 +17,7 @@ enum AppTab: Int, CaseIterable, Identifiable {
         case .properties: String(localized: "Propiedades")
         case .tenants: String(localized: "Inquilinos")
         case .payments: String(localized: "Pagos")
-        case .profile: String(localized: "Perfil")
+        case .settings: String(localized: "Ajustes")
         }
     }
 
@@ -27,7 +27,7 @@ enum AppTab: Int, CaseIterable, Identifiable {
         case .properties: "building.2"
         case .tenants: "person.2"
         case .payments: "creditcard"
-        case .profile: "person.circle"
+        case .settings: "gearshape"
         }
     }
 }
