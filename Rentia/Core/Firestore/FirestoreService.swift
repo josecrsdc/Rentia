@@ -9,7 +9,7 @@ final class FirestoreService: Sendable {
         in collection: String
     ) async throws -> String {
         let document = database.collection(collection).document()
-        try document.setData(from: item)
+        try await document.setData(from: item)
         return document.documentID
     }
 
@@ -19,7 +19,7 @@ final class FirestoreService: Sendable {
         in collection: String
     ) async throws {
         let document = database.collection(collection).document(id)
-        try document.setData(from: item)
+        try await document.setData(from: item)
     }
 
     nonisolated func read<T: Codable>(
@@ -51,7 +51,7 @@ final class FirestoreService: Sendable {
         in collection: String
     ) async throws {
         let document = database.collection(collection).document(id)
-        try document.setData(from: item, merge: true)
+        try await document.setData(from: item, merge: true)
     }
 
     nonisolated func delete(
