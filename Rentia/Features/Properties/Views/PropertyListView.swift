@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PropertyListView: View {
     @State private var viewModel = PropertyListViewModel()
+    @State private var showCreateProperty = false
 
     var body: some View {
         ZStack {
@@ -18,7 +19,7 @@ struct PropertyListView: View {
                         localized: "Agrega tu primera propiedad para comenzar"
                     ),
                     actionTitle: String(localized: "Agregar Propiedad"),
-                    action: {}
+                    action: { showCreateProperty = true }
                 )
             } else {
                 propertyList
@@ -39,6 +40,9 @@ struct PropertyListView: View {
             case .form(let id):
                 PropertyFormView(propertyId: id)
             }
+        }
+        .navigationDestination(isPresented: $showCreateProperty) {
+            PropertyFormView(propertyId: nil)
         }
         .navigationDestination(for: TenantDestination.self) { destination in
             switch destination {

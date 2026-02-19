@@ -2,6 +2,7 @@ import SwiftUI
 
 struct TenantListView: View {
     @State private var viewModel = TenantListViewModel()
+    @State private var showCreateTenant = false
 
     var body: some View {
         ZStack {
@@ -18,7 +19,7 @@ struct TenantListView: View {
                         localized: "Agrega tu primer inquilino para comenzar"
                     ),
                     actionTitle: String(localized: "Agregar Inquilino"),
-                    action: {}
+                    action: { showCreateTenant = true }
                 )
             } else {
                 tenantList
@@ -39,6 +40,9 @@ struct TenantListView: View {
             case .form(let id):
                 TenantFormView(tenantId: id)
             }
+        }
+        .navigationDestination(isPresented: $showCreateTenant) {
+            TenantFormView(tenantId: nil)
         }
         .navigationDestination(for: PaymentDestination.self) { destination in
             switch destination {

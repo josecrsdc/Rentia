@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PaymentListView: View {
     @State private var viewModel = PaymentListViewModel()
+    @State private var showCreatePayment = false
 
     var body: some View {
         ZStack {
@@ -18,7 +19,7 @@ struct PaymentListView: View {
                         localized: "Los pagos registrados apareceran aqui"
                     ),
                     actionTitle: String(localized: "Registrar Pago"),
-                    action: {}
+                    action: { showCreatePayment = true }
                 )
             } else {
                 paymentList
@@ -39,6 +40,9 @@ struct PaymentListView: View {
             case .form(let id):
                 PaymentFormView(paymentId: id)
             }
+        }
+        .navigationDestination(isPresented: $showCreatePayment) {
+            PaymentFormView(paymentId: nil)
         }
         .refreshable { viewModel.loadPayments() }
         .onAppear { viewModel.loadPayments() }
