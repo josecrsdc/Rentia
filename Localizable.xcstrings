@@ -194,6 +194,9 @@
         }
       }
     },
+    "Cancelar" : {
+
+    },
     "Cantidad" : {
       "localizations" : {
         "en" : {
@@ -397,6 +400,9 @@
         }
       }
     },
+    "Eliminar" : {
+
+    },
     "Eliminar Cuenta" : {
       "localizations" : {
         "en" : {
@@ -406,6 +412,15 @@
           }
         }
       }
+    },
+    "Eliminar Inquilino" : {
+
+    },
+    "Eliminar Pago" : {
+
+    },
+    "Eliminar Propiedad" : {
+
     },
     "Email" : {
       "localizations" : {
@@ -446,6 +461,15 @@
           }
         }
       }
+    },
+    "Esta accion no se puede deshacer. Se eliminara el inquilino permanentemente." : {
+
+    },
+    "Esta accion no se puede deshacer. Se eliminara el pago permanentemente." : {
+
+    },
+    "Esta accion no se puede deshacer. Se eliminara la propiedad permanentemente." : {
+
     },
     "Estado" : {
       "localizations" : {
@@ -743,6 +767,9 @@
     "MXN" : {
 
     },
+    "No hay propiedades registradas" : {
+
+    },
     "No hay usuario autenticado." : {
       "localizations" : {
         "en" : {
@@ -986,6 +1013,9 @@
         }
       }
     },
+    "Selecciona las propiedades asociadas a este inquilino" : {
+
+    },
     "Seleccionar" : {
       "localizations" : {
         "en" : {
@@ -1015,6 +1045,9 @@
           }
         }
       }
+    },
+    "Sin inquilinos asignados" : {
+
     },
     "Sin pagos" : {
       "localizations" : {

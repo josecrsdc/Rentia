@@ -4,6 +4,8 @@ struct PaymentDetailView: View {
     let paymentId: String
     @State private var payment: Payment?
     @State private var isLoading = true
+    @State private var showDeleteConfirmation = false
+    @Environment(\.dismiss) private var dismiss
 
     private let firestoreService = FirestoreService()
 
@@ -30,6 +32,19 @@ struct PaymentDetailView: View {
             }
         }
         .onAppear { loadPayment() }
+        .alert(
+            String(localized: "Eliminar Pago"),
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button(String(localized: "Cancelar"), role: .cancel) {}
+            Button(String(localized: "Eliminar"), role: .destructive) {
+                deletePayment()
+            }
+        } message: {
+            Text(
+                String(localized: "Esta accion no se puede deshacer. Se eliminara el pago permanentemente.")
+            )
+        }
     }
 
     private func paymentContent(_ payment: Payment) -> some View {
@@ -37,6 +52,7 @@ struct PaymentDetailView: View {
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 amountHeader(payment)
                 detailsCard(payment)
+                deleteButton
             }
             .padding(AppSpacing.medium)
         }
@@ -140,6 +156,40 @@ struct PaymentDetailView: View {
         case .pending: AppTheme.Colors.warning
         case .overdue: AppTheme.Colors.error
         case .partial: AppTheme.Colors.accent
+        }
+    }
+
+    private var deleteButton: some View {
+        Button(role: .destructive) {
+            showDeleteConfirmation = true
+        } label: {
+            HStack {
+                Image(systemName: "trash")
+                Text(String(localized: "Eliminar Pago"))
+            }
+            .font(AppTypography.body)
+            .fontWeight(.medium)
+            .frame(maxWidth: .infinity)
+            .padding(AppSpacing.medium)
+            .background(AppTheme.Colors.error.opacity(0.1))
+            .foregroundStyle(AppTheme.Colors.error)
+            .clipShape(
+                RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large)
+            )
+        }
+    }
+
+    private func deletePayment() {
+        Task {
+            do {
+                try await firestoreService.delete(
+                    id: paymentId,
+                    from: "payments"
+                )
+                dismiss()
+            } catch {
+                // Handle error
+            }
         }
     }
 

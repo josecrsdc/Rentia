@@ -40,6 +40,14 @@ struct TenantListView: View {
                 TenantFormView(tenantId: id)
             }
         }
+        .navigationDestination(for: PaymentDestination.self) { destination in
+            switch destination {
+            case .detail(let id):
+                PaymentDetailView(paymentId: id)
+            case .form(let id):
+                PaymentFormView(paymentId: id)
+            }
+        }
         .refreshable { viewModel.loadTenants() }
         .onAppear { viewModel.loadTenants() }
         .alert(

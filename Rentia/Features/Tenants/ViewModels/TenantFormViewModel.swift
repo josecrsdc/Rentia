@@ -8,7 +8,8 @@ final class TenantFormViewModel {
     var email = ""
     var phone = ""
     var idNumber = ""
-    var propertyId: String?
+    var propertyIds: [String] = []
+    var availableProperties: [Property] = []
     var leaseStartDate = Date()
     var leaseEndDate = Date().addingTimeInterval(365 * 24 * 60 * 60)
     var monthlyRent = ""
@@ -33,6 +34,35 @@ final class TenantFormViewModel {
         && phone.isNotEmpty
     }
 
+    func loadProperties() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        Task {
+            do {
+                availableProperties = try await firestoreService.readAll(
+                    from: "properties",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+        }
+    }
+
+    func isPropertySelected(_ propertyId: String) -> Bool {
+        propertyIds.contains(propertyId)
+    }
+
+    func toggleProperty(_ propertyId: String) {
+        if let index = propertyIds.firstIndex(of: propertyId) {
+            propertyIds.remove(at: index)
+        } else {
+            propertyIds.append(propertyId)
+        }
+    }
+
     func loadTenant(id: String) {
         editingTenantId = id
         isLoading = true
@@ -48,7 +78,7 @@ final class TenantFormViewModel {
                 email = tenant.email
                 phone = tenant.phone
                 idNumber = tenant.idNumber ?? ""
-                propertyId = tenant.propertyId
+                propertyIds = tenant.propertyIds
                 leaseStartDate = tenant.leaseStartDate ?? Date()
                 leaseEndDate = tenant.leaseEndDate
                     ?? Date().addingTimeInterval(365 * 24 * 60 * 60)
@@ -70,7 +100,7 @@ final class TenantFormViewModel {
         let tenant = Tenant(
             id: editingTenantId,
             ownerId: userId,
-            propertyId: propertyId,
+            propertyIds: propertyIds,
             firstName: firstName.trimmed,
             lastName: lastName.trimmed,
             email: email.trimmed,

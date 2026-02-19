@@ -20,7 +20,7 @@ enum TenantStatus: String, Codable, CaseIterable, Sendable {
 struct Tenant: Codable, Identifiable, Sendable {
     @DocumentID var id: String?
     var ownerId: String
-    var propertyId: String?
+    var propertyIds: [String]
     var firstName: String
     var lastName: String
     var email: String

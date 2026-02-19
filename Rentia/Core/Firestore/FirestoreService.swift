@@ -45,6 +45,21 @@ final class FirestoreService: Sendable {
         }
     }
 
+    nonisolated func readAll<T: Codable>(
+        from collection: String,
+        whereField field: String,
+        arrayContains value: Any
+    ) async throws -> [T] {
+        let snapshot = try await database
+            .collection(collection)
+            .whereField(field, arrayContains: value)
+            .getDocuments()
+
+        return snapshot.documents.compactMap { document in
+            try? document.data(as: T.self)
+        }
+    }
+
     nonisolated func update<T: Codable>(
         _ item: T,
         id: String,

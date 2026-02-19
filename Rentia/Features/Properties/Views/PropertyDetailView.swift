@@ -4,7 +4,10 @@ import SwiftUI
 struct PropertyDetailView: View {
     let propertyId: String
     @State private var property: Property?
+    @State private var tenants: [Tenant] = []
+    @State private var payments: [Payment] = []
     @State private var isLoading = true
+    @State private var showDeleteConfirmation = false
     @Environment(\.dismiss) private var dismiss
 
     private let firestoreService = FirestoreService()
@@ -32,6 +35,19 @@ struct PropertyDetailView: View {
             }
         }
         .onAppear { loadProperty() }
+        .alert(
+            String(localized: "Eliminar Propiedad"),
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button(String(localized: "Cancelar"), role: .cancel) {}
+            Button(String(localized: "Eliminar"), role: .destructive) {
+                deleteProperty()
+            }
+        } message: {
+            Text(
+                String(localized: "Esta accion no se puede deshacer. Se eliminara la propiedad permanentemente.")
+            )
+        }
     }
 
     private func propertyContent(_ property: Property) -> some View {
@@ -39,7 +55,10 @@ struct PropertyDetailView: View {
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 propertyHeader(property)
                 propertyDetails(property)
+                tenantsSection
+                paymentsSection
                 propertyStats(property)
+                deleteButton
             }
             .padding(AppSpacing.medium)
         }
@@ -121,6 +140,114 @@ struct PropertyDetailView: View {
         .cardStyle()
     }
 
+    // MARK: - Tenants Section
+
+    private var tenantsSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text(String(localized: "Inquilinos"))
+                .font(AppTypography.title3)
+
+            if tenants.isEmpty {
+                HStack(spacing: AppSpacing.small) {
+                    Image(systemName: "person.2.slash")
+                        .foregroundStyle(AppTheme.Colors.textLight)
+
+                    Text(String(localized: "Sin inquilinos asignados"))
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+            } else {
+                ForEach(tenants) { tenant in
+                    NavigationLink(
+                        value: TenantDestination.detail(tenant.id ?? "")
+                    ) {
+                        tenantRow(tenant)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    private func tenantRow(_ tenant: Tenant) -> some View {
+        HStack(spacing: AppSpacing.small) {
+            Text(initials(for: tenant))
+                .font(AppTypography.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white)
+                .frame(width: 36, height: 36)
+                .background(AppTheme.Colors.primary)
+                .clipShape(Circle())
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(tenant.fullName)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                Text(tenant.email)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                    .lineLimit(1)
+            }
+
+            Spacer()
+
+            Text(tenant.status.displayName)
+                .font(AppTypography.caption2)
+                .fontWeight(.medium)
+                .padding(.horizontal, AppSpacing.small)
+                .padding(.vertical, AppSpacing.extraSmall)
+                .background(
+                    tenant.status == .active
+                        ? AppTheme.Colors.success.opacity(0.15)
+                        : AppTheme.Colors.textSecondary.opacity(0.15)
+                )
+                .foregroundStyle(
+                    tenant.status == .active
+                        ? AppTheme.Colors.success
+                        : AppTheme.Colors.textSecondary
+                )
+                .clipShape(Capsule())
+
+            Image(systemName: "chevron.right")
+                .font(.caption)
+                .foregroundStyle(AppTheme.Colors.textLight)
+        }
+    }
+
+    // MARK: - Payments Section
+
+    private var paymentsSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text(String(localized: "Pagos"))
+                .font(AppTypography.title3)
+
+            if payments.isEmpty {
+                HStack(spacing: AppSpacing.small) {
+                    Image(systemName: "creditcard.trianglebadge.exclamationmark")
+                        .foregroundStyle(AppTheme.Colors.textLight)
+
+                    Text(String(localized: "Sin pagos registrados"))
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+            } else {
+                ForEach(payments) { payment in
+                    NavigationLink(
+                        value: PaymentDestination.detail(payment.id ?? "")
+                    ) {
+                        PaymentCard(payment: payment)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
     private func detailRow(
         icon: String,
         label: String,
@@ -160,13 +287,66 @@ struct PropertyDetailView: View {
         }
     }
 
-    private func loadProperty() {
+    private func initials(for tenant: Tenant) -> String {
+        let first = tenant.firstName.prefix(1).uppercased()
+        let last = tenant.lastName.prefix(1).uppercased()
+        return "\(first)\(last)"
+    }
+
+    private var deleteButton: some View {
+        Button(role: .destructive) {
+            showDeleteConfirmation = true
+        } label: {
+            HStack {
+                Image(systemName: "trash")
+                Text(String(localized: "Eliminar Propiedad"))
+            }
+            .font(AppTypography.body)
+            .fontWeight(.medium)
+            .frame(maxWidth: .infinity)
+            .padding(AppSpacing.medium)
+            .background(AppTheme.Colors.error.opacity(0.1))
+            .foregroundStyle(AppTheme.Colors.error)
+            .clipShape(
+                RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large)
+            )
+        }
+    }
+
+    private func deleteProperty() {
         Task {
             do {
-                property = try await firestoreService.read(
+                try await firestoreService.delete(
                     id: propertyId,
                     from: "properties"
                 )
+                dismiss()
+            } catch {
+                // Handle error
+            }
+        }
+    }
+
+    private func loadProperty() {
+        Task {
+            do {
+                async let propertyResult: Property = firestoreService.read(
+                    id: propertyId,
+                    from: "properties"
+                )
+                async let tenantsResult: [Tenant] = firestoreService.readAll(
+                    from: "tenants",
+                    whereField: "propertyIds",
+                    arrayContains: propertyId
+                )
+                async let paymentsResult: [Payment] = firestoreService.readAll(
+                    from: "payments",
+                    whereField: "propertyId",
+                    isEqualTo: propertyId
+                )
+                property = try await propertyResult
+                tenants = try await tenantsResult
+                payments = try await paymentsResult
             } catch {
                 // Handle error
             }
