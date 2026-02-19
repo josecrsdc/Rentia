@@ -1,3 +1,4 @@
+import FirebaseAuth
 import FirebaseFirestore
 import SwiftUI
 
@@ -5,7 +6,6 @@ struct PropertyDetailView: View {
     let propertyId: String
     @State private var property: Property?
     @State private var tenants: [Tenant] = []
-    @State private var payments: [Payment] = []
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
     @Environment(\.dismiss) private var dismiss
@@ -217,32 +217,39 @@ struct PropertyDetailView: View {
     // MARK: - Payments Section
 
     private var paymentsSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("tabs.payments")
-                .font(AppTypography.title3)
+        NavigationLink(value: PropertyDestination.payments(propertyId)) {
+            HStack(spacing: AppSpacing.small) {
+                Image(systemName: "creditcard")
+                    .font(.title3)
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 44, height: 44)
+                    .background(AppTheme.Colors.primary.opacity(0.1))
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: AppTheme.CornerRadius.small
+                        )
+                    )
 
-            if payments.isEmpty {
-                HStack(spacing: AppSpacing.small) {
-                    Image(systemName: "creditcard.trianglebadge.exclamationmark")
-                        .foregroundStyle(AppTheme.Colors.textLight)
+                VStack(alignment: .leading, spacing: AppSpacing.extraSmall) {
+                    Text("tabs.payments")
+                        .font(AppTypography.headline)
+                        .foregroundStyle(AppTheme.Colors.textPrimary)
 
-                    Text("properties.no_payments_recorded")
-                        .font(AppTypography.body)
+                    Text("properties.view_payments")
+                        .font(AppTypography.caption)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
-            } else {
-                ForEach(payments) { payment in
-                    NavigationLink(
-                        value: PaymentDestination.detail(payment.id ?? "")
-                    ) {
-                        PaymentCard(payment: payment)
-                    }
-                    .buttonStyle(.plain)
-                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(AppTheme.Colors.textLight)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .cardStyle()
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .cardStyle()
+        .buttonStyle(.plain)
     }
 
     private func detailRow(
@@ -341,6 +348,8 @@ struct PropertyDetailView: View {
     }
 
     private func loadProperty() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
         Task {
             do {
                 property = try await firestoreService.read(
@@ -355,15 +364,9 @@ struct PropertyDetailView: View {
                 try? await firestoreService.readAll(
                     from: "tenants",
                     whereField: "propertyIds",
-                    arrayContains: propertyId
-                )
-            ) ?? []
-
-            payments = (
-                try? await firestoreService.readAll(
-                    from: "payments",
-                    whereField: "propertyId",
-                    isEqualTo: propertyId
+                    arrayContains: propertyId,
+                    whereField: "ownerId",
+                    isEqualTo: userId
                 )
             ) ?? []
 

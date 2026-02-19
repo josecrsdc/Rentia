@@ -37,6 +37,8 @@ struct PropertyListView: View {
                 PropertyDetailView(propertyId: id)
             case .form(let id):
                 PropertyFormView(propertyId: id)
+            case .payments(let propertyId):
+                PropertyPaymentsView(propertyId: propertyId)
             }
         }
         .navigationDestination(isPresented: $showCreateProperty) {

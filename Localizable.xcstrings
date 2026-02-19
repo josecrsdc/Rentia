@@ -1391,6 +1391,38 @@
         }
       }
     },
+    "properties.payments_empty.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No payments have been recorded for this property yet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no se han registrado pagos para esta propiedad"
+          }
+        }
+      }
+    },
+    "properties.view_payments" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View all payments"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver todos los pagos"
+          }
+        }
+      }
+    },
     "properties.rooms" : {
       "localizations" : {
         "en" : {

@@ -37,6 +37,7 @@ enum AppTab: Int, CaseIterable, Identifiable {
 enum PropertyDestination: Hashable {
     case detail(String)
     case form(String?)
+    case payments(String)
 }
 
 enum TenantDestination: Hashable {
