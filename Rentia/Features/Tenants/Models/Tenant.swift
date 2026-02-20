@@ -27,10 +27,6 @@ struct Tenant: Codable, Identifiable, Sendable {
     var email: String
     var phone: String
     var idNumber: String?
-    var leaseStartDate: Date?
-    var leaseEndDate: Date?
-    var monthlyRent: Double
-    var depositAmount: Double
     var status: TenantStatus
     var createdAt: Date
 
@@ -47,10 +43,6 @@ struct Tenant: Codable, Identifiable, Sendable {
         email: String,
         phone: String,
         idNumber: String? = nil,
-        leaseStartDate: Date? = nil,
-        leaseEndDate: Date? = nil,
-        monthlyRent: Double,
-        depositAmount: Double,
         status: TenantStatus,
         createdAt: Date
     ) {
@@ -62,10 +54,6 @@ struct Tenant: Codable, Identifiable, Sendable {
         self.email = email
         self.phone = phone
         self.idNumber = idNumber
-        self.leaseStartDate = leaseStartDate
-        self.leaseEndDate = leaseEndDate
-        self.monthlyRent = monthlyRent
-        self.depositAmount = depositAmount
         self.status = status
         self.createdAt = createdAt
     }
@@ -80,10 +68,6 @@ struct Tenant: Codable, Identifiable, Sendable {
         email = try container.decode(String.self, forKey: .email)
         phone = try container.decode(String.self, forKey: .phone)
         idNumber = try container.decodeIfPresent(String.self, forKey: .idNumber)
-        leaseStartDate = try container.decodeIfPresent(Date.self, forKey: .leaseStartDate)
-        leaseEndDate = try container.decodeIfPresent(Date.self, forKey: .leaseEndDate)
-        monthlyRent = try container.decode(Double.self, forKey: .monthlyRent)
-        depositAmount = try container.decode(Double.self, forKey: .depositAmount)
         status = try container.decode(TenantStatus.self, forKey: .status)
         createdAt = try container.decode(Date.self, forKey: .createdAt)
     }

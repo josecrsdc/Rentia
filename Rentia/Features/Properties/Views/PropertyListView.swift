@@ -83,7 +83,10 @@ struct PropertyListView: View {
                     NavigationLink(
                         value: PropertyDestination.detail(property.id ?? "")
                     ) {
-                        PropertyCard(property: property)
+                        PropertyCard(
+                            property: property,
+                            isRented: viewModel.isRented(property)
+                        )
                     }
                     .buttonStyle(.plain)
                 }

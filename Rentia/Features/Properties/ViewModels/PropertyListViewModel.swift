@@ -4,6 +4,7 @@ import Foundation
 @Observable
 final class PropertyListViewModel {
     var properties: [Property] = []
+    var leases: [Lease] = []
     var searchText = ""
     var isLoading = false
     var errorMessage: String?
@@ -22,17 +23,32 @@ final class PropertyListViewModel {
         }
     }
 
+    func isRented(_ property: Property) -> Bool {
+        guard let propertyId = property.id else { return false }
+        return leases.contains {
+            $0.propertyId == propertyId && $0.status == .active
+        }
+    }
+
     func loadProperties() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         isLoading = true
 
         Task {
             do {
-                properties = try await firestoreService.readAll(
+                async let propertiesResult: [Property] = firestoreService.readAll(
                     from: "properties",
                     whereField: "ownerId",
                     isEqualTo: userId
                 )
+                async let leasesResult: [Lease] = firestoreService.readAll(
+                    from: "leases",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+
+                properties = try await propertiesResult
+                leases = try await leasesResult
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true

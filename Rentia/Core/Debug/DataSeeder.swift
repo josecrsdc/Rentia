@@ -19,7 +19,7 @@ final class DataSeeder {
                     type: .apartment,
                     monthlyRent: 950,
                     currency: "EUR",
-                    status: .rented,
+                    status: .available,
                     description: "Apartamento luminoso en el centro con vistas a la plaza",
                     rooms: 3,
                     bathrooms: 2,
@@ -57,7 +57,7 @@ final class DataSeeder {
                     type: .commercial,
                     monthlyRent: 2500,
                     currency: "EUR",
-                    status: .rented,
+                    status: .available,
                     description: "Local en zona comercial de alto trafico",
                     rooms: 1,
                     bathrooms: 1,
@@ -87,7 +87,7 @@ final class DataSeeder {
                 in: "properties"
             )
 
-            let prop5Id = try await firestoreService.create(
+            _ = try await firestoreService.create(
                 Property(
                     ownerId: userId,
                     name: "Terreno en la Sierra",
@@ -117,14 +117,6 @@ final class DataSeeder {
                     email: "maria.garcia@email.com",
                     phone: "+34 612 345 678",
                     idNumber: "12345678A",
-                    leaseStartDate: Calendar.current.date(
-                        byAdding: .month, value: -6, to: Date()
-                    ),
-                    leaseEndDate: Calendar.current.date(
-                        byAdding: .month, value: 6, to: Date()
-                    ),
-                    monthlyRent: 950,
-                    depositAmount: 1900,
                     status: .active,
                     createdAt: Date()
                 ),
@@ -140,14 +132,6 @@ final class DataSeeder {
                     email: "carlos.martinez@empresa.com",
                     phone: "+34 698 765 432",
                     idNumber: "87654321B",
-                    leaseStartDate: Calendar.current.date(
-                        byAdding: .month, value: -3, to: Date()
-                    ),
-                    leaseEndDate: Calendar.current.date(
-                        byAdding: .year, value: 2, to: Date()
-                    ),
-                    monthlyRent: 2500,
-                    depositAmount: 5000,
                     status: .active,
                     createdAt: Date()
                 ),
@@ -163,18 +147,83 @@ final class DataSeeder {
                     email: "ana.fernandez@email.com",
                     phone: "+34 655 111 222",
                     idNumber: "11223344C",
-                    leaseStartDate: Calendar.current.date(
-                        byAdding: .year, value: -1, to: Date()
-                    ),
-                    leaseEndDate: Calendar.current.date(
-                        byAdding: .month, value: -1, to: Date()
-                    ),
-                    monthlyRent: 350,
-                    depositAmount: 700,
                     status: .inactive,
                     createdAt: Date()
                 ),
                 in: "tenants"
+            )
+
+            // MARK: - Leases
+
+            let now = Date()
+
+            _ = try await firestoreService.create(
+                Lease(
+                    ownerId: userId,
+                    propertyId: prop1Id,
+                    tenantId: tenant1Id,
+                    startDate: Calendar.current.date(
+                        byAdding: .month, value: -6, to: now
+                    ) ?? now,
+                    endDate: Calendar.current.date(
+                        byAdding: .month, value: 6, to: now
+                    ),
+                    rentAmount: 950,
+                    depositAmount: 1900,
+                    billingDay: 1,
+                    utilitiesMode: .included,
+                    status: .active,
+                    notes: nil,
+                    createdAt: now,
+                    updatedAt: now
+                ),
+                in: "leases"
+            )
+
+            _ = try await firestoreService.create(
+                Lease(
+                    ownerId: userId,
+                    propertyId: prop3Id,
+                    tenantId: tenant2Id,
+                    startDate: Calendar.current.date(
+                        byAdding: .month, value: -3, to: now
+                    ) ?? now,
+                    endDate: Calendar.current.date(
+                        byAdding: .year, value: 2, to: now
+                    ),
+                    rentAmount: 2500,
+                    depositAmount: 5000,
+                    billingDay: 5,
+                    utilitiesMode: .manual,
+                    status: .active,
+                    notes: nil,
+                    createdAt: now,
+                    updatedAt: now
+                ),
+                in: "leases"
+            )
+
+            _ = try await firestoreService.create(
+                Lease(
+                    ownerId: userId,
+                    propertyId: prop4Id,
+                    tenantId: tenant2Id,
+                    startDate: Calendar.current.date(
+                        byAdding: .year, value: -1, to: now
+                    ) ?? now,
+                    endDate: Calendar.current.date(
+                        byAdding: .month, value: -1, to: now
+                    ),
+                    rentAmount: 350,
+                    depositAmount: 700,
+                    billingDay: 1,
+                    utilitiesMode: .none,
+                    status: .expired,
+                    notes: "Contrato finalizado",
+                    createdAt: now,
+                    updatedAt: now
+                ),
+                in: "leases"
             )
 
             // MARK: - Payments
@@ -313,6 +362,11 @@ final class DataSeeder {
                 whereField: "ownerId",
                 isEqualTo: userId
             )
+            let leases: [Lease] = try await firestoreService.readAll(
+                from: "leases",
+                whereField: "ownerId",
+                isEqualTo: userId
+            )
 
             for property in properties {
                 if let id = property.id {
@@ -327,6 +381,11 @@ final class DataSeeder {
             for payment in payments {
                 if let id = payment.id {
                     try await firestoreService.delete(id: id, from: "payments")
+                }
+            }
+            for lease in leases {
+                if let id = lease.id {
+                    try await firestoreService.delete(id: id, from: "leases")
                 }
             }
 

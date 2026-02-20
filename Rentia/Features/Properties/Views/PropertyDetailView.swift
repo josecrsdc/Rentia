@@ -6,6 +6,7 @@ struct PropertyDetailView: View {
     let propertyId: String
     @State private var property: Property?
     @State private var tenants: [Tenant] = []
+    @State private var activeLease: Lease?
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
     @Environment(\.dismiss) private var dismiss
@@ -122,7 +123,9 @@ struct PropertyDetailView: View {
             detailRow(
                 icon: "circle.fill",
                 label: "properties.detail.status",
-                value: property.status.localizedName
+                value: activeLease != nil
+                    ? "properties.status.rented"
+                    : property.status.localizedName
             )
 
             if let area = property.area {
@@ -369,6 +372,15 @@ struct PropertyDetailView: View {
                     isEqualTo: userId
                 )
             ) ?? []
+
+            let allLeases: [Lease] = (
+                try? await firestoreService.readAll(
+                    from: "leases",
+                    whereField: "propertyId",
+                    isEqualTo: propertyId
+                )
+            ) ?? []
+            activeLease = allLeases.first { $0.status == .active }
 
             isLoading = false
         }

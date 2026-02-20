@@ -14,7 +14,6 @@ struct TenantFormView: View {
                 personalInfoSection
                 contactSection
                 propertiesSection
-                leaseSection
                 saveButton
             }
             .scrollContentBackground(.hidden)
@@ -61,6 +60,14 @@ struct TenantFormView: View {
                 "tenants.id_number",
                 text: $viewModel.idNumber
             )
+
+            Picker("properties.status",
+                selection: $viewModel.status
+            ) {
+                ForEach(TenantStatus.allCases, id: \.self) { status in
+                    Text(status.localizedName).tag(status)
+                }
+            }
         }
     }
 
@@ -135,40 +142,6 @@ struct TenantFormView: View {
                 } else {
                     Image(systemName: "circle")
                         .foregroundStyle(AppTheme.Colors.textLight)
-                }
-            }
-        }
-    }
-
-    private var leaseSection: some View {
-        Section("tenants.lease") {
-            DatePicker("tenants.lease_start",
-                selection: $viewModel.leaseStartDate,
-                displayedComponents: .date
-            )
-
-            DatePicker("tenants.lease_end",
-                selection: $viewModel.leaseEndDate,
-                displayedComponents: .date
-            )
-
-            TextField(
-                "properties.monthly_rent",
-                text: $viewModel.monthlyRent
-            )
-            .keyboardType(.decimalPad)
-
-            TextField(
-                "tenants.deposit",
-                text: $viewModel.depositAmount
-            )
-            .keyboardType(.decimalPad)
-
-            Picker("properties.status",
-                selection: $viewModel.status
-            ) {
-                ForEach(TenantStatus.allCases, id: \.self) { status in
-                    Text(status.localizedName).tag(status)
                 }
             }
         }

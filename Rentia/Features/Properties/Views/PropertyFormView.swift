@@ -12,9 +12,6 @@ struct PropertyFormView: View {
 
             Form {
                 basicInfoSection
-                if viewModel.status == .rented {
-                    tenantSection
-                }
                 financialSection
                 detailsSection
                 saveButton
@@ -28,7 +25,6 @@ struct PropertyFormView: View {
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.loadTenants()
             if let propertyId {
                 viewModel.loadProperty(id: propertyId)
             }
@@ -36,18 +32,8 @@ struct PropertyFormView: View {
         .onChange(of: viewModel.didSave) {
             if viewModel.didSave { dismiss() }
         }
-        .onChange(of: viewModel.status) {
-            viewModel.clearTenantIfNeeded()
-        }
         .onChange(of: viewModel.type) {
             viewModel.normalizeRoomsBathroomsForType()
-        }
-        .sheet(isPresented: $viewModel.showCreateTenant) {
-            viewModel.loadTenants()
-        } content: {
-            NavigationStack {
-                TenantFormView(tenantId: nil)
-            }
         }
         .alert("common.error",
             isPresented: $viewModel.showError
@@ -88,57 +74,6 @@ struct PropertyFormView: View {
                     Text(status.localizedName).tag(status)
                 }
             }
-        }
-    }
-
-    private var tenantSection: some View {
-        Section {
-            if viewModel.tenants.isEmpty {
-                VStack(spacing: AppSpacing.medium) {
-                    Text("properties.no_tenants_registered")
-                        .font(AppTypography.body)
-                        .foregroundStyle(AppTheme.Colors.textSecondary)
-
-                    Button {
-                        viewModel.showCreateTenant = true
-                    } label: {
-                        Label(
-                            "properties.create_tenant",
-                            systemImage: "person.badge.plus"
-                        )
-                        .font(AppTypography.body)
-                        .fontWeight(.medium)
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, AppSpacing.small)
-            } else {
-                Picker("properties.tenant",
-                    selection: $viewModel.selectedTenantId
-                ) {
-                    Text("common.select")
-                        .tag(nil as String?)
-                    ForEach(viewModel.tenants) { tenant in
-                        Text(tenant.fullName).tag(tenant.id as String?)
-                    }
-                }
-
-                Button {
-                    viewModel.showCreateTenant = true
-                } label: {
-                    Label(
-                        "properties.create_new_tenant",
-                        systemImage: "person.badge.plus"
-                    )
-                    .font(AppTypography.caption)
-                }
-            }
-        } header: {
-            Text("properties.tenant")
-        } footer: {
-            Text(
-                "properties.select_tenant_helper"
-            )
         }
     }
 

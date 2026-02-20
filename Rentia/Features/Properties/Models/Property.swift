@@ -40,15 +40,19 @@ enum PropertyType: String, Codable, CaseIterable, Sendable {
 
 enum PropertyStatus: String, Codable, CaseIterable, Sendable {
     case available
-    case rented
     case maintenance
 
     var localizedName: LocalizedStringKey {
         switch self {
         case .available: "properties.status.available"
-        case .rented: "properties.status.rented"
         case .maintenance: "properties.status.maintenance"
         }
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self = Self(rawValue: rawValue) ?? .available
     }
 }
 

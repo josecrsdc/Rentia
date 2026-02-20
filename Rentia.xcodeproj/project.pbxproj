@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		82401BD42F461300003B9BB2 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 82401BD32F461300003B9BB2 /* Localizable.xcstrings */; };
 		82401CA22F4622AF003B9BB2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 82401BE22F461500003B9BB2 /* FirebaseAuth */; };
 		82401CA32F4622AF003B9BB2 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 82401BE32F461500003B9BB2 /* FirebaseFirestore */; };
 		82401CA42F4622AF003B9BB2 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 82401BE42F461500003B9BB2 /* GoogleSignIn */; };
@@ -16,7 +15,6 @@
 
 /* Begin PBXFileReference section */
 		82401BC52F460F13003B9BB2 /* Rentia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rentia.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		82401BD32F461300003B9BB2 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -58,7 +56,6 @@
 		82401BBC2F460F13003B9BB2 = {
 			isa = PBXGroup;
 			children = (
-				82401BD32F461300003B9BB2 /* Localizable.xcstrings */,
 				82401BC72F460F13003B9BB2 /* Rentia */,
 				82401BC62F460F13003B9BB2 /* Products */,
 			);
@@ -146,7 +143,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82401BD42F461300003B9BB2 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

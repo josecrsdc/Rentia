@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PropertyCard: View {
     let property: Property
+    var isRented: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
@@ -80,7 +81,7 @@ struct PropertyCard: View {
     }
 
     private var statusPill: some View {
-        Text(property.status.localizedName)
+        Text(statusLabel)
             .font(AppTypography.caption2)
             .fontWeight(.medium)
             .padding(.horizontal, AppSpacing.small)
@@ -90,11 +91,20 @@ struct PropertyCard: View {
             .clipShape(Capsule())
     }
 
+    private var statusLabel: LocalizedStringKey {
+        if isRented {
+            return "properties.status.rented"
+        }
+        return property.status.localizedName
+    }
+
     private var statusColor: Color {
+        if isRented {
+            return AppTheme.Colors.primary
+        }
         switch property.status {
-        case .available: AppTheme.Colors.success
-        case .rented: AppTheme.Colors.primary
-        case .maintenance: AppTheme.Colors.warning
+        case .available: return AppTheme.Colors.success
+        case .maintenance: return AppTheme.Colors.warning
         }
     }
 }

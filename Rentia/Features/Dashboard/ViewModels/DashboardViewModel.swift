@@ -6,6 +6,7 @@ final class DashboardViewModel {
     var properties: [Property] = []
     var tenants: [Tenant] = []
     var payments: [Payment] = []
+    var leases: [Lease] = []
     var isLoading = false
     var errorMessage: String?
 
@@ -23,7 +24,13 @@ final class DashboardViewModel {
 
     var occupancyRate: Double {
         guard !properties.isEmpty else { return 0 }
-        let rented = properties.filter { $0.status == .rented }.count
+        let activeLeasePropertyIds = Set(
+            leases.filter { $0.status == .active }.map(\.propertyId)
+        )
+        let rented = properties.filter { property in
+            guard let id = property.id else { return false }
+            return activeLeasePropertyIds.contains(id)
+        }.count
         return Double(rented) / Double(properties.count) * 100
     }
 
@@ -56,10 +63,16 @@ final class DashboardViewModel {
                     whereField: "ownerId",
                     isEqualTo: userId
                 )
+                async let leasesResult: [Lease] = firestoreService.readAll(
+                    from: "leases",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
 
                 properties = try await propertiesResult
                 tenants = try await tenantsResult
                 payments = try await paymentsResult
+                leases = try await leasesResult
             } catch {
                 errorMessage = error.localizedDescription
             }

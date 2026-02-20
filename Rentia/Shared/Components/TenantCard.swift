@@ -2,7 +2,6 @@ import SwiftUI
 
 struct TenantCard: View {
     let tenant: Tenant
-    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
 
     var body: some View {
         HStack(spacing: AppSpacing.medium) {
@@ -17,37 +16,11 @@ struct TenantCard: View {
                     .font(AppTypography.caption)
                     .foregroundStyle(AppTheme.Colors.textSecondary)
                     .lineLimit(1)
-
-                if let leaseEnd = tenant.leaseEndDate {
-                    let isExpired = leaseEnd < Date()
-                    Text(
-                        isExpired
-                            ? String(localized: "tenants.lease_expired")
-                            : String(
-                                format: String(localized: "tenants.lease_until"),
-                                leaseEnd.shortFormatted
-                            )
-                    )
-                    .font(AppTypography.caption2)
-                    .foregroundStyle(
-                        isExpired
-                            ? AppTheme.Colors.warning.opacity(0.85)
-                            : AppTheme.Colors.textLight
-                    )
-                }
             }
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: AppSpacing.extraSmall) {
-                statusPill
-
-                Text(
-                    tenant.monthlyRent.formatted(.currency(code: defaultCurrency))
-                )
-                .font(AppTypography.moneySmall)
-                .foregroundStyle(AppTheme.Colors.primary)
-            }
+            statusPill
         }
         .padding(AppSpacing.medium)
         .background(AppTheme.Colors.cardBackground)

@@ -5,6 +5,7 @@ import SwiftUI
 struct RentiaApp: App {
     @State private var container: DIContainer
     @AppStorage("appearanceMode") private var appearanceMode = "system"
+    @State private var fontScaleManager = FontScaleManager()
 
     init() {
         FirebaseApp.configure()
@@ -22,6 +23,8 @@ struct RentiaApp: App {
         WindowGroup {
             rootView
                 .environment(\.container, container)
+                .dynamicTypeSize(fontScaleManager.dynamicTypeSize ?? .medium)
+                .environment(fontScaleManager)
                 .preferredColorScheme(preferredColorScheme)
                 .onAppear {
                     container.authState.startListening()

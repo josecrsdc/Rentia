@@ -7,7 +7,6 @@ struct TenantDetailView: View {
     @State private var payments: [Payment] = []
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
-    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
     @Environment(\.dismiss) private var dismiss
 
     private let firestoreService = FirestoreService()
@@ -55,7 +54,6 @@ struct TenantDetailView: View {
                 if !properties.isEmpty {
                     propertiesSection
                 }
-                leaseSection(tenant)
                 paymentsSection
                 deleteButton
             }
@@ -158,45 +156,6 @@ struct TenantDetailView: View {
                         .clipShape(Capsule())
                 }
             }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .cardStyle()
-    }
-
-    private func leaseSection(_ tenant: Tenant) -> some View {
-        VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            Text("tenants.lease")
-                .font(AppTypography.title3)
-
-            if let start = tenant.leaseStartDate {
-                detailRow(
-                    icon: "calendar",
-                    label: "tenants.start",
-                    value: start.shortFormatted
-                )
-            }
-
-            if let end = tenant.leaseEndDate {
-                detailRow(
-                    icon: "calendar.badge.clock",
-                    label: "tenants.end",
-                    value: end.shortFormatted
-                )
-            }
-
-            detailRow(
-                icon: "dollarsign.circle",
-                label: "tenants.rent",
-                value: tenant.monthlyRent
-                    .formatted(.currency(code: defaultCurrency))
-            )
-
-            detailRow(
-                icon: "shield",
-                label: "tenants.deposit",
-                value: tenant.depositAmount
-                    .formatted(.currency(code: defaultCurrency))
-            )
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()

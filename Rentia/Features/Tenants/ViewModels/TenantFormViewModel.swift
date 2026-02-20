@@ -10,10 +10,6 @@ final class TenantFormViewModel {
     var idNumber = ""
     var propertyIds: [String] = []
     var availableProperties: [Property] = []
-    var leaseStartDate = Date()
-    var leaseEndDate = Date().addingTimeInterval(365 * 24 * 60 * 60)
-    var monthlyRent = ""
-    var depositAmount = ""
     var status: TenantStatus = .active
     var isLoading = false
     var errorMessage: String?
@@ -79,11 +75,6 @@ final class TenantFormViewModel {
                 phone = tenant.phone
                 idNumber = tenant.idNumber ?? ""
                 propertyIds = tenant.propertyIds
-                leaseStartDate = tenant.leaseStartDate ?? Date()
-                leaseEndDate = tenant.leaseEndDate
-                    ?? Date().addingTimeInterval(365 * 24 * 60 * 60)
-                monthlyRent = String(format: "%.2f", tenant.monthlyRent)
-                depositAmount = String(format: "%.2f", tenant.depositAmount)
                 status = tenant.status
             } catch {
                 errorMessage = error.localizedDescription
@@ -106,10 +97,6 @@ final class TenantFormViewModel {
             email: email.trimmed,
             phone: phone.trimmed,
             idNumber: idNumber.trimmed.isEmpty ? nil : idNumber.trimmed,
-            leaseStartDate: leaseStartDate,
-            leaseEndDate: leaseEndDate,
-            monthlyRent: Double(monthlyRent) ?? 0,
-            depositAmount: Double(depositAmount) ?? 0,
             status: status,
             createdAt: Date()
         )
