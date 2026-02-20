@@ -1283,14 +1283,14 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Monthly rent"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renta mensual"
+            "value" : "Alquiler mensual"
           }
         }
       }
@@ -1403,22 +1403,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aún no se han registrado pagos para esta propiedad"
-          }
-        }
-      }
-    },
-    "properties.view_payments" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View all payments"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ver todos los pagos"
           }
         }
       }
@@ -1659,6 +1643,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "USD"
+          }
+        }
+      }
+    },
+    "properties.view_payments" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View all payments"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver todos los pagos"
           }
         }
       }
@@ -1971,14 +1971,14 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Deposit"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Depósito"
+            "value" : "Fianza"
           }
         }
       }
@@ -2175,22 +2175,6 @@
         }
       }
     },
-    "tenants.lease_until" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lease until %@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contrato hasta %@"
-          }
-        }
-      }
-    },
     "tenants.lease_start" : {
       "localizations" : {
         "en" : {
@@ -2203,6 +2187,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inicio del contrato"
+          }
+        }
+      }
+    },
+    "tenants.lease_until" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lease until %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrato hasta %@"
           }
         }
       }
@@ -2275,14 +2275,14 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Rent"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renta"
+            "value" : "Alquiler"
           }
         }
       }
