@@ -86,12 +86,6 @@ struct PropertyFormView: View {
 
     private var financialSection: some View {
         Section("properties.financial_information") {
-            TextField(
-                "properties.monthly_rent",
-                text: $viewModel.monthlyRent
-            )
-            .keyboardType(.decimalPad)
-
             Picker("properties.currency",
                 selection: $viewModel.currency
             ) {

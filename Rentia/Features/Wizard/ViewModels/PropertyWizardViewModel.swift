@@ -25,7 +25,6 @@ final class PropertyWizardViewModel {
     // Accumulated context
     var createdPropertyId: String?
     var createdPropertyName: String?
-    var createdPropertyRent: Double?
     var createdPropertyCurrency: String?
     var createdTenantId: String?
     var createdTenantName: String?
@@ -62,7 +61,6 @@ final class PropertyWizardViewModel {
                     from: "properties"
                 )
                 createdPropertyName = property.name
-                createdPropertyRent = property.monthlyRent
                 createdPropertyCurrency = property.currency
             } catch {
                 createdPropertyName = savedId

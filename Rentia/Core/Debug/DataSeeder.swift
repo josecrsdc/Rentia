@@ -17,7 +17,7 @@ final class DataSeeder {
                     name: "Apartamento Centro",
                     address: "Calle Mayor 15, 2B, Madrid",
                     type: .apartment,
-                    monthlyRent: 950,
+
                     currency: "EUR",
                     status: .available,
                     description: "Apartamento luminoso en el centro con vistas a la plaza",
@@ -36,7 +36,7 @@ final class DataSeeder {
                     name: "Casa Suburbia",
                     address: "Av. de los Pinos 42, Valencia",
                     type: .house,
-                    monthlyRent: 1200,
+
                     currency: "EUR",
                     status: .available,
                     description: "Casa con jardin y garaje",
@@ -55,7 +55,7 @@ final class DataSeeder {
                     name: "Local Comercial",
                     address: "Gran Via 88, Bajo, Barcelona",
                     type: .commercial,
-                    monthlyRent: 2500,
+
                     currency: "EUR",
                     status: .available,
                     description: "Local en zona comercial de alto trafico",
@@ -74,7 +74,7 @@ final class DataSeeder {
                     name: "Plaza de Garaje Centro",
                     address: "Calle Estudiantes 7, Sevilla",
                     type: .garage,
-                    monthlyRent: 350,
+
                     currency: "EUR",
                     status: .maintenance,
                     description: "Plaza de garaje amplia cerca de la universidad",
@@ -93,7 +93,7 @@ final class DataSeeder {
                     name: "Terreno en la Sierra",
                     address: "Camino del Pinar, Segovia",
                     type: .land,
-                    monthlyRent: 600,
+
                     currency: "EUR",
                     status: .available,
                     description: "Terreno rustico con acceso directo por camino",

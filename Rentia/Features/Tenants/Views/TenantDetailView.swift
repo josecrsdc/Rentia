@@ -1,9 +1,11 @@
+import FirebaseAuth
 import SwiftUI
 
 struct TenantDetailView: View {
     let tenantId: String
     @State private var tenant: Tenant?
     @State private var properties: [Property] = []
+    @State private var leases: [Lease] = []
     @State private var payments: [Payment] = []
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
@@ -51,6 +53,9 @@ struct TenantDetailView: View {
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 tenantHeader(tenant)
                 contactSection(tenant)
+                if !leases.isEmpty {
+                    leasesSection
+                }
                 if !properties.isEmpty {
                     propertiesSection
                 }
@@ -122,6 +127,75 @@ struct TenantDetailView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
+    }
+
+    // MARK: - Leases Section
+
+    private var leasesSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text("leases.tenant_contracts")
+                .font(AppTypography.title3)
+
+            ForEach(leases) { lease in
+                NavigationLink(
+                    value: LeaseDestination.detail(lease.id ?? "")
+                ) {
+                    HStack(spacing: AppSpacing.small) {
+                        Image(systemName: "doc.text")
+                            .foregroundStyle(AppTheme.Colors.primary)
+                            .frame(width: 24)
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(
+                                lease.rentAmount.formatted(
+                                    .currency(code: "EUR")
+                                )
+                            )
+                            .font(AppTypography.body)
+                            .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                            HStack(spacing: AppSpacing.extraSmall) {
+                                Text(lease.startDate.formatted(
+                                    date: .abbreviated, time: .omitted
+                                ))
+                                if let endDate = lease.endDate {
+                                    Text("— \(endDate.formatted(date: .abbreviated, time: .omitted))")
+                                }
+                            }
+                            .font(AppTypography.caption)
+                            .foregroundStyle(AppTheme.Colors.textSecondary)
+                        }
+
+                        Spacer()
+
+                        Text(lease.status.localizedName)
+                            .font(AppTypography.caption2)
+                            .fontWeight(.medium)
+                            .padding(.horizontal, AppSpacing.small)
+                            .padding(.vertical, AppSpacing.extraSmall)
+                            .background(leaseStatusColor(lease.status).opacity(0.15))
+                            .foregroundStyle(leaseStatusColor(lease.status))
+                            .clipShape(Capsule())
+
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.Colors.textLight)
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    private func leaseStatusColor(_ status: LeaseStatus) -> Color {
+        switch status {
+        case .active: AppTheme.Colors.success
+        case .draft: AppTheme.Colors.warning
+        case .expired: AppTheme.Colors.error
+        case .ended: AppTheme.Colors.textSecondary
+        }
     }
 
     private var propertiesSection: some View {
@@ -252,6 +326,8 @@ struct TenantDetailView: View {
     }
 
     private func loadTenant() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
         Task {
             do {
                 let loadedTenant: Tenant = try await firestoreService.read(
@@ -263,6 +339,17 @@ struct TenantDetailView: View {
             } catch {
                 // Handle error
             }
+
+            let allLeases: [Lease] = (
+                try? await firestoreService.readAll(
+                    from: "leases",
+                    whereField: "tenantId",
+                    isEqualTo: tenantId,
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+            ) ?? []
+            leases = allLeases.filter { $0.status == .active || $0.status == .draft }
 
             payments = (
                 try? await firestoreService.readAll(

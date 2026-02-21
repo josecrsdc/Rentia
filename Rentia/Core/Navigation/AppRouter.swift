@@ -49,3 +49,9 @@ enum PaymentDestination: Hashable {
     case detail(String)
     case form(String?)
 }
+
+enum LeaseDestination: Hashable {
+    case detail(String)
+    case form(String?)
+    case formForProperty(String)
+}

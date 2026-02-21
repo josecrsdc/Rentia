@@ -4,7 +4,6 @@ struct LeaseFormView: View {
     let leaseId: String?
     var propertyId: String?
     var tenantId: String?
-    var prefilledRent: Double?
     var onSaved: ((String) -> Void)?
     @State private var viewModel = LeaseFormViewModel()
     @Environment(\.dismiss) private var dismiss
@@ -32,13 +31,18 @@ struct LeaseFormView: View {
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            if let propertyId, let tenantId {
+            if let leaseId {
+                viewModel.loadLease(id: leaseId)
+            } else if let propertyId, let tenantId {
                 viewModel.configure(
                     propertyId: propertyId,
                     tenantId: tenantId,
-                    rent: prefilledRent ?? 0,
+                    rent: 0,
                     currency: ""
                 )
+            } else if let propertyId {
+                viewModel.propertyId = propertyId
+                viewModel.preAssignedPropertyId = propertyId
             }
             viewModel.loadData()
         }

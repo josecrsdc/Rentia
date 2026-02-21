@@ -73,6 +73,16 @@ struct PropertyListView: View {
                 PaymentFormView(paymentId: id)
             }
         }
+        .navigationDestination(for: LeaseDestination.self) { destination in
+            switch destination {
+            case .detail(let id):
+                LeaseDetailView(leaseId: id)
+            case .form(let id):
+                LeaseFormView(leaseId: id)
+            case .formForProperty(let propertyId):
+                LeaseFormView(leaseId: nil, propertyId: propertyId)
+            }
+        }
         .fullScreenCover(isPresented: $showWizard) {
             PropertyWizardView()
         }

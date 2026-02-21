@@ -64,7 +64,6 @@ struct PropertyWizardView: View {
         case .tenant:
             TenantFormView(
                 tenantId: nil,
-                preAssignedPropertyIds: [viewModel.createdPropertyId].compactMap { $0 },
                 onSaved: { savedId in
                     viewModel.advanceFromTenant(savedId: savedId)
                 }
@@ -75,7 +74,6 @@ struct PropertyWizardView: View {
                 leaseId: nil,
                 propertyId: viewModel.createdPropertyId,
                 tenantId: viewModel.createdTenantId,
-                prefilledRent: viewModel.createdPropertyRent,
                 onSaved: { savedId in
                     viewModel.advanceFromLease(savedId: savedId)
                 }

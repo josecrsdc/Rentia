@@ -2,7 +2,6 @@ import SwiftUI
 
 struct TenantFormView: View {
     let tenantId: String?
-    var preAssignedPropertyIds: [String] = []
     var onSaved: ((String) -> Void)?
     @State private var viewModel = TenantFormViewModel()
     @Environment(\.dismiss) private var dismiss
@@ -15,9 +14,6 @@ struct TenantFormView: View {
             Form {
                 personalInfoSection
                 contactSection
-                if !viewModel.hidePropertySelector {
-                    propertiesSection
-                }
                 saveButton
             }
             .scrollContentBackground(.hidden)
@@ -29,12 +25,6 @@ struct TenantFormView: View {
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            if !preAssignedPropertyIds.isEmpty {
-                viewModel.preAssignedPropertyIds = preAssignedPropertyIds
-                viewModel.propertyIds = preAssignedPropertyIds
-            } else {
-                viewModel.loadProperties()
-            }
             if let tenantId {
                 viewModel.loadTenant(id: tenantId)
             }
@@ -102,63 +92,6 @@ struct TenantFormView: View {
             )
             .keyboardType(.phonePad)
             .textContentType(.telephoneNumber)
-        }
-    }
-
-    private var propertiesSection: some View {
-        Section {
-            if viewModel.availableProperties.isEmpty {
-                Text("tenants.no_properties_registered")
-                    .foregroundStyle(AppTheme.Colors.textSecondary)
-            } else {
-                ForEach(viewModel.availableProperties) { property in
-                    propertyRow(property)
-                }
-            }
-        } header: {
-            Text("tabs.properties")
-        } footer: {
-            if !viewModel.availableProperties.isEmpty {
-                Text(
-                    "tenants.select_properties_helper"
-                )
-            }
-        }
-    }
-
-    private func propertyRow(_ property: Property) -> some View {
-        Button {
-            if let propertyId = property.id {
-                viewModel.toggleProperty(propertyId)
-            }
-        } label: {
-            HStack {
-                Image(systemName: property.type.icon)
-                    .foregroundStyle(AppTheme.Colors.primary)
-                    .frame(width: 24)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(property.name)
-                        .font(AppTypography.body)
-                        .foregroundStyle(AppTheme.Colors.textPrimary)
-
-                    Text(property.address)
-                        .font(AppTypography.caption)
-                        .foregroundStyle(AppTheme.Colors.textSecondary)
-                        .lineLimit(1)
-                }
-
-                Spacer()
-
-                if let propertyId = property.id,
-                   viewModel.isPropertySelected(propertyId) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(AppTheme.Colors.primary)
-                } else {
-                    Image(systemName: "circle")
-                        .foregroundStyle(AppTheme.Colors.textLight)
-                }
-            }
         }
     }
 

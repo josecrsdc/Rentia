@@ -7,6 +7,7 @@ struct PropertyDetailView: View {
     @State private var property: Property?
     @State private var tenants: [Tenant] = []
     @State private var activeLease: Lease?
+    @State private var pastLeases: [Lease] = []
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
     @Environment(\.dismiss) private var dismiss
@@ -53,6 +54,10 @@ struct PropertyDetailView: View {
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 propertyHeader(property)
                 propertyDetails(property)
+                leaseSection(property)
+                if !pastLeases.isEmpty {
+                    leaseHistorySection(property)
+                }
                 tenantsSection
                 paymentsSection
                 propertyStats(property)
@@ -76,15 +81,6 @@ struct PropertyDetailView: View {
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
             }
-
-            Text(
-                property.monthlyRent.formatted(
-                    .currency(code: property.currency)
-                )
-            )
-            .font(AppTypography.moneyLarge)
-            .foregroundStyle(AppTheme.Colors.primary)
-            .padding(.top, AppSpacing.small)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
@@ -138,6 +134,174 @@ struct PropertyDetailView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
+    }
+
+    // MARK: - Lease Section
+
+    private func leaseSection(_ property: Property) -> some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            if let activeLease {
+                Text("leases.active_contract")
+                    .font(AppTypography.title3)
+
+                NavigationLink(
+                    value: LeaseDestination.detail(activeLease.id ?? "")
+                ) {
+                    HStack(spacing: AppSpacing.small) {
+                        Image(systemName: "doc.text")
+                            .font(.title3)
+                            .foregroundStyle(AppTheme.Colors.primary)
+                            .frame(width: 44, height: 44)
+                            .background(AppTheme.Colors.primary.opacity(0.1))
+                            .clipShape(
+                                RoundedRectangle(
+                                    cornerRadius: AppTheme.CornerRadius.small
+                                )
+                            )
+
+                        VStack(alignment: .leading, spacing: AppSpacing.extraSmall) {
+                            Text(
+                                activeLease.rentAmount.formatted(
+                                    .currency(code: property.currency)
+                                )
+                            )
+                            .font(AppTypography.headline)
+                            .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                            HStack(spacing: AppSpacing.extraSmall) {
+                                Text(activeLease.startDate.formatted(
+                                    date: .abbreviated, time: .omitted
+                                ))
+                                Text("—")
+                                if let endDate = activeLease.endDate {
+                                    Text(endDate.formatted(
+                                        date: .abbreviated, time: .omitted
+                                    ))
+                                } else {
+                                    Text("leases.indefinite")
+                                }
+                            }
+                            .font(AppTypography.caption)
+                            .foregroundStyle(AppTheme.Colors.textSecondary)
+                        }
+
+                        Spacer()
+
+                        Text(activeLease.status.localizedName)
+                            .font(AppTypography.caption2)
+                            .fontWeight(.medium)
+                            .padding(.horizontal, AppSpacing.small)
+                            .padding(.vertical, AppSpacing.extraSmall)
+                            .background(AppTheme.Colors.success.opacity(0.15))
+                            .foregroundStyle(AppTheme.Colors.success)
+                            .clipShape(Capsule())
+
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.Colors.textLight)
+                    }
+                }
+                .buttonStyle(.plain)
+            } else {
+                Text("leases.no_active_contract")
+                    .font(AppTypography.title3)
+
+                NavigationLink(
+                    value: LeaseDestination.formForProperty(propertyId)
+                ) {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                        Text("leases.create_contract")
+                    }
+                    .font(AppTypography.body)
+                    .fontWeight(.medium)
+                    .frame(maxWidth: .infinity)
+                    .padding(AppSpacing.medium)
+                    .background(AppTheme.Colors.primary.opacity(0.1))
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large)
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    // MARK: - Lease History
+
+    private func leaseHistorySection(_ property: Property) -> some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text("leases.history")
+                .font(AppTypography.title3)
+
+            ForEach(pastLeases) { lease in
+                NavigationLink(
+                    value: LeaseDestination.detail(lease.id ?? "")
+                ) {
+                    HStack(spacing: AppSpacing.small) {
+                        Image(systemName: "doc.text")
+                            .foregroundStyle(AppTheme.Colors.textSecondary)
+                            .frame(width: 24)
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(
+                                lease.rentAmount.formatted(
+                                    .currency(code: property.currency)
+                                )
+                            )
+                            .font(AppTypography.body)
+                            .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                            HStack(spacing: AppSpacing.extraSmall) {
+                                Text(lease.startDate.formatted(
+                                    date: .abbreviated, time: .omitted
+                                ))
+                                Text("—")
+                                if let endDate = lease.endDate {
+                                    Text(endDate.formatted(
+                                        date: .abbreviated, time: .omitted
+                                    ))
+                                } else {
+                                    Text("leases.indefinite")
+                                }
+                            }
+                            .font(AppTypography.caption)
+                            .foregroundStyle(AppTheme.Colors.textSecondary)
+                        }
+
+                        Spacer()
+
+                        Text(lease.status.localizedName)
+                            .font(AppTypography.caption2)
+                            .fontWeight(.medium)
+                            .padding(.horizontal, AppSpacing.small)
+                            .padding(.vertical, AppSpacing.extraSmall)
+                            .background(leaseStatusColor(lease.status).opacity(0.15))
+                            .foregroundStyle(leaseStatusColor(lease.status))
+                            .clipShape(Capsule())
+
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(AppTheme.Colors.textLight)
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    private func leaseStatusColor(_ status: LeaseStatus) -> Color {
+        switch status {
+        case .active: AppTheme.Colors.success
+        case .draft: AppTheme.Colors.warning
+        case .expired: AppTheme.Colors.error
+        case .ended: AppTheme.Colors.textSecondary
+        }
     }
 
     // MARK: - Tenants Section
@@ -377,10 +541,15 @@ struct PropertyDetailView: View {
                 try? await firestoreService.readAll(
                     from: "leases",
                     whereField: "propertyId",
-                    isEqualTo: propertyId
+                    isEqualTo: propertyId,
+                    whereField: "ownerId",
+                    isEqualTo: userId
                 )
             ) ?? []
             activeLease = allLeases.first { $0.status == .active }
+            pastLeases = allLeases
+                .filter { $0.status != .active }
+                .sorted { ($0.endDate ?? $0.startDate) > ($1.endDate ?? $1.startDate) }
 
             isLoading = false
         }

@@ -64,7 +64,6 @@ struct Property: Codable, Identifiable, Sendable {
     var name: String
     var address: String
     var type: PropertyType
-    var monthlyRent: Double
     var currency: String
     var status: PropertyStatus
     var description: String?

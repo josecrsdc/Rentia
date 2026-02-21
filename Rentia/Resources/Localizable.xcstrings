@@ -14,6 +14,9 @@
     "—" : {
 
     },
+    "— %@" : {
+
+    },
     "%lld" : {
       "localizations" : {
         "en" : {
@@ -514,6 +517,38 @@
         }
       }
     },
+    "leases.activate" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activate"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activar"
+          }
+        }
+      }
+    },
+    "leases.active_contract" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active contract"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrato activo"
+          }
+        }
+      }
+    },
     "leases.assignment" : {
       "localizations" : {
         "en" : {
@@ -526,6 +561,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Asignación"
+          }
+        }
+      }
+    },
+    "leases.billing_day" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Billing day"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Día de cobro"
           }
         }
       }
@@ -546,6 +597,23 @@
         }
       }
     },
+    "leases.contract_summary" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contract summary"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumen del contrato"
+          }
+        }
+      }
+    },
     "leases.create" : {
       "localizations" : {
         "en" : {
@@ -558,6 +626,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Crear Contrato"
+          }
+        }
+      }
+    },
+    "leases.create_contract" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create contract"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear contrato"
           }
         }
       }
@@ -578,6 +662,38 @@
         }
       }
     },
+    "leases.delete.confirmation.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to delete this lease? This action cannot be undone."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Estás seguro de que deseas eliminar este contrato? Esta acción no se puede deshacer."
+          }
+        }
+      }
+    },
+    "leases.delete.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete lease"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar contrato"
+          }
+        }
+      }
+    },
     "leases.deposit_amount" : {
       "localizations" : {
         "en" : {
@@ -590,6 +706,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Monto de depósito"
+          }
+        }
+      }
+    },
+    "leases.detail.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lease"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrato"
           }
         }
       }
@@ -642,6 +774,38 @@
         }
       }
     },
+    "leases.error.active_exists" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An active lease already exists for this property"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya existe un contrato activo para esta propiedad"
+          }
+        }
+      }
+    },
+    "leases.finalize" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalize"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar"
+          }
+        }
+      }
+    },
     "leases.financial" : {
       "localizations" : {
         "en" : {
@@ -674,6 +838,54 @@
         }
       }
     },
+    "leases.history" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contract history"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial de contratos"
+          }
+        }
+      }
+    },
+    "leases.indefinite" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indefinite"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indefinido"
+          }
+        }
+      }
+    },
+    "leases.mark_expired" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark expired"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcar expirado"
+          }
+        }
+      }
+    },
     "leases.new.title" : {
       "localizations" : {
         "en" : {
@@ -686,6 +898,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nuevo Contrato"
+          }
+        }
+      }
+    },
+    "leases.no_active_contract" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No active contract"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin contrato activo"
           }
         }
       }
@@ -878,6 +1106,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inquilino"
+          }
+        }
+      }
+    },
+    "leases.tenant_contracts" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contracts"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contratos"
           }
         }
       }
@@ -1717,6 +1961,7 @@
       }
     },
     "properties.monthly_rent" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2750,6 +2995,7 @@
       }
     },
     "tenants.no_properties_registered" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2831,6 +3077,7 @@
       }
     },
     "tenants.select_properties_helper" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

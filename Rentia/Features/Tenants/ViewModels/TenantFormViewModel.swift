@@ -8,22 +8,15 @@ final class TenantFormViewModel {
     var email = ""
     var phone = ""
     var idNumber = ""
-    var propertyIds: [String] = []
-    var availableProperties: [Property] = []
     var status: TenantStatus = .active
     var isLoading = false
     var errorMessage: String?
     var showError = false
     var didSave = false
     var savedId: String?
-    var preAssignedPropertyIds: [String] = []
-
-    var hidePropertySelector: Bool {
-        !preAssignedPropertyIds.isEmpty
-    }
-
     private let firestoreService = FirestoreService()
     private var editingTenantId: String?
+    private var existingPropertyIds: [String] = []
 
     var isEditing: Bool {
         editingTenantId != nil
@@ -34,35 +27,6 @@ final class TenantFormViewModel {
         && lastName.isNotEmpty
         && email.isValidEmail
         && phone.isNotEmpty
-    }
-
-    func loadProperties() {
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-
-        Task {
-            do {
-                availableProperties = try await firestoreService.readAll(
-                    from: "properties",
-                    whereField: "ownerId",
-                    isEqualTo: userId
-                )
-            } catch {
-                errorMessage = error.localizedDescription
-                showError = true
-            }
-        }
-    }
-
-    func isPropertySelected(_ propertyId: String) -> Bool {
-        propertyIds.contains(propertyId)
-    }
-
-    func toggleProperty(_ propertyId: String) {
-        if let index = propertyIds.firstIndex(of: propertyId) {
-            propertyIds.remove(at: index)
-        } else {
-            propertyIds.append(propertyId)
-        }
     }
 
     func loadTenant(id: String) {
@@ -80,8 +44,8 @@ final class TenantFormViewModel {
                 email = tenant.email
                 phone = tenant.phone
                 idNumber = tenant.idNumber ?? ""
-                propertyIds = tenant.propertyIds
                 status = tenant.status
+                existingPropertyIds = tenant.propertyIds
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true
@@ -94,13 +58,10 @@ final class TenantFormViewModel {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         isLoading = true
 
-        let finalPropertyIds = preAssignedPropertyIds.isEmpty
-            ? propertyIds : preAssignedPropertyIds
-
         let tenant = Tenant(
             id: editingTenantId,
             ownerId: userId,
-            propertyIds: finalPropertyIds,
+            propertyIds: existingPropertyIds,
             firstName: firstName.trimmed,
             lastName: lastName.trimmed,
             email: email.trimmed,

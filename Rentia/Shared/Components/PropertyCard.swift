@@ -59,14 +59,6 @@ struct PropertyCard: View {
                 }
 
                 Spacer()
-
-                Text(
-                    property.monthlyRent.formatted(
-                        .currency(code: property.currency)
-                    )
-                )
-                .font(AppTypography.moneySmall)
-                .foregroundStyle(AppTheme.Colors.primary)
             }
         }
         .padding(AppSpacing.medium)

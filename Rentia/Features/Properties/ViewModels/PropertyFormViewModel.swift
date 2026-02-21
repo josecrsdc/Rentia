@@ -6,7 +6,6 @@ final class PropertyFormViewModel {
     var name = ""
     var address = ""
     var type: PropertyType = .apartment
-    var monthlyRent = ""
     var currency = UserDefaults.standard.string(forKey: "defaultCurrency") ?? "EUR"
     var status: PropertyStatus = .available
     var propertyDescription = ""
@@ -29,7 +28,6 @@ final class PropertyFormViewModel {
     var isFormValid: Bool {
         name.isNotEmpty
         && address.isNotEmpty
-        && (Double(monthlyRent) ?? 0) > 0
     }
 
     func normalizeRoomsBathroomsForType() {
@@ -59,7 +57,6 @@ final class PropertyFormViewModel {
                 name = property.name
                 address = property.address
                 type = property.type
-                monthlyRent = String(format: "%.2f", property.monthlyRent)
                 currency = property.currency
                 status = property.status
                 propertyDescription = property.description ?? ""
@@ -87,7 +84,6 @@ final class PropertyFormViewModel {
             name: name.trimmed,
             address: address.trimmed,
             type: type,
-            monthlyRent: Double(monthlyRent) ?? 0,
             currency: currency,
             status: status,
             description: propertyDescription.trimmed.isEmpty
