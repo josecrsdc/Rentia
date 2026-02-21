@@ -15,6 +15,12 @@ final class TenantFormViewModel {
     var errorMessage: String?
     var showError = false
     var didSave = false
+    var savedId: String?
+    var preAssignedPropertyIds: [String] = []
+
+    var hidePropertySelector: Bool {
+        !preAssignedPropertyIds.isEmpty
+    }
 
     private let firestoreService = FirestoreService()
     private var editingTenantId: String?
@@ -88,10 +94,13 @@ final class TenantFormViewModel {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         isLoading = true
 
+        let finalPropertyIds = preAssignedPropertyIds.isEmpty
+            ? propertyIds : preAssignedPropertyIds
+
         let tenant = Tenant(
             id: editingTenantId,
             ownerId: userId,
-            propertyIds: propertyIds,
+            propertyIds: finalPropertyIds,
             firstName: firstName.trimmed,
             lastName: lastName.trimmed,
             email: email.trimmed,
@@ -110,10 +119,11 @@ final class TenantFormViewModel {
                         in: "tenants"
                     )
                 } else {
-                    _ = try await firestoreService.create(
+                    let docId = try await firestoreService.create(
                         tenant,
                         in: "tenants"
                     )
+                    savedId = docId
                 }
                 didSave = true
             } catch {

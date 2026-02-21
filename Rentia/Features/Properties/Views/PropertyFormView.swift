@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PropertyFormView: View {
     let propertyId: String?
+    var onSaved: ((String) -> Void)?
     @State private var viewModel = PropertyFormViewModel()
     @Environment(\.dismiss) private var dismiss
 
@@ -30,7 +31,13 @@ struct PropertyFormView: View {
             }
         }
         .onChange(of: viewModel.didSave) {
-            if viewModel.didSave { dismiss() }
+            if viewModel.didSave {
+                if let onSaved, let savedId = viewModel.savedId {
+                    onSaved(savedId)
+                } else {
+                    dismiss()
+                }
+            }
         }
         .onChange(of: viewModel.type) {
             viewModel.normalizeRoomsBathroomsForType()

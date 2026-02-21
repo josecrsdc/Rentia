@@ -2,6 +2,8 @@ import SwiftUI
 
 struct TenantFormView: View {
     let tenantId: String?
+    var preAssignedPropertyIds: [String] = []
+    var onSaved: ((String) -> Void)?
     @State private var viewModel = TenantFormViewModel()
     @Environment(\.dismiss) private var dismiss
 
@@ -13,7 +15,9 @@ struct TenantFormView: View {
             Form {
                 personalInfoSection
                 contactSection
-                propertiesSection
+                if !viewModel.hidePropertySelector {
+                    propertiesSection
+                }
                 saveButton
             }
             .scrollContentBackground(.hidden)
@@ -25,13 +29,24 @@ struct TenantFormView: View {
         )
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.loadProperties()
+            if !preAssignedPropertyIds.isEmpty {
+                viewModel.preAssignedPropertyIds = preAssignedPropertyIds
+                viewModel.propertyIds = preAssignedPropertyIds
+            } else {
+                viewModel.loadProperties()
+            }
             if let tenantId {
                 viewModel.loadTenant(id: tenantId)
             }
         }
         .onChange(of: viewModel.didSave) {
-            if viewModel.didSave { dismiss() }
+            if viewModel.didSave {
+                if let onSaved, let savedId = viewModel.savedId {
+                    onSaved(savedId)
+                } else {
+                    dismiss()
+                }
+            }
         }
         .alert("common.error",
             isPresented: $viewModel.showError

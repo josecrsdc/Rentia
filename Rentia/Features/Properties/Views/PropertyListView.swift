@@ -3,6 +3,7 @@ import SwiftUI
 struct PropertyListView: View {
     @State private var viewModel = PropertyListViewModel()
     @State private var showCreateProperty = false
+    @State private var showWizard = false
 
     var body: some View {
         ZStack {
@@ -26,7 +27,19 @@ struct PropertyListView: View {
         .navigationTitle("tabs.properties")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: PropertyDestination.form(nil)) {
+                Menu {
+                    Button {
+                        showCreateProperty = true
+                    } label: {
+                        Label("properties.add", systemImage: "plus")
+                    }
+
+                    Button {
+                        showWizard = true
+                    } label: {
+                        Label("wizard.menu_title", systemImage: "wand.and.stars")
+                    }
+                } label: {
                     Image(systemName: "plus")
                 }
             }
@@ -59,6 +72,9 @@ struct PropertyListView: View {
             case .form(let id):
                 PaymentFormView(paymentId: id)
             }
+        }
+        .fullScreenCover(isPresented: $showWizard) {
+            PropertyWizardView()
         }
         .refreshable { viewModel.loadProperties() }
         .onAppear { viewModel.loadProperties() }

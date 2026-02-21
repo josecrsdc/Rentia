@@ -17,6 +17,7 @@ final class PropertyFormViewModel {
     var errorMessage: String?
     var showError = false
     var didSave = false
+    var savedId: String?
 
     private let firestoreService = FirestoreService()
     private var editingPropertyId: String?
@@ -107,10 +108,11 @@ final class PropertyFormViewModel {
                         in: "properties"
                     )
                 } else {
-                    _ = try await firestoreService.create(
+                    let docId = try await firestoreService.create(
                         property,
                         in: "properties"
                     )
+                    savedId = docId
                 }
 
                 didSave = true
