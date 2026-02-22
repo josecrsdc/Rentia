@@ -58,7 +58,7 @@ struct PropertyDetailView: View {
                 if !pastLeases.isEmpty {
                     leaseHistorySection(property)
                 }
-                tenantsSection
+                // tenantsSection
                 paymentsSection
                 propertyStats(property)
                 deleteButton
