@@ -60,10 +60,25 @@ struct PropertyFormView: View {
                 text: $viewModel.name
             )
 
-            TextField(
-                "properties.address",
-                text: $viewModel.address
-            )
+            NavigationLink {
+                AddressSearchView(address: $viewModel.address)
+            } label: {
+                HStack {
+                    Text("properties.address")
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+
+                    Spacer()
+
+                    if viewModel.address.street.isNotEmpty {
+                        Text(viewModel.address.formattedShort)
+                            .foregroundStyle(AppTheme.Colors.textPrimary)
+                            .lineLimit(1)
+                    } else {
+                        Text("properties.address.tap_to_search")
+                            .foregroundStyle(AppTheme.Colors.textLight)
+                    }
+                }
+            }
 
             Picker("properties.type",
                 selection: $viewModel.type

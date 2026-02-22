@@ -4,7 +4,7 @@ import Foundation
 @Observable
 final class PropertyFormViewModel {
     var name = ""
-    var address = ""
+    var address: Address = .empty
     var type: PropertyType = .apartment
     var currency = UserDefaults.standard.string(forKey: "defaultCurrency") ?? "EUR"
     var status: PropertyStatus = .available
@@ -27,7 +27,7 @@ final class PropertyFormViewModel {
 
     var isFormValid: Bool {
         name.isNotEmpty
-        && address.isNotEmpty
+        && address.street.isNotEmpty
     }
 
     func normalizeRoomsBathroomsForType() {
@@ -82,7 +82,7 @@ final class PropertyFormViewModel {
             id: editingPropertyId,
             ownerId: userId,
             name: name.trimmed,
-            address: address.trimmed,
+            address: address,
             type: type,
             currency: currency,
             status: status,

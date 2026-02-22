@@ -4,6 +4,7 @@ struct PropertyListView: View {
     @State private var viewModel = PropertyListViewModel()
     @State private var showCreateProperty = false
     @State private var showWizard = false
+    @State private var showMap = false
 
     var body: some View {
         ZStack {
@@ -20,12 +21,27 @@ struct PropertyListView: View {
                     actionTitle: "properties.add",
                     action: { showCreateProperty = true }
                 )
+            } else if showMap {
+                PropertyMapView(
+                    properties: viewModel.properties,
+                    leases: viewModel.leases
+                )
             } else {
                 propertyList
             }
         }
         .navigationTitle("tabs.properties")
         .toolbar {
+            if !viewModel.properties.isEmpty {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        withAnimation { showMap.toggle() }
+                    } label: {
+                        Image(systemName: showMap ? "list.bullet" : "map")
+                    }
+                }
+            }
+
             ToolbarItem(placement: .primaryAction) {
                 Menu {
                     Button {

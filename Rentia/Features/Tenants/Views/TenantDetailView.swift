@@ -213,7 +213,7 @@ struct TenantDetailView: View {
                         Text(property.name)
                             .font(AppTypography.body)
 
-                        Text(property.address)
+                        Text(property.address.formattedShort)
                             .font(AppTypography.caption)
                             .foregroundStyle(AppTheme.Colors.textSecondary)
                             .lineLimit(1)

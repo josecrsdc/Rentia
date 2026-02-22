@@ -62,7 +62,7 @@ struct Property: Codable, Identifiable, Sendable {
     @DocumentID var id: String?
     var ownerId: String
     var name: String
-    var address: String
+    var address: Address
     var type: PropertyType
     var currency: String
     var status: PropertyStatus

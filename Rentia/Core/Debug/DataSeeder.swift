@@ -15,7 +15,15 @@ final class DataSeeder {
                 Property(
                     ownerId: userId,
                     name: "Apartamento Centro",
-                    address: "Calle Mayor 15, 2B, Madrid",
+                    address: Address(
+                        street: "Calle Mayor 15, 2B",
+                        city: "Madrid",
+                        state: "Madrid",
+                        postalCode: "28013",
+                        country: "Spain",
+                        latitude: 40.4168,
+                        longitude: -3.7038
+                    ),
                     type: .apartment,
 
                     currency: "EUR",
@@ -34,7 +42,15 @@ final class DataSeeder {
                 Property(
                     ownerId: userId,
                     name: "Casa Suburbia",
-                    address: "Av. de los Pinos 42, Valencia",
+                    address: Address(
+                        street: "Av. de los Pinos 42",
+                        city: "Valencia",
+                        state: "Valencia",
+                        postalCode: "46001",
+                        country: "Spain",
+                        latitude: 39.4699,
+                        longitude: -0.3763
+                    ),
                     type: .house,
 
                     currency: "EUR",
@@ -53,7 +69,15 @@ final class DataSeeder {
                 Property(
                     ownerId: userId,
                     name: "Local Comercial",
-                    address: "Gran Via 88, Bajo, Barcelona",
+                    address: Address(
+                        street: "Gran Via 88, Bajo",
+                        city: "Barcelona",
+                        state: "Cataluna",
+                        postalCode: "08013",
+                        country: "Spain",
+                        latitude: 41.3874,
+                        longitude: 2.1686
+                    ),
                     type: .commercial,
 
                     currency: "EUR",
@@ -72,7 +96,15 @@ final class DataSeeder {
                 Property(
                     ownerId: userId,
                     name: "Plaza de Garaje Centro",
-                    address: "Calle Estudiantes 7, Sevilla",
+                    address: Address(
+                        street: "Calle Estudiantes 7",
+                        city: "Sevilla",
+                        state: "Andalucia",
+                        postalCode: "41001",
+                        country: "Spain",
+                        latitude: 37.3886,
+                        longitude: -5.9823
+                    ),
                     type: .garage,
 
                     currency: "EUR",
@@ -91,7 +123,15 @@ final class DataSeeder {
                 Property(
                     ownerId: userId,
                     name: "Terreno en la Sierra",
-                    address: "Camino del Pinar, Segovia",
+                    address: Address(
+                        street: "Camino del Pinar",
+                        city: "Segovia",
+                        state: "Castilla y Leon",
+                        postalCode: "40001",
+                        country: "Spain",
+                        latitude: 40.9429,
+                        longitude: -4.1088
+                    ),
                     type: .land,
 
                     currency: "EUR",

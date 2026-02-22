@@ -23,7 +23,7 @@ struct PropertyCard: View {
                         .font(AppTypography.headline)
                         .foregroundStyle(AppTheme.Colors.textPrimary)
 
-                    Text(property.address)
+                    Text(property.address.formattedShort)
                         .font(AppTypography.caption)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                         .lineLimit(1)

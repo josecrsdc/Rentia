@@ -1,5 +1,6 @@
 import FirebaseAuth
 import FirebaseFirestore
+import MapKit
 import SwiftUI
 
 struct PropertyDetailView: View {
@@ -53,6 +54,9 @@ struct PropertyDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 propertyHeader(property)
+                if property.address.hasCoordinates {
+                    miniMap(property)
+                }
                 propertyDetails(property)
                 leaseSection(property)
                 if !pastLeases.isEmpty {
@@ -76,7 +80,7 @@ struct PropertyDetailView: View {
                     Text(property.name)
                         .font(AppTypography.title2)
 
-                    Text(property.address)
+                    Text(property.address.formattedAddress)
                         .font(AppTypography.subheadline)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                 }
@@ -97,6 +101,26 @@ struct PropertyDetailView: View {
                     cornerRadius: AppTheme.CornerRadius.medium
                 )
             )
+    }
+
+    private func miniMap(_ property: Property) -> some View {
+        let coordinate = CLLocationCoordinate2D(
+            latitude: property.address.latitude ?? 0,
+            longitude: property.address.longitude ?? 0
+        )
+        return Map(initialPosition: .region(
+            MKCoordinateRegion(
+                center: coordinate,
+                latitudinalMeters: 500,
+                longitudinalMeters: 500
+            )
+        )) {
+            Marker(property.name, coordinate: coordinate)
+                .tint(AppTheme.Colors.primary)
+        }
+        .frame(height: 150)
+        .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large))
+        .allowsHitTesting(false)
     }
 
     private func propertyDetails(_ property: Property) -> some View {

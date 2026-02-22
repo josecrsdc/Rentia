@@ -19,7 +19,7 @@ final class PropertyListViewModel {
         let query = searchText.lowercased()
         return properties.filter {
             $0.name.lowercased().contains(query)
-            || $0.address.lowercased().contains(query)
+            || $0.address.matchesSearch(query)
         }
     }
 

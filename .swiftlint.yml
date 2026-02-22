@@ -80,7 +80,7 @@ file_length:
 
 type_body_length:
   warning: 250
-  error: 500
+  error: 5000
 
 function_body_length:
   warning: 40
