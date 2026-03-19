@@ -3,7 +3,6 @@ import SwiftUI
 struct PropertyListView: View {
     @State private var viewModel = PropertyListViewModel()
     @State private var showCreateProperty = false
-    @State private var showWizard = false
     @State private var showMap = false
 
     var body: some View {
@@ -48,18 +47,8 @@ struct PropertyListView: View {
                         Image(systemName: "person.badge.key")
                     }
 
-                    Menu {
-                        Button {
-                            showCreateProperty = true
-                        } label: {
-                            Label("properties.add", systemImage: "plus")
-                        }
-
-                        Button {
-                            showWizard = true
-                        } label: {
-                            Label("wizard.menu_title", systemImage: "wand.and.stars")
-                        }
+                    Button {
+                        showCreateProperty = true
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -114,9 +103,6 @@ struct PropertyListView: View {
             case .formForProperty(let propertyId):
                 LeaseFormView(leaseId: nil, propertyId: propertyId)
             }
-        }
-        .fullScreenCover(isPresented: $showWizard) {
-            PropertyWizardView()
         }
         .refreshable { viewModel.loadProperties() }
         .onAppear { viewModel.loadProperties() }
