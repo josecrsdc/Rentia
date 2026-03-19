@@ -9,6 +9,31 @@ final class DataSeeder {
         guard let userId = Auth.auth().currentUser?.uid else { return }
 
         do {
+            // MARK: - Administrators
+
+            let admin1Id = try await firestoreService.create(
+                Administrator(
+                    ownerId: userId,
+                    name: "Fernando Lopez Navarro",
+                    phone: "+34 611 222 333",
+                    landlinePhone: "+34 91 555 1234",
+                    email: "fernando.lopez@administraciones.es",
+                    createdAt: Date()
+                ),
+                in: "administrators"
+            )
+
+            let admin2Id = try await firestoreService.create(
+                Administrator(
+                    ownerId: userId,
+                    name: "Laura Sanchez Mora",
+                    phone: "+34 622 444 555",
+                    email: "laura.sanchez@gestionfincas.com",
+                    createdAt: Date()
+                ),
+                in: "administrators"
+            )
+
             // MARK: - Properties
 
             let prop1Id = try await firestoreService.create(
@@ -24,14 +49,15 @@ final class DataSeeder {
                         latitude: 40.4168,
                         longitude: -3.7038
                     ),
+                    cadastralReference: "1234567VK4513S0001AB",
                     type: .apartment,
-
                     currency: "EUR",
                     status: .available,
                     description: "Apartamento luminoso en el centro con vistas a la plaza",
                     rooms: 3,
                     bathrooms: 2,
                     area: 85,
+                    administratorId: admin1Id,
                     imageURLs: [],
                     createdAt: Date()
                 ),
@@ -51,14 +77,15 @@ final class DataSeeder {
                         latitude: 39.4699,
                         longitude: -0.3763
                     ),
+                    cadastralReference: "9876543HJ7890Z0002CD",
                     type: .house,
-
                     currency: "EUR",
                     status: .available,
                     description: "Casa con jardin y garaje",
                     rooms: 4,
                     bathrooms: 3,
                     area: 150,
+                    administratorId: admin2Id,
                     imageURLs: [],
                     createdAt: Date()
                 ),
@@ -78,8 +105,8 @@ final class DataSeeder {
                         latitude: 41.3874,
                         longitude: 2.1686
                     ),
+                    cadastralReference: "4567890PL1234X0003EF",
                     type: .commercial,
-
                     currency: "EUR",
                     status: .available,
                     description: "Local en zona comercial de alto trafico",
@@ -105,6 +132,7 @@ final class DataSeeder {
                         latitude: 37.3886,
                         longitude: -5.9823
                     ),
+                    cadastralReference: "3210987TR5678Y0004GH",
                     type: .garage,
 
                     currency: "EUR",
@@ -132,6 +160,7 @@ final class DataSeeder {
                         latitude: 40.9429,
                         longitude: -4.1088
                     ),
+                    cadastralReference: "6543210QW9876U0005IJ",
                     type: .land,
 
                     currency: "EUR",
@@ -407,6 +436,11 @@ final class DataSeeder {
                 whereField: "ownerId",
                 isEqualTo: userId
             )
+            let administrators: [Administrator] = try await firestoreService.readAll(
+                from: "administrators",
+                whereField: "ownerId",
+                isEqualTo: userId
+            )
 
             for property in properties {
                 if let id = property.id {
@@ -426,6 +460,11 @@ final class DataSeeder {
             for lease in leases {
                 if let id = lease.id {
                     try await firestoreService.delete(id: id, from: "leases")
+                }
+            }
+            for administrator in administrators {
+                if let id = administrator.id {
+                    try await firestoreService.delete(id: id, from: "administrators")
                 }
             }
 

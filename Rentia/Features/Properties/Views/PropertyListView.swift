@@ -43,20 +43,26 @@ struct PropertyListView: View {
             }
 
             ToolbarItem(placement: .primaryAction) {
-                Menu {
-                    Button {
-                        showCreateProperty = true
-                    } label: {
-                        Label("properties.add", systemImage: "plus")
+                HStack(spacing: AppSpacing.small) {
+                    NavigationLink(value: AdministratorDestination.list) {
+                        Image(systemName: "person.badge.key")
                     }
 
-                    Button {
-                        showWizard = true
+                    Menu {
+                        Button {
+                            showCreateProperty = true
+                        } label: {
+                            Label("properties.add", systemImage: "plus")
+                        }
+
+                        Button {
+                            showWizard = true
+                        } label: {
+                            Label("wizard.menu_title", systemImage: "wand.and.stars")
+                        }
                     } label: {
-                        Label("wizard.menu_title", systemImage: "wand.and.stars")
+                        Image(systemName: "plus")
                     }
-                } label: {
-                    Image(systemName: "plus")
                 }
             }
         }
@@ -87,6 +93,16 @@ struct PropertyListView: View {
                 PaymentDetailView(paymentId: id)
             case .form(let id):
                 PaymentFormView(paymentId: id)
+            }
+        }
+        .navigationDestination(for: AdministratorDestination.self) { destination in
+            switch destination {
+            case .list:
+                AdministratorListView()
+            case .detail(let id):
+                AdministratorDetailView(administratorId: id)
+            case .form(let id):
+                AdministratorFormView(administratorId: id)
             }
         }
         .navigationDestination(for: LeaseDestination.self) { destination in

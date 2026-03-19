@@ -50,6 +50,12 @@ enum PaymentDestination: Hashable {
     case form(String?)
 }
 
+enum AdministratorDestination: Hashable {
+    case detail(String)
+    case form(String?)
+    case list
+}
+
 enum LeaseDestination: Hashable {
     case detail(String)
     case form(String?)

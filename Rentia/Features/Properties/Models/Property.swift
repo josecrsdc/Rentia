@@ -63,6 +63,7 @@ struct Property: Codable, Identifiable, Sendable {
     var ownerId: String
     var name: String
     var address: Address
+    var cadastralReference: String?
     var type: PropertyType
     var currency: String
     var status: PropertyStatus
@@ -70,6 +71,7 @@ struct Property: Codable, Identifiable, Sendable {
     var rooms: Int
     var bathrooms: Int
     var area: Double?
+    var administratorId: String?
     var imageURLs: [String]
     var createdAt: Date
 }

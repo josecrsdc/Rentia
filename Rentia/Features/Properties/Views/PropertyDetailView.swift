@@ -9,6 +9,7 @@ struct PropertyDetailView: View {
     @State private var tenants: [Tenant] = []
     @State private var activeLease: Lease?
     @State private var pastLeases: [Lease] = []
+    @State private var administrator: Administrator?
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
     @Environment(\.dismiss) private var dismiss
@@ -58,6 +59,9 @@ struct PropertyDetailView: View {
                     miniMap(property)
                 }
                 propertyDetails(property)
+                if administrator != nil {
+                    administratorSection
+                }
                 leaseSection(property)
                 if !pastLeases.isEmpty {
                     leaseHistorySection(property)
@@ -148,6 +152,14 @@ struct PropertyDetailView: View {
                     : property.status.localizedName
             )
 
+            if let ref = property.cadastralReference, !ref.isEmpty {
+                detailRow(
+                    icon: "number",
+                    label: "properties.cadastral_reference",
+                    value: LocalizedStringKey(ref)
+                )
+            }
+
             if let area = property.area {
                 detailRow(
                     icon: "square.dashed",
@@ -158,6 +170,114 @@ struct PropertyDetailView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
+    }
+
+    // MARK: - Administrator Section
+
+    @State private var showAdministratorActions = false
+
+    private var administratorSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text("properties.administrator")
+                .font(AppTypography.title3)
+
+            if let administrator {
+                Button {
+                    showAdministratorActions = true
+                } label: {
+                    HStack(spacing: AppSpacing.medium) {
+                        Text(administrator.initials)
+                            .font(AppTypography.caption)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.white)
+                            .frame(width: 36, height: 36)
+                            .background(AppTheme.Colors.secondary)
+                            .clipShape(Circle())
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(administrator.name)
+                                .font(AppTypography.body)
+                                .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                            Text(administrator.phone)
+                                .font(AppTypography.caption)
+                                .foregroundStyle(AppTheme.Colors.textSecondary)
+
+                            Text(administrator.email)
+                                .font(AppTypography.caption)
+                                .foregroundStyle(AppTheme.Colors.textSecondary)
+                        }
+
+                        Spacer()
+
+                        Image(systemName: "ellipsis.circle")
+                            .font(.title3)
+                            .foregroundStyle(AppTheme.Colors.primary)
+                    }
+                }
+                .buttonStyle(.plain)
+                .confirmationDialog(
+                    administrator.name,
+                    isPresented: $showAdministratorActions,
+                    titleVisibility: .visible
+                ) {
+                    administratorActionButtons(administrator)
+                }
+                .navigationDestination(isPresented: $navigateToAdministrator) {
+                    AdministratorDetailView(administratorId: administrator.id ?? "")
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    @State private var navigateToAdministrator = false
+
+    @ViewBuilder
+    private func administratorActionButtons(_ administrator: Administrator) -> some View {
+        Button {
+            navigateToAdministrator = true
+        } label: {
+            Label(
+                String(localized: "administrators.view_detail"),
+                systemImage: "person.badge.key"
+            )
+        }
+
+        Button {
+            openURL("tel:\(administrator.phone.replacingOccurrences(of: " ", with: ""))")
+        } label: {
+            Label(
+                String(localized: "administrators.call_mobile") + " " + administrator.phone,
+                systemImage: "phone"
+            )
+        }
+
+        if let landline = administrator.landlinePhone, !landline.isEmpty {
+            Button {
+                openURL("tel:\(landline.replacingOccurrences(of: " ", with: ""))")
+            } label: {
+                Label(
+                    String(localized: "administrators.call_landline") + " " + landline,
+                    systemImage: "phone.fill"
+                )
+            }
+        }
+
+        Button {
+            openURL("mailto:\(administrator.email)")
+        } label: {
+            Label(
+                String(localized: "administrators.send_email") + " " + administrator.email,
+                systemImage: "envelope"
+            )
+        }
+    }
+
+    private func openURL(_ string: String) {
+        guard let url = URL(string: string) else { return }
+        UIApplication.shared.open(url)
     }
 
     // MARK: - Lease Section
@@ -543,10 +663,18 @@ struct PropertyDetailView: View {
 
         Task {
             do {
-                property = try await firestoreService.read(
+                let loadedProperty: Property = try await firestoreService.read(
                     id: propertyId,
                     from: "properties"
                 )
+                property = loadedProperty
+
+                if let adminId = loadedProperty.administratorId {
+                    administrator = try? await firestoreService.read(
+                        id: adminId,
+                        from: "administrators"
+                    )
+                }
             } catch {
                 // Handle error
             }

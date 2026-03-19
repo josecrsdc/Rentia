@@ -27,6 +27,13 @@ struct PropertyCard: View {
                         .font(AppTypography.caption)
                         .foregroundStyle(AppTheme.Colors.textSecondary)
                         .lineLimit(1)
+
+                    if let ref = property.cadastralReference, !ref.isEmpty {
+                        Text(ref)
+                            .font(AppTypography.caption2)
+                            .foregroundStyle(AppTheme.Colors.textLight)
+                            .lineLimit(1)
+                    }
                 }
 
                 Spacer()

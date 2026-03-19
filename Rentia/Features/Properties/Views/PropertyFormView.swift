@@ -13,6 +13,7 @@ struct PropertyFormView: View {
 
             Form {
                 basicInfoSection
+                administratorSection
                 financialSection
                 detailsSection
                 saveButton
@@ -29,6 +30,7 @@ struct PropertyFormView: View {
             if let propertyId {
                 viewModel.loadProperty(id: propertyId)
             }
+            viewModel.loadAdministrators()
         }
         .onChange(of: viewModel.didSave) {
             if viewModel.didSave {
@@ -80,6 +82,14 @@ struct PropertyFormView: View {
                 }
             }
 
+            TextField(
+                "properties.cadastral_reference",
+                text: $viewModel.cadastralReference
+            )
+            .autocapitalization(.none)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
+
             Picker("properties.type",
                 selection: $viewModel.type
             ) {
@@ -94,6 +104,22 @@ struct PropertyFormView: View {
             ) {
                 ForEach(PropertyStatus.allCases, id: \.self) { status in
                     Text(status.localizedName).tag(status)
+                }
+            }
+        }
+    }
+
+    private var administratorSection: some View {
+        Section("properties.administrator") {
+            Picker(
+                "properties.administrator.select",
+                selection: $viewModel.administratorId
+            ) {
+                Text("properties.administrator.none")
+                    .tag(nil as String?)
+
+                ForEach(viewModel.administrators) { admin in
+                    Text(admin.name).tag(admin.id as String?)
                 }
             }
         }

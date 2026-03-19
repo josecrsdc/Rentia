@@ -4,8 +4,6 @@ import SwiftUI
 struct PropertyMapView: View {
     let properties: [Property]
     let leases: [Lease]
-    @State private var selectedPropertyId: String?
-
     private var locatedProperties: [Property] {
         properties.filter { $0.id != nil && $0.address.hasCoordinates }
     }
@@ -15,9 +13,6 @@ struct PropertyMapView: View {
             emptyState
         } else {
             mapContent
-                .navigationDestination(item: $selectedPropertyId) { id in
-                    PropertyDetailView(propertyId: id)
-                }
         }
     }
 
@@ -33,9 +28,9 @@ struct PropertyMapView: View {
                             longitude: lon
                         )
                     ) {
-                        Button {
-                            selectedPropertyId = property.id
-                        } label: {
+                        NavigationLink(
+                            value: PropertyDestination.detail(property.id ?? "")
+                        ) {
                             annotationView(for: property)
                         }
                     }

@@ -105,16 +105,18 @@ struct TenantDetailView: View {
             Text("tenants.contact")
                 .font(AppTypography.title3)
 
-            detailRow(
+            tappableRow(
                 icon: "envelope",
                 label: "tenants.email",
-                value: tenant.email
+                value: tenant.email,
+                url: "mailto:\(tenant.email)"
             )
 
-            detailRow(
+            tappableRow(
                 icon: "phone",
                 label: "tenants.phone",
-                value: tenant.phone
+                value: tenant.phone,
+                url: "tel:\(tenant.phone.replacingOccurrences(of: " ", with: ""))"
             )
 
             if let idNumber = tenant.idNumber, !idNumber.isEmpty {
@@ -254,6 +256,35 @@ struct TenantDetailView: View {
             Text(value)
                 .font(AppTypography.headline)
         }
+    }
+
+    private func tappableRow(
+        icon: String,
+        label: LocalizedStringKey,
+        value: String,
+        url: String
+    ) -> some View {
+        Button {
+            guard let url = URL(string: url) else { return }
+            UIApplication.shared.open(url)
+        } label: {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 24)
+
+                Text(label)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+
+                Spacer()
+
+                Text(value)
+                    .font(AppTypography.headline)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+            }
+        }
+        .buttonStyle(.plain)
     }
 
     private func initials(for tenant: Tenant) -> String {

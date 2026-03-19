@@ -5,6 +5,7 @@ import Foundation
 final class PropertyFormViewModel {
     var name = ""
     var address: Address = .empty
+    var cadastralReference = ""
     var type: PropertyType = .apartment
     var currency = UserDefaults.standard.string(forKey: "defaultCurrency") ?? "EUR"
     var status: PropertyStatus = .available
@@ -12,6 +13,8 @@ final class PropertyFormViewModel {
     var rooms = "1"
     var bathrooms = "1"
     var area = ""
+    var administratorId: String?
+    var administrators: [Administrator] = []
     var isLoading = false
     var errorMessage: String?
     var showError = false
@@ -56,6 +59,7 @@ final class PropertyFormViewModel {
                 )
                 name = property.name
                 address = property.address
+                cadastralReference = property.cadastralReference ?? ""
                 type = property.type
                 currency = property.currency
                 status = property.status
@@ -63,6 +67,7 @@ final class PropertyFormViewModel {
                 rooms = "\(property.rooms)"
                 bathrooms = "\(property.bathrooms)"
                 normalizeRoomsBathroomsForType()
+                administratorId = property.administratorId
                 if let propertyArea = property.area {
                     area = String(format: "%.0f", propertyArea)
                 }
@@ -83,6 +88,7 @@ final class PropertyFormViewModel {
             ownerId: userId,
             name: name.trimmed,
             address: address,
+            cadastralReference: cadastralReference.trimmed.isEmpty ? nil : cadastralReference.trimmed,
             type: type,
             currency: currency,
             status: status,
@@ -91,6 +97,7 @@ final class PropertyFormViewModel {
             rooms: type.supportsRoomsBathrooms ? (Int(rooms) ?? 1) : 0,
             bathrooms: type.supportsRoomsBathrooms ? (Int(bathrooms) ?? 1) : 0,
             area: Double(area),
+            administratorId: administratorId,
             imageURLs: [],
             createdAt: Date()
         )
@@ -117,6 +124,20 @@ final class PropertyFormViewModel {
                 showError = true
             }
             isLoading = false
+        }
+    }
+
+    func loadAdministrators() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        Task {
+            administrators = (
+                try? await firestoreService.readAll(
+                    from: "administrators",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+            ) ?? []
         }
     }
 }
