@@ -74,4 +74,62 @@ struct Property: Codable, Identifiable, Sendable {
     var administratorId: String?
     var imageURLs: [String]
     var createdAt: Date
+
+    private enum CodingKeys: String, CodingKey {
+        case id, ownerId, name, address, cadastralReference, type, currency, status
+        case description, rooms, bathrooms, area, administratorId, imageURLs, createdAt
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        _id = try c.decode(DocumentID<String>.self, forKey: .id)
+        ownerId = try c.decode(String.self, forKey: .ownerId)
+        name = try c.decode(String.self, forKey: .name)
+        address = try c.decode(Address.self, forKey: .address)
+        cadastralReference = try c.decodeIfPresent(String.self, forKey: .cadastralReference)
+        type = try c.decode(PropertyType.self, forKey: .type)
+        currency = try c.decode(String.self, forKey: .currency)
+        status = try c.decode(PropertyStatus.self, forKey: .status)
+        description = try c.decodeIfPresent(String.self, forKey: .description)
+        rooms = try c.decode(Int.self, forKey: .rooms)
+        bathrooms = try c.decode(Int.self, forKey: .bathrooms)
+        area = try c.decodeIfPresent(Double.self, forKey: .area)
+        administratorId = try c.decodeIfPresent(String.self, forKey: .administratorId)
+        imageURLs = (try? c.decode([String].self, forKey: .imageURLs)) ?? []
+        createdAt = try c.decode(Date.self, forKey: .createdAt)
+    }
+
+    init(
+        id: String? = nil,
+        ownerId: String,
+        name: String,
+        address: Address,
+        cadastralReference: String? = nil,
+        type: PropertyType,
+        currency: String,
+        status: PropertyStatus,
+        description: String? = nil,
+        rooms: Int,
+        bathrooms: Int,
+        area: Double? = nil,
+        administratorId: String? = nil,
+        imageURLs: [String] = [],
+        createdAt: Date
+    ) {
+        self._id = DocumentID(wrappedValue: id)
+        self.ownerId = ownerId
+        self.name = name
+        self.address = address
+        self.cadastralReference = cadastralReference
+        self.type = type
+        self.currency = currency
+        self.status = status
+        self.description = description
+        self.rooms = rooms
+        self.bathrooms = bathrooms
+        self.area = area
+        self.administratorId = administratorId
+        self.imageURLs = imageURLs
+        self.createdAt = createdAt
+    }
 }

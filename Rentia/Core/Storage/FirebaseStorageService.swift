@@ -2,7 +2,7 @@ import FirebaseStorage
 import Foundation
 import UIKit
 
-final class FirebaseStorageService: Sendable {
+final class FirebaseStorageService: StorageServiceProtocol {
     private let storage = Storage.storage()
 
     func uploadImage(_ image: UIImage, path: String) async throws -> String {

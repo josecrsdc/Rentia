@@ -13,7 +13,7 @@ struct DocumentListView: View {
     @State private var showError = false
 
     private let firestoreService = FirestoreService()
-    private let storageService = FirebaseStorageService()
+    private let storageService: any StorageServiceProtocol = SupabaseStorageService()
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {

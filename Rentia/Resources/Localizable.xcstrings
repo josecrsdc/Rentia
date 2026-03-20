@@ -645,6 +645,22 @@
         }
       }
     },
+    "common.ok" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceptar"
+          }
+        }
+      }
+    },
     "common.save" : {
 
     },
@@ -4464,6 +4480,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No se pudo comprimir la imagen"
+          }
+        }
+      }
+    },
+    "storage.error.delete_failed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not delete the file"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo eliminar el archivo"
+          }
+        }
+      }
+    },
+    "storage.error.invalid_url" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid file URL"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL de archivo inválida"
           }
         }
       }

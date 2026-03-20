@@ -18,10 +18,12 @@ struct PropertyDetailView: View {
     @State private var fullScreenPhotoURL: IdentifiableString?
     @State private var photoToDelete: String?
     @State private var showPhotoDeleteConfirmation = false
+    @State private var uploadErrorMessage: String?
+    @State private var showUploadError = false
     @Environment(\.dismiss) private var dismiss
 
     private let firestoreService = FirestoreService()
-    private let storageService = FirebaseStorageService()
+    private let storageService: any StorageServiceProtocol = SupabaseStorageService()
 
     var body: some View {
         ZStack {
@@ -119,6 +121,11 @@ struct PropertyDetailView: View {
             }
         } message: {
             Text("properties.photos.delete.message")
+        }
+        .alert("common.error", isPresented: $showUploadError) {
+            Button("common.ok", role: .cancel) {}
+        } message: {
+            Text(uploadErrorMessage ?? "")
         }
     }
 
@@ -646,22 +653,25 @@ struct PropertyDetailView: View {
         isUploadingPhoto = true
 
         Task {
-            var updatedURLs = property.imageURLs
-            for item in selectedPhotoItems {
-                if let data = try? await item.loadTransferable(type: Data.self),
-                   let image = UIImage(data: data) {
+            do {
+                var updatedURLs = property.imageURLs
+                for item in selectedPhotoItems {
+                    guard let data = try await item.loadTransferable(type: Data.self) else { continue }
+                    guard let image = UIImage(data: data) else { continue }
                     let path = "owners/\(userId)/properties/\(propertyId)/\(UUID().uuidString).jpg"
-                    if let url = try? await storageService.uploadImage(image, path: path) {
-                        updatedURLs.append(url)
-                    }
+                    let url = try await storageService.uploadImage(image, path: path)
+                    updatedURLs.append(url)
                 }
+                selectedPhotoItems = []
+                var updatedProperty = property
+                updatedProperty.imageURLs = updatedURLs
+                try await firestoreService.update(updatedProperty, id: propertyId, in: "properties")
+                self.property = updatedProperty
+            } catch {
+                uploadErrorMessage = error.localizedDescription
+                showUploadError = true
+                selectedPhotoItems = []
             }
-            selectedPhotoItems = []
-
-            var updatedProperty = property
-            updatedProperty.imageURLs = updatedURLs
-            try? await firestoreService.update(updatedProperty, id: propertyId, in: "properties")
-            self.property = updatedProperty
             isUploadingPhoto = false
         }
     }
