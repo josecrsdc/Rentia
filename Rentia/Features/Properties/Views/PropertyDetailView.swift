@@ -1,6 +1,7 @@
 import FirebaseAuth
 import FirebaseFirestore
 import MapKit
+import PhotosUI
 import SwiftUI
 
 struct PropertyDetailView: View {
@@ -12,9 +13,15 @@ struct PropertyDetailView: View {
     @State private var administrator: Administrator?
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
+    @State private var selectedPhotoItems: [PhotosPickerItem] = []
+    @State private var isUploadingPhoto = false
+    @State private var fullScreenPhotoURL: IdentifiableString?
+    @State private var photoToDelete: String?
+    @State private var showPhotoDeleteConfirmation = false
     @Environment(\.dismiss) private var dismiss
 
     private let firestoreService = FirestoreService()
+    private let storageService = FirebaseStorageService()
 
     var body: some View {
         ZStack {
@@ -66,14 +73,56 @@ struct PropertyDetailView: View {
                 if !pastLeases.isEmpty {
                     leaseHistorySection(property)
                 }
-                // tenantsSection
                 paymentsSection
+                expensesSection
+                profitabilitySection(property)
+                photosSection(property)
+                documentsSection
                 propertyStats(property)
                 deleteButton
             }
             .padding(AppSpacing.medium)
         }
+        .navigationDestination(for: ExpenseDestination.self) { destination in
+            switch destination {
+            case .list(let id): ExpenseListView(propertyId: id)
+            case .detail(let id): ExpenseDetailView(expenseId: id)
+            }
+        }
+        .navigationDestination(for: ReportDestination.self) { destination in
+            switch destination {
+            case .annual: AnnualReportView()
+            case .debt: DebtReportView()
+            case .profitability(let id, let name): ProfitabilityView(propertyId: id, propertyName: name)
+            }
+        }
+        .photosPicker(
+            isPresented: $showPhotosPicker,
+            selection: $selectedPhotoItems,
+            maxSelectionCount: max(1, 10 - property.imageURLs.count),
+            matching: .images
+        )
+        .onChange(of: selectedPhotoItems) { uploadSelectedPhotos(for: property) }
+        .fullScreenCover(item: $fullScreenPhotoURL) { wrapper in
+            FullScreenPhotoView(
+                url: wrapper.value,
+                onDelete: {
+                    photoToDelete = wrapper.value
+                    showPhotoDeleteConfirmation = true
+                }
+            )
+        }
+        .alert("properties.photos.delete.title", isPresented: $showPhotoDeleteConfirmation) {
+            Button("common.cancel", role: .cancel) { photoToDelete = nil }
+            Button("common.delete", role: .destructive) {
+                if let url = photoToDelete { deletePhoto(url: url) }
+            }
+        } message: {
+            Text("properties.photos.delete.message")
+        }
     }
+
+    @State private var showPhotosPicker = false
 
     private func propertyHeader(_ property: Property) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
@@ -523,6 +572,184 @@ struct PropertyDetailView: View {
                 .font(.caption)
                 .foregroundStyle(AppTheme.Colors.textLight)
         }
+    }
+
+    // MARK: - Photos Section
+
+    private func photosSection(_ property: Property) -> some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            HStack {
+                Text("properties.photos")
+                    .font(AppTypography.title3)
+
+                Spacer()
+
+                if isUploadingPhoto {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                } else if property.imageURLs.count < 10 {
+                    Button {
+                        showPhotosPicker = true
+                    } label: {
+                        Image(systemName: "plus.circle")
+                            .font(.title3)
+                            .foregroundStyle(AppTheme.Colors.primary)
+                    }
+                }
+            }
+
+            if property.imageURLs.isEmpty {
+                HStack(spacing: AppSpacing.small) {
+                    Image(systemName: "photo.slash")
+                        .foregroundStyle(AppTheme.Colors.textLight)
+
+                    Text("properties.photos.empty")
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: AppSpacing.small) {
+                        ForEach(property.imageURLs, id: \.self) { url in
+                            photoThumbnail(url: url)
+                        }
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    private func photoThumbnail(url: String) -> some View {
+        Button {
+            fullScreenPhotoURL = IdentifiableString(url)
+        } label: {
+            AsyncImage(url: URL(string: url)) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            } placeholder: {
+                Rectangle()
+                    .fill(AppTheme.Colors.cardBackground)
+                    .overlay { ProgressView() }
+            }
+            .frame(width: 80, height: 80)
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.small))
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func uploadSelectedPhotos(for property: Property) {
+        guard !selectedPhotoItems.isEmpty else { return }
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        isUploadingPhoto = true
+
+        Task {
+            var updatedURLs = property.imageURLs
+            for item in selectedPhotoItems {
+                if let data = try? await item.loadTransferable(type: Data.self),
+                   let image = UIImage(data: data) {
+                    let path = "owners/\(userId)/properties/\(propertyId)/\(UUID().uuidString).jpg"
+                    if let url = try? await storageService.uploadImage(image, path: path) {
+                        updatedURLs.append(url)
+                    }
+                }
+            }
+            selectedPhotoItems = []
+
+            var updatedProperty = property
+            updatedProperty.imageURLs = updatedURLs
+            try? await firestoreService.update(updatedProperty, id: propertyId, in: "properties")
+            self.property = updatedProperty
+            isUploadingPhoto = false
+        }
+    }
+
+    private func deletePhoto(url: String) {
+        guard var updatedProperty = property else { return }
+
+        Task {
+            try? await storageService.delete(url: url)
+            updatedProperty.imageURLs.removeAll { $0 == url }
+            try? await firestoreService.update(updatedProperty, id: propertyId, in: "properties")
+            property = updatedProperty
+            photoToDelete = nil
+        }
+    }
+
+    // MARK: - Expenses Section
+
+    private var expensesSection: some View {
+        NavigationLink(value: ExpenseDestination.list(propertyId)) {
+            HStack(spacing: AppSpacing.small) {
+                Image(systemName: "eurosign.circle")
+                    .font(.title3)
+                    .foregroundStyle(AppTheme.Colors.error)
+                    .frame(width: 44, height: 44)
+                    .background(AppTheme.Colors.error.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.small))
+
+                VStack(alignment: .leading, spacing: AppSpacing.extraSmall) {
+                    Text("expenses.title")
+                        .font(AppTypography.headline)
+                        .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                    Text("expenses.view_all")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(AppTheme.Colors.textLight)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .cardStyle()
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Documents Section
+
+    private var documentsSection: some View {
+        DocumentListView(entityId: propertyId, entityType: .property)
+    }
+
+    // MARK: - Profitability Section
+
+    private func profitabilitySection(_ property: Property) -> some View {
+        NavigationLink(value: ReportDestination.profitability(propertyId, property.name)) {
+            HStack(spacing: AppSpacing.small) {
+                Image(systemName: "chart.line.uptrend.xyaxis")
+                    .font(.title3)
+                    .foregroundStyle(AppTheme.Colors.success)
+                    .frame(width: 44, height: 44)
+                    .background(AppTheme.Colors.success.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.small))
+
+                VStack(alignment: .leading, spacing: AppSpacing.extraSmall) {
+                    Text("reports.profitability")
+                        .font(AppTypography.headline)
+                        .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                    Text("reports.view_profitability")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(AppTheme.Colors.textLight)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .cardStyle()
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Payments Section

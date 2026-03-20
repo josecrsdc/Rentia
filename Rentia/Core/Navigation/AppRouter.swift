@@ -61,3 +61,14 @@ enum LeaseDestination: Hashable {
     case form(String?)
     case formForProperty(String)
 }
+
+enum ExpenseDestination: Hashable {
+    case detail(String)
+    case list(String)
+}
+
+enum ReportDestination: Hashable {
+    case annual
+    case debt
+    case profitability(String, String)
+}

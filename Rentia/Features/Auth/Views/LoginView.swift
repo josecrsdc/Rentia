@@ -27,8 +27,7 @@ struct LoginView: View {
         .onAppear {
             if viewModel == nil {
                 viewModel = LoginViewModel(
-                    authService: container.authService,
-                    authState: container.authState
+                    authService: container.authService
                 )
             }
         }

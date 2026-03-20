@@ -406,6 +406,61 @@ final class DataSeeder {
                 in: "payments"
             )
 
+            // MARK: - Expenses
+
+            struct ExpenseSeed {
+                let monthOffset: Int
+                let category: ExpenseCategory
+                let description: String
+                let amount: Double
+                let propertyId: String
+            }
+
+            let expenseDates: [ExpenseSeed] = [
+                .init(monthOffset: -11, category: .ibi, description: "IBI 2025 - Apartamento Centro", amount: 620, propertyId: prop1Id),
+                .init(monthOffset: -10, category: .insurance, description: "Seguro hogar anual", amount: 380, propertyId: prop1Id),
+                .init(monthOffset: -9, category: .community, description: "Cuota comunidad octubre", amount: 75, propertyId: prop1Id),
+                .init(monthOffset: -8, category: .community, description: "Cuota comunidad noviembre", amount: 75, propertyId: prop1Id),
+                .init(monthOffset: -7, category: .community, description: "Cuota comunidad diciembre", amount: 75, propertyId: prop1Id),
+                .init(monthOffset: -6, category: .repair, description: "Reparacion caldera", amount: 240, propertyId: prop1Id),
+                .init(monthOffset: -5, category: .community, description: "Cuota comunidad febrero", amount: 75, propertyId: prop1Id),
+                .init(monthOffset: -4, category: .community, description: "Cuota comunidad marzo", amount: 75, propertyId: prop1Id),
+                .init(monthOffset: -3, category: .utilities, description: "Factura agua trimestral", amount: 55, propertyId: prop1Id),
+                .init(monthOffset: -2, category: .community, description: "Cuota comunidad mayo", amount: 75, propertyId: prop1Id),
+                .init(monthOffset: -1, category: .repair, description: "Pintura habitacion principal", amount: 180, propertyId: prop1Id),
+                .init(monthOffset: -10, category: .ibi, description: "IBI 2025 - Casa Suburbia", amount: 950, propertyId: prop2Id),
+                .init(monthOffset: -9, category: .mortgage, description: "Hipoteca octubre", amount: 820, propertyId: prop2Id),
+                .init(monthOffset: -8, category: .mortgage, description: "Hipoteca noviembre", amount: 820, propertyId: prop2Id),
+                .init(monthOffset: -7, category: .mortgage, description: "Hipoteca diciembre", amount: 820, propertyId: prop2Id),
+                .init(monthOffset: -6, category: .insurance, description: "Seguro hogar casa", amount: 520, propertyId: prop2Id),
+                .init(monthOffset: -5, category: .mortgage, description: "Hipoteca febrero", amount: 820, propertyId: prop2Id),
+                .init(monthOffset: -4, category: .mortgage, description: "Hipoteca marzo", amount: 820, propertyId: prop2Id),
+                .init(monthOffset: -3, category: .repair, description: "Cambio ventanas salon", amount: 1200, propertyId: prop2Id),
+                .init(monthOffset: -2, category: .mortgage, description: "Hipoteca mayo", amount: 820, propertyId: prop2Id),
+                .init(monthOffset: -8, category: .management, description: "Honorarios administrador", amount: 150, propertyId: prop3Id),
+                .init(monthOffset: -6, category: .ibi, description: "IBI 2025 - Local Comercial", amount: 1100, propertyId: prop3Id),
+                .init(monthOffset: -4, category: .management, description: "Honorarios administrador", amount: 150, propertyId: prop3Id),
+                .init(monthOffset: -2, category: .repair, description: "Reparacion sistema electrico", amount: 350, propertyId: prop3Id),
+                .init(monthOffset: -1, category: .management, description: "Honorarios administrador", amount: 150, propertyId: prop3Id),
+            ]
+
+            let expCalendar = Calendar.current
+            for seed in expenseDates {
+                let date = expCalendar.date(byAdding: .month, value: seed.monthOffset, to: now) ?? now
+                _ = try await firestoreService.create(
+                    Expense(
+                        ownerId: userId,
+                        propertyId: seed.propertyId,
+                        date: date,
+                        amount: seed.amount,
+                        category: seed.category,
+                        description: seed.description,
+                        createdAt: date
+                    ),
+                    in: "expenses"
+                )
+            }
+
             print("[DataSeeder] Dummy data created successfully")
         } catch {
             print("[DataSeeder] Error: \(error.localizedDescription)")
@@ -441,6 +496,11 @@ final class DataSeeder {
                 whereField: "ownerId",
                 isEqualTo: userId
             )
+            let expenses: [Expense] = try await firestoreService.readAll(
+                from: "expenses",
+                whereField: "ownerId",
+                isEqualTo: userId
+            )
 
             for property in properties {
                 if let id = property.id {
@@ -465,6 +525,11 @@ final class DataSeeder {
             for administrator in administrators {
                 if let id = administrator.id {
                     try await firestoreService.delete(id: id, from: "administrators")
+                }
+            }
+            for expense in expenses {
+                if let id = expense.id {
+                    try await firestoreService.delete(id: id, from: "expenses")
                 }
             }
 

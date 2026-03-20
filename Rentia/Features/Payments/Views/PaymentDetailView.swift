@@ -1,3 +1,4 @@
+import FirebaseAuth
 import SwiftUI
 
 struct PaymentDetailView: View {
@@ -7,6 +8,11 @@ struct PaymentDetailView: View {
     @State private var property: Property?
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
+    @State private var showDeleteError = false
+    @State private var deleteErrorMessage: String?
+    @State private var pdfData: Data?
+    @State private var showShareSheet = false
+    @State private var isGeneratingPDF = false
     @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
     @Environment(\.dismiss) private var dismiss
 
@@ -45,6 +51,11 @@ struct PaymentDetailView: View {
         } message: {
             Text("payments.delete.confirmation.message")
         }
+        .alert("common.error", isPresented: $showDeleteError) {
+            Button("common.accept", role: .cancel) {}
+        } message: {
+            Text(deleteErrorMessage ?? "")
+        }
     }
 
     private func paymentContent(_ payment: Payment) -> some View {
@@ -53,9 +64,71 @@ struct PaymentDetailView: View {
                 amountHeader(payment)
                 assignmentCard
                 detailsCard(payment)
+                generatePDFButton
                 deleteButton
             }
             .padding(AppSpacing.medium)
+        }
+        .sheet(isPresented: $showShareSheet) {
+            if let data = pdfData {
+                ShareSheet(items: [data])
+            }
+        }
+    }
+
+    private var generatePDFButton: some View {
+        Button {
+            generateReceipt()
+        } label: {
+            HStack {
+                if isGeneratingPDF {
+                    ProgressView().scaleEffect(0.8)
+                } else {
+                    Image(systemName: "doc.text")
+                }
+                Text("pdf.generate_receipt")
+            }
+            .font(AppTypography.body)
+            .fontWeight(.medium)
+            .frame(maxWidth: .infinity)
+            .padding(AppSpacing.medium)
+            .background(AppTheme.Colors.primary.opacity(0.1))
+            .foregroundStyle(AppTheme.Colors.primary)
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large))
+        }
+        .disabled(isGeneratingPDF)
+    }
+
+    private func generateReceipt() {
+        guard let payment, let tenant, let property else { return }
+        guard let currentUser = Auth.auth().currentUser else { return }
+        isGeneratingPDF = true
+
+        let owner = UserProfile(
+            uid: currentUser.uid,
+            email: currentUser.email ?? "",
+            displayName: currentUser.displayName ?? currentUser.email ?? "",
+            photoURL: nil,
+            authProvider: "",
+            createdAt: Date(),
+            updatedAt: Date()
+        )
+        let capturedPayment = payment
+        let capturedTenant = tenant
+        let capturedProperty = property
+
+        Task {
+            let data = await Task.detached(priority: .userInitiated) {
+                PDFGeneratorService.generatePaymentReceipt(
+                    payment: capturedPayment,
+                    tenant: capturedTenant,
+                    property: capturedProperty,
+                    owner: owner
+                )
+            }.value
+            pdfData = data
+            isGeneratingPDF = false
+            showShareSheet = true
         }
     }
 
@@ -301,7 +374,8 @@ struct PaymentDetailView: View {
                 )
                 dismiss()
             } catch {
-                // Handle error
+                deleteErrorMessage = error.localizedDescription
+                showDeleteError = true
             }
         }
     }

@@ -4,7 +4,19 @@
       "Bash(swiftlint rules:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(claude mcp:*)",
+      "mcp__xcode__XcodeListWindows",
+      "mcp__xcode__BuildProject",
+      "mcp__xcode__XcodeRead",
+      "mcp__xcode__XcodeUpdate",
+      "mcp__xcode__XcodeGrep",
+      "Bash(xargs ls:*)",
+      "mcp__xcode__RunAllTests",
+      "mcp__xcode__GetTestList",
+      "mcp__xcode__GetBuildLog",
+      "Bash(find ~/Library/Developer/Xcode/DerivedData/Rentia-hbddzriryzxycxayxfjqfpnhgydj/Logs -name *.txt)",
+      "Bash(find ~/Library/Developer/Xcode/DerivedData/Rentia-hbddzriryzxycxayxfjqfpnhgydj/Logs/Test/Test-Rentia-2026.03.20_16-30-29-+0100.xcresult -name *.txt -o -name *.log)"
     ]
   }
 }

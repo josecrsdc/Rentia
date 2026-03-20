@@ -1,7 +1,7 @@
 import FirebaseFirestore
 import Foundation
 
-final class FirestoreService: Sendable {
+final class FirestoreService: FirestoreServiceProtocol, @unchecked Sendable {
     private let database = Firestore.firestore()
 
     nonisolated func create<T: Codable>(

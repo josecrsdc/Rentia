@@ -11,6 +11,8 @@ struct DashboardView: View {
 
                 statsGrid
 
+                reportsSection
+
                 recentActivitySection
             }
             .padding(AppSpacing.medium)
@@ -19,6 +21,13 @@ struct DashboardView: View {
         .navigationTitle("tabs.dashboard")
         .refreshable { viewModel.loadData() }
         .onAppear { viewModel.loadData() }
+        .navigationDestination(for: ReportDestination.self) { destination in
+            switch destination {
+            case .annual: AnnualReportView()
+            case .debt: DebtReportView()
+            case .profitability(let id, let name): ProfitabilityView(propertyId: id, propertyName: name)
+            }
+        }
     }
 
     // MARK: - Header
@@ -100,5 +109,56 @@ struct DashboardView: View {
                 }
             }
         }
+    }
+
+    // MARK: - Reports Section
+
+    private var reportsSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text("reports.title")
+                .font(AppTypography.title3)
+                .foregroundStyle(AppTheme.Colors.textPrimary)
+
+            HStack(spacing: AppSpacing.medium) {
+                reportButton(
+                    title: "reports.annual",
+                    icon: "chart.bar.fill",
+                    color: AppTheme.Colors.primary,
+                    destination: ReportDestination.annual
+                )
+
+                reportButton(
+                    title: "reports.debt",
+                    icon: "person.badge.minus",
+                    color: AppTheme.Colors.error,
+                    destination: ReportDestination.debt
+                )
+            }
+        }
+    }
+
+    private func reportButton(
+        title: LocalizedStringKey,
+        icon: String,
+        color: Color,
+        destination: ReportDestination
+    ) -> some View {
+        NavigationLink(value: destination) {
+            VStack(spacing: AppSpacing.small) {
+                Image(systemName: icon)
+                    .font(.title2)
+                    .foregroundStyle(color)
+
+                Text(title)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(AppSpacing.medium)
+            .background(color.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large))
+        }
+        .buttonStyle(.plain)
     }
 }

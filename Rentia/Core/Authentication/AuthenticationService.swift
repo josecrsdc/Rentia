@@ -7,11 +7,11 @@ import UIKit
 // MARK: - Protocol
 
 protocol AuthenticationService: Sendable {
-    func signInWithGoogle() async throws -> AuthDataResult
+    func signInWithGoogle() async throws -> Bool
     func signInWithApple(
-        authorization: ASAuthorization,
+        idToken: String,
         nonce: String
-    ) async throws -> AuthDataResult
+    ) async throws -> Bool
     func signOut() throws
     func deleteAccount() async throws
     func generateNonce() -> String
@@ -21,7 +21,7 @@ protocol AuthenticationService: Sendable {
 // MARK: - Firebase Implementation
 
 final class FirebaseAuthService: AuthenticationService {
-    nonisolated func signInWithGoogle() async throws -> AuthDataResult {
+    nonisolated func signInWithGoogle() async throws -> Bool {
         guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootViewController = await windowScene.windows.first?.rootViewController else {
             throw AuthError.missingRootViewController
@@ -37,26 +37,22 @@ final class FirebaseAuthService: AuthenticationService {
             accessToken: result.user.accessToken.tokenString
         )
 
-        return try await Auth.auth().signIn(with: credential)
+        _ = try await Auth.auth().signIn(with: credential)
+        return true
     }
 
     nonisolated func signInWithApple(
-        authorization: ASAuthorization,
+        idToken: String,
         nonce: String
-    ) async throws -> AuthDataResult {
-        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
-              let appleIDToken = appleIDCredential.identityToken,
-              let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-            throw AuthError.missingIDToken
-        }
-
+    ) async throws -> Bool {
         let credential = OAuthProvider.appleCredential(
-            withIDToken: idTokenString,
+            withIDToken: idToken,
             rawNonce: nonce,
-            fullName: appleIDCredential.fullName
+            fullName: nil
         )
 
-        return try await Auth.auth().signIn(with: credential)
+        _ = try await Auth.auth().signIn(with: credential)
+        return true
     }
 
     nonisolated func signOut() throws {

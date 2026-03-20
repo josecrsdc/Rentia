@@ -23,6 +23,7 @@ final class PropertyFormViewModel {
 
     private let firestoreService = FirestoreService()
     private var editingPropertyId: String?
+    private var existingImageURLs: [String] = []
 
     var isEditing: Bool {
         editingPropertyId != nil
@@ -68,6 +69,7 @@ final class PropertyFormViewModel {
                 bathrooms = "\(property.bathrooms)"
                 normalizeRoomsBathroomsForType()
                 administratorId = property.administratorId
+                existingImageURLs = property.imageURLs
                 if let propertyArea = property.area {
                     area = String(format: "%.0f", propertyArea)
                 }
@@ -98,7 +100,7 @@ final class PropertyFormViewModel {
             bathrooms: type.supportsRoomsBathrooms ? (Int(bathrooms) ?? 1) : 0,
             area: Double(area),
             administratorId: administratorId,
-            imageURLs: [],
+            imageURLs: existingImageURLs,
             createdAt: Date()
         )
 

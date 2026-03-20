@@ -4,6 +4,8 @@
 <dict>
 	<key>GIDClientID</key>
 	<string>534205551602-evrd8vohr3u0m56hvg0vjbl3ghos3el2.apps.googleusercontent.com</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Rentia necesita acceso a tus fotos para añadir imágenes a las propiedades.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

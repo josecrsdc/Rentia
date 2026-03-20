@@ -104,6 +104,19 @@ struct PropertyListView: View {
                 LeaseFormView(leaseId: nil, propertyId: propertyId)
             }
         }
+        .navigationDestination(for: ExpenseDestination.self) { destination in
+            switch destination {
+            case .list(let id): ExpenseListView(propertyId: id)
+            case .detail(let id): ExpenseDetailView(expenseId: id)
+            }
+        }
+        .navigationDestination(for: ReportDestination.self) { destination in
+            switch destination {
+            case .annual: AnnualReportView()
+            case .debt: DebtReportView()
+            case .profitability(let id, let name): ProfitabilityView(propertyId: id, propertyName: name)
+            }
+        }
         .refreshable { viewModel.loadProperties() }
         .onAppear { viewModel.loadProperties() }
         .alert("common.error",

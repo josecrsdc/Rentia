@@ -60,6 +60,7 @@ struct TenantDetailView: View {
                     propertiesSection
                 }
                 paymentsSection
+                DocumentListView(entityId: tenantId, entityType: .tenant)
                 deleteButton
             }
             .padding(AppSpacing.medium)

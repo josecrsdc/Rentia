@@ -10,7 +10,11 @@ final class PaymentListViewModel {
     var showError = false
     var selectedFilter: PaymentStatus?
 
-    private let firestoreService = FirestoreService()
+    private let firestoreService: any FirestoreServiceProtocol
+
+    init(firestoreService: any FirestoreServiceProtocol = FirestoreService()) {
+        self.firestoreService = firestoreService
+    }
 
     var filteredPayments: [Payment] {
         var result = payments

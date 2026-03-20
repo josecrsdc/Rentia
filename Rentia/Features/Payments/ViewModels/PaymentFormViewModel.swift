@@ -19,8 +19,12 @@ final class PaymentFormViewModel {
     var tenants: [Tenant] = []
     var properties: [Property] = []
 
-    private let firestoreService = FirestoreService()
+    private let firestoreService: any FirestoreServiceProtocol
     private var editingPaymentId: String?
+
+    init(firestoreService: any FirestoreServiceProtocol = FirestoreService()) {
+        self.firestoreService = firestoreService
+    }
 
     var isEditing: Bool {
         editingPaymentId != nil

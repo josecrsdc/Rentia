@@ -1,3 +1,4 @@
+import FirebaseAuth
 import FirebaseFirestore
 import SwiftUI
 
@@ -6,10 +7,17 @@ struct LeaseDetailView: View {
     @State private var lease: Lease?
     @State private var propertyName: String?
     @State private var tenantName: String?
+    @State private var tenantData: Tenant?
+    @State private var propertyData: Property?
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
+    @State private var showDeleteError = false
+    @State private var deleteErrorMessage: String?
     @State private var showStatusError = false
     @State private var statusErrorMessage = ""
+    @State private var pdfData: Data?
+    @State private var showShareSheet = false
+    @State private var isGeneratingPDF = false
     @Environment(\.dismiss) private var dismiss
 
     private let firestoreService = FirestoreService()
@@ -54,6 +62,11 @@ struct LeaseDetailView: View {
         } message: {
             Text(statusErrorMessage)
         }
+        .alert("common.error", isPresented: $showDeleteError) {
+            Button("common.accept", role: .cancel) {}
+        } message: {
+            Text(deleteErrorMessage ?? "")
+        }
     }
 
     // MARK: - Content
@@ -67,9 +80,72 @@ struct LeaseDetailView: View {
                 detailsCard(lease)
                 relatedInfoCard(lease)
                 actionButtons(lease)
+                pdfButton
+                DocumentListView(entityId: leaseId, entityType: .lease)
                 deleteButton
             }
             .padding(AppSpacing.medium)
+        }
+        .sheet(isPresented: $showShareSheet) {
+            if let data = pdfData {
+                ShareSheet(items: [data])
+            }
+        }
+    }
+
+    private var pdfButton: some View {
+        Button {
+            generateLeasePDF()
+        } label: {
+            HStack {
+                if isGeneratingPDF {
+                    ProgressView().scaleEffect(0.8)
+                } else {
+                    Image(systemName: "doc.richtext")
+                }
+                Text("pdf.generate_contract")
+            }
+            .font(AppTypography.body)
+            .fontWeight(.medium)
+            .frame(maxWidth: .infinity)
+            .padding(AppSpacing.medium)
+            .background(AppTheme.Colors.primary.opacity(0.1))
+            .foregroundStyle(AppTheme.Colors.primary)
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large))
+        }
+        .disabled(isGeneratingPDF)
+    }
+
+    private func generateLeasePDF() {
+        guard let lease, let tenantData, let propertyData else { return }
+        guard let currentUser = Auth.auth().currentUser else { return }
+        isGeneratingPDF = true
+
+        let owner = UserProfile(
+            uid: currentUser.uid,
+            email: currentUser.email ?? "",
+            displayName: currentUser.displayName ?? currentUser.email ?? "",
+            photoURL: nil,
+            authProvider: "",
+            createdAt: Date(),
+            updatedAt: Date()
+        )
+        let capturedLease = lease
+        let capturedTenant = tenantData
+        let capturedProperty = propertyData
+
+        Task {
+            let data = await Task.detached(priority: .userInitiated) {
+                PDFGeneratorService.generateLeaseContract(
+                    lease: capturedLease,
+                    tenant: capturedTenant,
+                    property: capturedProperty,
+                    owner: owner
+                )
+            }.value
+            pdfData = data
+            isGeneratingPDF = false
+            showShareSheet = true
         }
     }
 
@@ -380,18 +456,23 @@ struct LeaseDetailView: View {
                 )
                 lease = loadedLease
 
-                if let property: Property = try? await firestoreService.read(
+                async let propertyResult: Property? = try? firestoreService.read(
                     id: loadedLease.propertyId,
                     from: "properties"
-                ) {
-                    propertyName = property.name
-                }
-
-                if let tenant: Tenant = try? await firestoreService.read(
+                )
+                async let tenantResult: Tenant? = try? firestoreService.read(
                     id: loadedLease.tenantId,
                     from: "tenants"
-                ) {
+                )
+
+                if let property = await propertyResult {
+                    propertyName = property.name
+                    propertyData = property
+                }
+
+                if let tenant = await tenantResult {
                     tenantName = tenant.fullName
+                    tenantData = tenant
                 }
             } catch {
                 // Handle error
@@ -429,7 +510,8 @@ struct LeaseDetailView: View {
                 )
                 dismiss()
             } catch {
-                // Handle error
+                deleteErrorMessage = error.localizedDescription
+                showDeleteError = true
             }
         }
     }

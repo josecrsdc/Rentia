@@ -9,11 +9,9 @@ final class LoginViewModel {
     var currentNonce: String?
 
     private let authService: AuthenticationService
-    private let authState: AuthenticationState
 
-    init(authService: AuthenticationService, authState: AuthenticationState) {
+    init(authService: AuthenticationService) {
         self.authService = authService
-        self.authState = authState
     }
 
     func signInWithGoogle() {
@@ -51,10 +49,19 @@ final class LoginViewModel {
                 return
             }
 
+            guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
+                  let appleIDToken = credential.identityToken,
+                  let idToken = String(data: appleIDToken, encoding: .utf8) else {
+                errorMessage = AuthError.missingIDToken.localizedDescription
+                showError = true
+                isLoading = false
+                return
+            }
+
             Task {
                 do {
                     _ = try await authService.signInWithApple(
-                        authorization: authorization,
+                        idToken: idToken,
                         nonce: nonce
                     )
                 } catch {

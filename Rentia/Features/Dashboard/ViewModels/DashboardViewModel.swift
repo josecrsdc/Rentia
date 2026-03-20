@@ -10,7 +10,11 @@ final class DashboardViewModel {
     var isLoading = false
     var errorMessage: String?
 
-    private let firestoreService = FirestoreService()
+    private let firestoreService: any FirestoreServiceProtocol
+
+    init(firestoreService: any FirestoreServiceProtocol = FirestoreService()) {
+        self.firestoreService = firestoreService
+    }
 
     var totalMonthlyIncome: Double {
         payments
