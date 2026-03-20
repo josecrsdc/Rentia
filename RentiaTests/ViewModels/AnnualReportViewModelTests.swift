@@ -62,6 +62,20 @@ struct AnnualReportViewModelTests {
         #expect(vm.monthlyTotals.count == 12)
     }
 
+    @Test func monthlyDataMatchesPropertiesCountAndMonths() {
+        let vm = makeVM()
+        vm.selectedYear = currentYear
+        vm.properties = [property(id: "p1"), property(id: "p2")]
+        vm.payments = [
+            payment(propertyId: "p1", amount: 800, month: 1),
+            payment(propertyId: "p2", amount: 600, month: 2),
+        ]
+        #expect(vm.monthlyData.count == 2)
+        #expect(vm.monthlyData.allSatisfy { $0.count == 12 })
+        #expect(vm.monthlyData[0][0] == 800)
+        #expect(vm.monthlyData[1][1] == 600)
+    }
+
     @Test func monthlyTotalsSumsCorrectlyByMonth() {
         let vm = makeVM()
         vm.selectedYear = currentYear
@@ -155,5 +169,17 @@ struct AnnualReportViewModelTests {
         let lines = csv.split(separator: "\n").map(String.init)
         // header + TOTAL row
         #expect(lines.count == 2)
+    }
+
+    @Test func totalForPropertyOnlyCountsMatchingPropertyAndYear() {
+        let vm = makeVM()
+        vm.selectedYear = currentYear
+        vm.payments = [
+            payment(propertyId: "p1", amount: 800, month: 1),
+            payment(propertyId: "p1", amount: 500, month: 2),
+            payment(propertyId: "p2", amount: 300, month: 1),
+            payment(propertyId: "p1", amount: 200, month: 1, year: currentYear - 1),
+        ]
+        #expect(vm.totalForProperty("p1") == 1300)
     }
 }

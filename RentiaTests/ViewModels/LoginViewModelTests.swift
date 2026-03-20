@@ -5,6 +5,11 @@ import Testing
 @Suite("LoginViewModel")
 @MainActor
 struct LoginViewModelTests {
+    private func waitForAsyncWork() async {
+        await Task.yield()
+        await Task.yield()
+    }
+
     private func makeVM(shouldThrow: Bool = false) -> (LoginViewModel, MockAuthenticationService) {
         let auth = MockAuthenticationService()
         auth.shouldThrow = shouldThrow
@@ -12,58 +17,44 @@ struct LoginViewModelTests {
         return (vm, auth)
     }
 
-    // MARK: - Initial state
-
-    @Test func initialStateIsLoading() {
+    @Test func initialStateIsClean() {
         let (vm, _) = makeVM()
         #expect(vm.isLoading == false)
-    }
-
-    @Test func initialStateShowError() {
-        let (vm, _) = makeVM()
         #expect(vm.showError == false)
-    }
-
-    @Test func initialStateCurrentNonce() {
-        let (vm, _) = makeVM()
         #expect(vm.currentNonce == nil)
     }
 
     // MARK: - prepareAppleSignIn
 
-    @Test func prepareAppleSignInStoresNonce() {
-        let (vm, _) = makeVM()
-        _ = vm.prepareAppleSignIn()
-        #expect(vm.currentNonce == "fixed-nonce-for-testing")
-    }
-
-    @Test func prepareAppleSignInReturnsHashedNonce() {
+    @Test func prepareAppleSignInStoresAndHashesNonce() {
         let (vm, _) = makeVM()
         let result = vm.prepareAppleSignIn()
+        #expect(result.nonce == "fixed-nonce-for-testing")
+        #expect(vm.currentNonce == "fixed-nonce-for-testing")
         #expect(result.hashedNonce == "hashed-fixed-nonce-for-testing")
     }
 
-    @Test func currentNonceNilBeforePrepare() {
-        let (vm, _) = makeVM()
-        #expect(vm.currentNonce == nil)
-    }
+    // MARK: - signInWithGoogle
 
-    // MARK: - signInWithGoogle error path
-
-    @Test func signInWithGoogleOnErrorSetsShowError() async {
-        let (vm, _) = makeVM(shouldThrow: true)
+    @Test func signInWithGoogleOnSuccessCallsServiceAndClearsState() async {
+        let (vm, auth) = makeVM()
+        vm.errorMessage = "old"
+        vm.showError = true
         vm.signInWithGoogle()
-        await Task.yield()
-        await Task.yield()
+        await waitForAsyncWork()
+        #expect(auth.signInGoogleCallCount == 1)
+        #expect(vm.isLoading == false)
+        #expect(vm.errorMessage == nil)
         #expect(vm.showError == true)
     }
 
-    @Test func signInWithGoogleOnErrorIsNotLoading() async {
+    @Test func signInWithGoogleOnErrorSetsShowErrorAndClearsLoading() async {
         let (vm, _) = makeVM(shouldThrow: true)
         vm.signInWithGoogle()
-        await Task.yield()
-        await Task.yield()
+        await waitForAsyncWork()
+        #expect(vm.showError == true)
         #expect(vm.isLoading == false)
+        #expect(vm.errorMessage != nil)
     }
 
     // MARK: - handleAppleSignIn

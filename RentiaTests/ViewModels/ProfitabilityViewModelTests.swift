@@ -121,4 +121,32 @@ struct ProfitabilityViewModelTests {
         ]
         #expect(vm.totalIncome == 1300)
     }
+
+    @Test func quarterIncludesOnlyCurrentQuarter() {
+        let vm = makeVM(period: .quarter)
+        let calendar = Calendar.current
+        let now = Date()
+        let currentMonth = calendar.component(.month, from: now)
+        let quarterStartMonth = ((currentMonth - 1) / 3) * 3 + 1
+        let sameQuarterDate = calendar.date(
+            from: DateComponents(
+                year: calendar.component(.year, from: now),
+                month: quarterStartMonth,
+                day: 15
+            )
+        )!
+        let previousQuarterDate = calendar.date(byAdding: .month, value: -3, to: sameQuarterDate)!
+
+        vm.payments = [
+            payment(status: .paid, amount: 800, date: sameQuarterDate),
+            payment(status: .paid, amount: 500, date: previousQuarterDate),
+        ]
+        vm.expenses = [
+            expense(amount: 200, date: sameQuarterDate),
+            expense(amount: 50, date: previousQuarterDate),
+        ]
+
+        #expect(vm.totalIncome == 800)
+        #expect(vm.totalExpenses == 200)
+    }
 }

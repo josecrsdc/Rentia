@@ -11,6 +11,8 @@ final class MockAuthenticationService: AuthenticationService, @unchecked Sendabl
     var signInGoogleCallCount = 0
     var signInAppleCallCount = 0
     var signOutCallCount = 0
+    var lastAppleIDToken: String?
+    var lastAppleNonce: String?
 
     func signInWithGoogle() async throws -> Bool {
         signInGoogleCallCount += 1
@@ -20,6 +22,8 @@ final class MockAuthenticationService: AuthenticationService, @unchecked Sendabl
 
     func signInWithApple(idToken: String, nonce: String) async throws -> Bool {
         signInAppleCallCount += 1
+        lastAppleIDToken = idToken
+        lastAppleNonce = nonce
         if shouldThrow { throw errorToThrow }
         return true
     }

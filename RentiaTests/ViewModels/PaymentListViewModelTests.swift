@@ -5,8 +5,9 @@ import Testing
 @Suite("PaymentListViewModel")
 @MainActor
 struct PaymentListViewModelTests {
-    private func makeVM() -> PaymentListViewModel {
-        PaymentListViewModel(firestoreService: MockFirestoreService())
+    private func makeVM() -> (PaymentListViewModel, MockFirestoreService) {
+        let firestore = MockFirestoreService()
+        return (PaymentListViewModel(firestoreService: firestore), firestore)
     }
 
     private func payment(status: PaymentStatus, amount: Double = 500, daysAgo: Int = 0) -> Payment {
@@ -28,28 +29,28 @@ struct PaymentListViewModelTests {
     // MARK: - filteredPayments
 
     @Test func filteredPaymentsNilFilterReturnsAll() {
-        let vm = makeVM()
+        let (vm, _) = makeVM()
         vm.payments = [payment(status: .paid), payment(status: .pending), payment(status: .overdue)]
         vm.selectedFilter = nil
         #expect(vm.filteredPayments.count == 3)
     }
 
     @Test func filteredPaymentsByPaid() {
-        let vm = makeVM()
+        let (vm, _) = makeVM()
         vm.payments = [payment(status: .paid), payment(status: .paid), payment(status: .pending)]
         vm.selectedFilter = .paid
         #expect(vm.filteredPayments.count == 2)
     }
 
     @Test func filteredPaymentsByOverdue() {
-        let vm = makeVM()
+        let (vm, _) = makeVM()
         vm.payments = [payment(status: .overdue), payment(status: .paid), payment(status: .pending)]
         vm.selectedFilter = .overdue
         #expect(vm.filteredPayments.count == 1)
     }
 
     @Test func filteredPaymentsNoMatchReturnsEmpty() {
-        let vm = makeVM()
+        let (vm, _) = makeVM()
         vm.payments = [payment(status: .paid), payment(status: .pending)]
         vm.selectedFilter = .partial
         #expect(vm.filteredPayments.isEmpty)
@@ -58,7 +59,7 @@ struct PaymentListViewModelTests {
     // MARK: - Ordering
 
     @Test func filteredPaymentsSortedDescending() {
-        let vm = makeVM()
+        let (vm, _) = makeVM()
         vm.payments = [
             payment(status: .paid, daysAgo: 5),
             payment(status: .paid, daysAgo: 1),
@@ -70,7 +71,7 @@ struct PaymentListViewModelTests {
     }
 
     @Test func filteredPaymentsSortedDescendingWithFilter() {
-        let vm = makeVM()
+        let (vm, _) = makeVM()
         vm.payments = [
             payment(status: .paid, daysAgo: 10),
             payment(status: .paid, daysAgo: 2),
@@ -79,5 +80,52 @@ struct PaymentListViewModelTests {
         vm.selectedFilter = .paid
         let dates = vm.filteredPayments.map(\.date)
         #expect(dates == dates.sorted(by: >))
+    }
+
+    @Test func deletePaymentWithNilIDDoesNothing() async {
+        let (vm, firestore) = makeVM()
+        let paymentWithoutID = Payment(
+            id: nil,
+            ownerId: "o1",
+            tenantId: "t1",
+            propertyId: "p1",
+            amount: 100,
+            date: Date(),
+            dueDate: Date(),
+            status: .paid,
+            paymentMethod: nil,
+            notes: nil,
+            createdAt: Date()
+        )
+        vm.payments = [payment(status: .paid)]
+        vm.deletePayment(paymentWithoutID)
+        await Task.yield()
+        #expect(firestore.deleteCallCount == 0)
+        #expect(vm.payments.count == 1)
+    }
+
+    @Test func deletePaymentOnSuccessRemovesItem() async {
+        let (vm, firestore) = makeVM()
+        let toDelete = payment(status: .paid)
+        let keep = payment(status: .pending)
+        vm.payments = [toDelete, keep]
+        vm.deletePayment(toDelete)
+        await Task.yield()
+        #expect(firestore.deleteCallCount == 1)
+        #expect(firestore.lastDeletedId == toDelete.id)
+        #expect(vm.payments.count == 1)
+        #expect(vm.payments.first?.id == keep.id)
+    }
+
+    @Test func deletePaymentOnFailureShowsError() async {
+        let (vm, firestore) = makeVM()
+        firestore.shouldThrow = true
+        let toDelete = payment(status: .paid)
+        vm.payments = [toDelete]
+        vm.deletePayment(toDelete)
+        await Task.yield()
+        #expect(vm.showError == true)
+        #expect(vm.errorMessage != nil)
+        #expect(vm.payments.count == 1)
     }
 }
