@@ -1565,6 +1565,7 @@
       }
     },
     "leases.delete.confirmation.message" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1576,6 +1577,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "¿Estás seguro de que deseas eliminar este contrato? Esta acción no se puede deshacer."
+          }
+        }
+      }
+    },
+    "leases.delete.only_lease" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete lease only"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo el contrato"
+          }
+        }
+      }
+    },
+    "leases.delete.payments_question" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you also want to delete the payments associated with this lease?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Deseas también eliminar los pagos asociados a este contrato?"
           }
         }
       }
@@ -1592,6 +1625,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eliminar contrato"
+          }
+        }
+      }
+    },
+    "leases.delete.with_payments" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete lease and payments"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrato y pagos"
           }
         }
       }

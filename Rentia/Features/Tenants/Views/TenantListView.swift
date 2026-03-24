@@ -3,8 +3,10 @@ import SwiftUI
 struct TenantListView: View {
     @State private var viewModel = TenantListViewModel()
     @State private var showCreateTenant = false
+    @State private var path = NavigationPath()
 
     var body: some View {
+        NavigationStack(path: $path) {
         ZStack {
             AppTheme.Colors.background
                 .ignoresSafeArea()
@@ -36,7 +38,10 @@ struct TenantListView: View {
             case .detail(let id):
                 TenantDetailView(tenantId: id)
             case .form(let id):
-                TenantFormView(tenantId: id)
+                TenantFormView(
+                    tenantId: id,
+                    onDeleted: { path.removeLast(min(2, path.count)) }
+                )
             }
         }
         .navigationDestination(isPresented: $showCreateTenant) {
@@ -47,7 +52,10 @@ struct TenantListView: View {
             case .detail(let id):
                 PaymentDetailView(paymentId: id)
             case .form(let id):
-                PaymentFormView(paymentId: id)
+                PaymentFormView(
+                    paymentId: id,
+                    onDeleted: { path.removeLast(min(2, path.count)) }
+                )
             }
         }
         .navigationDestination(for: LeaseDestination.self) { destination in
@@ -55,7 +63,10 @@ struct TenantListView: View {
             case .detail(let id):
                 LeaseDetailView(leaseId: id)
             case .form(let id):
-                LeaseFormView(leaseId: id)
+                LeaseFormView(
+                    leaseId: id,
+                    onDeleted: { path.removeLast(min(2, path.count)) }
+                )
             case .formForProperty(let propertyId):
                 LeaseFormView(leaseId: nil, propertyId: propertyId)
             }
@@ -68,6 +79,7 @@ struct TenantListView: View {
             Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
         }
     }
 

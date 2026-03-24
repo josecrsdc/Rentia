@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AdministratorFormView: View {
     let administratorId: String?
+    var onDeleted: (() -> Void)?
     @State private var viewModel = AdministratorFormViewModel()
     @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
@@ -111,7 +112,11 @@ struct AdministratorFormView: View {
         Task {
             do {
                 try await firestoreService.delete(id: administratorId, from: "administrators")
-                dismiss()
+                if let onDeleted {
+                    onDeleted()
+                } else {
+                    dismiss()
+                }
             } catch {
                 // Handle error
             }

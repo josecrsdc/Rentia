@@ -3,8 +3,10 @@ import SwiftUI
 struct PaymentListView: View {
     @State private var viewModel = PaymentListViewModel()
     @State private var showCreatePayment = false
+    @State private var path = NavigationPath()
 
     var body: some View {
+        NavigationStack(path: $path) {
         ZStack {
             AppTheme.Colors.background
                 .ignoresSafeArea()
@@ -36,7 +38,10 @@ struct PaymentListView: View {
             case .detail(let id):
                 PaymentDetailView(paymentId: id)
             case .form(let id):
-                PaymentFormView(paymentId: id)
+                PaymentFormView(
+                    paymentId: id,
+                    onDeleted: { path.removeLast(min(2, path.count)) }
+                )
             }
         }
         .navigationDestination(isPresented: $showCreatePayment) {
@@ -50,6 +55,7 @@ struct PaymentListView: View {
             Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
         }
     }
 

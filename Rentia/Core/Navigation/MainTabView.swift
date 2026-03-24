@@ -22,17 +22,11 @@ struct MainTabView: View {
                 DashboardView()
             }
         case .properties:
-            NavigationStack {
-                PropertyListView()
-            }
+            PropertyListView()
         case .tenants:
-            NavigationStack {
-                TenantListView()
-            }
+            TenantListView()
         case .payments:
-            NavigationStack {
-                PaymentListView()
-            }
+            PaymentListView()
         case .settings:
             NavigationStack {
                 SettingsView()

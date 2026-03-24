@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PaymentFormView: View {
     let paymentId: String?
+    var onDeleted: (() -> Void)?
     @State private var viewModel = PaymentFormViewModel()
     @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
@@ -171,7 +172,11 @@ struct PaymentFormView: View {
         Task {
             do {
                 try await firestoreService.delete(id: paymentId, from: "payments")
-                dismiss()
+                if let onDeleted {
+                    onDeleted()
+                } else {
+                    dismiss()
+                }
             } catch {
                 // Handle error
             }

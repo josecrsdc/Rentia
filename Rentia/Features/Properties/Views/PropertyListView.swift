@@ -4,8 +4,10 @@ struct PropertyListView: View {
     @State private var viewModel = PropertyListViewModel()
     @State private var showCreateProperty = false
     @State private var showMap = false
+    @State private var path = NavigationPath()
 
     var body: some View {
+        NavigationStack(path: $path) {
         ZStack {
             AppTheme.Colors.background
                 .ignoresSafeArea()
@@ -60,7 +62,10 @@ struct PropertyListView: View {
             case .detail(let id):
                 PropertyDetailView(propertyId: id)
             case .form(let id):
-                PropertyFormView(propertyId: id)
+                PropertyFormView(
+                    propertyId: id,
+                    onDeleted: { path.removeLast(min(2, path.count)) }
+                )
             case .payments(let propertyId):
                 PropertyPaymentsView(propertyId: propertyId)
             }
@@ -73,7 +78,10 @@ struct PropertyListView: View {
             case .detail(let id):
                 TenantDetailView(tenantId: id)
             case .form(let id):
-                TenantFormView(tenantId: id)
+                TenantFormView(
+                    tenantId: id,
+                    onDeleted: { path.removeLast(min(2, path.count)) }
+                )
             }
         }
         .navigationDestination(for: PaymentDestination.self) { destination in
@@ -81,17 +89,25 @@ struct PropertyListView: View {
             case .detail(let id):
                 PaymentDetailView(paymentId: id)
             case .form(let id):
-                PaymentFormView(paymentId: id)
+                PaymentFormView(
+                    paymentId: id,
+                    onDeleted: { path.removeLast(min(2, path.count)) }
+                )
             }
         }
         .navigationDestination(for: AdministratorDestination.self) { destination in
             switch destination {
             case .list:
-                AdministratorListView()
+                AdministratorListView(
+                    onFormDeleted: { path.removeLast(min(2, path.count)) }
+                )
             case .detail(let id):
                 AdministratorDetailView(administratorId: id)
             case .form(let id):
-                AdministratorFormView(administratorId: id)
+                AdministratorFormView(
+                    administratorId: id,
+                    onDeleted: { path.removeLast(min(2, path.count)) }
+                )
             }
         }
         .navigationDestination(for: LeaseDestination.self) { destination in
@@ -99,7 +115,10 @@ struct PropertyListView: View {
             case .detail(let id):
                 LeaseDetailView(leaseId: id)
             case .form(let id):
-                LeaseFormView(leaseId: id)
+                LeaseFormView(
+                    leaseId: id,
+                    onDeleted: { path.removeLast(min(2, path.count)) }
+                )
             case .formForProperty(let propertyId):
                 LeaseFormView(leaseId: nil, propertyId: propertyId)
             }
@@ -125,6 +144,7 @@ struct PropertyListView: View {
             Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
         }
     }
 

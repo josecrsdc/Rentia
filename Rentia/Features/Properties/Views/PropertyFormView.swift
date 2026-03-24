@@ -3,6 +3,7 @@ import SwiftUI
 struct PropertyFormView: View {
     let propertyId: String?
     var onSaved: ((String) -> Void)?
+    var onDeleted: (() -> Void)?
     @State private var viewModel = PropertyFormViewModel()
     @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
@@ -201,7 +202,11 @@ struct PropertyFormView: View {
         Task {
             do {
                 try await firestoreService.delete(id: propertyId, from: "properties")
-                dismiss()
+                if let onDeleted {
+                    onDeleted()
+                } else {
+                    dismiss()
+                }
             } catch {
                 // Handle error
             }

@@ -13,6 +13,7 @@ struct RentiaApp: App {
 
     init() {
         FirebaseApp.configure()
+        FirebaseConfiguration.shared.setLoggerLevel(.warning)
         let authService = FirebaseAuthService()
         let authState = AuthenticationState()
         _container = State(

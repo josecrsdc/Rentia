@@ -209,8 +209,9 @@ final class LeaseFormViewModel {
         }
     }
 
-    func delete() {
-        guard let leaseId = editingLeaseId else { return }
+    func delete(alsoDeletePayments: Bool) {
+        guard let leaseId = editingLeaseId,
+              let userId = Auth.auth().currentUser?.uid else { return }
         isLoading = true
 
         Task {
@@ -224,19 +225,28 @@ final class LeaseFormViewModel {
                     return
                 }
 
-                // Cancel any remaining pending payments
                 let payments: [Payment] = (
                     try? await firestoreService.readAll(
                         from: "payments",
                         whereField: "leaseId",
-                        isEqualTo: leaseId
+                        isEqualTo: leaseId,
+                        whereField: "ownerId",
+                        isEqualTo: userId
                     )
                 ) ?? []
-                for payment in payments where payment.status == .pending || payment.status == .overdue {
-                    guard let paymentId = payment.id else { continue }
-                    var cancelled = payment
-                    cancelled.status = .cancelled
-                    try? await firestoreService.update(cancelled, id: paymentId, in: "payments")
+
+                if alsoDeletePayments {
+                    for payment in payments {
+                        guard let paymentId = payment.id else { continue }
+                        try? await firestoreService.delete(id: paymentId, from: "payments")
+                    }
+                } else {
+                    for payment in payments where payment.status == .pending || payment.status == .overdue {
+                        guard let paymentId = payment.id else { continue }
+                        var cancelled = payment
+                        cancelled.status = .cancelled
+                        try? await firestoreService.update(cancelled, id: paymentId, in: "payments")
+                    }
                 }
 
                 try await firestoreService.delete(id: leaseId, from: "leases")

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct AdministratorListView: View {
+    var onFormDeleted: (() -> Void)?
     @State private var viewModel = AdministratorListViewModel()
     @State private var showCreateAdministrator = false
 
@@ -36,7 +37,7 @@ struct AdministratorListView: View {
             case .detail(let id):
                 AdministratorDetailView(administratorId: id)
             case .form(let id):
-                AdministratorFormView(administratorId: id)
+                AdministratorFormView(administratorId: id, onDeleted: onFormDeleted)
             case .list:
                 EmptyView()
             }

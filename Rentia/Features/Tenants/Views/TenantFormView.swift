@@ -3,6 +3,7 @@ import SwiftUI
 struct TenantFormView: View {
     let tenantId: String?
     var onSaved: ((String) -> Void)?
+    var onDeleted: (() -> Void)?
     @State private var viewModel = TenantFormViewModel()
     @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
@@ -127,7 +128,11 @@ struct TenantFormView: View {
         Task {
             do {
                 try await firestoreService.delete(id: tenantId, from: "tenants")
-                dismiss()
+                if let onDeleted {
+                    onDeleted()
+                } else {
+                    dismiss()
+                }
             } catch {
                 // Handle error
             }
