@@ -40,8 +40,7 @@ struct LeaseDetailView: View {
             }
         }
         .onAppear { loadLease() }
-        .alert("leases.delete.title",
-            isPresented: $showDeleteConfirmation
+        .alert("leases.delete.title", isPresented: $showDeleteConfirmation
         ) {
             Button("common.cancel", role: .cancel) {}
             Button("common.delete", role: .destructive) {

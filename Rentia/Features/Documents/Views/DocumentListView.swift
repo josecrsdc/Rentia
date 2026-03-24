@@ -135,16 +135,19 @@ struct DocumentListView: View {
         isLoading = true
 
         Task {
-            documents = (
-                try? await firestoreService.readAll(
+            do {
+                let all: [RentiaDocument] = try await firestoreService.readAll(
                     from: "documents",
                     whereField: "associatedEntityId",
                     isEqualTo: entityId,
                     whereField: "ownerId",
                     isEqualTo: userId
                 )
-            ) ?? []
-            documents.sort { $0.createdAt > $1.createdAt }
+                documents = all.sorted { $0.createdAt > $1.createdAt }
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
             isLoading = false
         }
     }
@@ -161,7 +164,15 @@ struct DocumentListView: View {
                 let data = try Data(contentsOf: url)
                 let ext = url.pathExtension.isEmpty ? "pdf" : url.pathExtension
                 let path = "owners/\(userId)/documents/\(UUID().uuidString).\(ext)"
-                let contentType = ext == "pdf" ? "application/pdf" : "image/\(ext)"
+                let contentType: String
+                switch ext.lowercased() {
+                case "pdf":             contentType = "application/pdf"
+                case "jpg", "jpeg":     contentType = "image/jpeg"
+                case "png":             contentType = "image/png"
+                case "gif":             contentType = "image/gif"
+                case "heic":            contentType = "image/heic"
+                default:                contentType = "application/octet-stream"
+                }
                 let fileURL = try await storageService.uploadData(
                     data,
                     path: path,
@@ -178,6 +189,7 @@ struct DocumentListView: View {
                     createdAt: Date()
                 )
                 _ = try await firestoreService.create(document, in: "documents")
+                isLoading = false
                 loadDocuments()
             } catch {
                 errorMessage = error.localizedDescription
