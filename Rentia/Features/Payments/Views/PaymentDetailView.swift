@@ -13,8 +13,10 @@ struct PaymentDetailView: View {
     @State private var pdfData: Data?
     @State private var showShareSheet = false
     @State private var isGeneratingPDF = false
-    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
-    @Environment(\.dismiss) private var dismiss
+    @AppStorage("defaultCurrency")
+    private var defaultCurrency = "EUR"
+    @Environment(\.dismiss)
+    private var dismiss
 
     private let firestoreService = FirestoreService()
 

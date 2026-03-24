@@ -4,7 +4,8 @@ struct TenantFormView: View {
     let tenantId: String?
     var onSaved: ((String) -> Void)?
     @State private var viewModel = TenantFormViewModel()
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     var body: some View {
         ZStack {

@@ -2,7 +2,8 @@ import SwiftUI
 
 struct DebtReportView: View {
     @State private var viewModel = DebtReportViewModel()
-    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
+    @AppStorage("defaultCurrency")
+    private var defaultCurrency = "EUR"
 
     var body: some View {
         ZStack {

@@ -11,7 +11,7 @@ final class NotificationService: @unchecked Sendable {
             .requestAuthorization(options: [.alert, .badge, .sound])
     }
 
-    func scheduleOverduePaymentsNotification(overdueCount: Int) async {
+    func scheduleOverduePaymentsNotification(overdueCount: Int, hour: Int = 9, minute: Int = 0) async {
         guard overdueCount > 0 else {
             UNUserNotificationCenter.current()
                 .removePendingNotificationRequests(withIdentifiers: ["overdue_payments"])
@@ -28,8 +28,8 @@ final class NotificationService: @unchecked Sendable {
         content.userInfo = ["type": "overdue_payments"]
 
         var components = DateComponents()
-        components.hour = 9
-        components.minute = 0
+        components.hour = hour
+        components.minute = minute
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
         let request = UNNotificationRequest(
             identifier: "overdue_payments",
@@ -41,12 +41,15 @@ final class NotificationService: @unchecked Sendable {
     }
 
     func scheduleLeaseExpiryNotifications(
-        leases: [(id: String, propertyName: String, endDate: Date)]
+        leases: [(id: String, propertyName: String, endDate: Date)],
+        hour: Int = 9,
+        minute: Int = 0,
+        warningDays: [Int] = [60, 30]
     ) async {
         let center = UNUserNotificationCenter.current()
         let existingIds = await center.pendingNotificationRequests().map(\.identifier)
         let leaseIds = leases.flatMap { lease in
-            [30, 60].map { "lease_expiry_\(lease.id)_\($0)d" }
+            warningDays.map { "lease_expiry_\(lease.id)_\($0)d" }
         }
         let toRemove = existingIds.filter {
             $0.hasPrefix("lease_expiry_") && !leaseIds.contains($0)
@@ -54,12 +57,14 @@ final class NotificationService: @unchecked Sendable {
         center.removePendingNotificationRequests(withIdentifiers: toRemove)
 
         for lease in leases {
-            for daysBefore in [60, 30] {
+            for daysBefore in warningDays {
                 await scheduleLeaseNotification(
                     id: lease.id,
                     propertyName: lease.propertyName,
                     endDate: lease.endDate,
-                    daysBefore: daysBefore
+                    daysBefore: daysBefore,
+                    hour: hour,
+                    minute: minute
                 )
             }
         }
@@ -69,7 +74,9 @@ final class NotificationService: @unchecked Sendable {
         id: String,
         propertyName: String,
         endDate: Date,
-        daysBefore: Int
+        daysBefore: Int,
+        hour: Int,
+        minute: Int
     ) async {
         guard let notifyDate = Calendar.current.date(
             byAdding: .day, value: -daysBefore, to: endDate
@@ -91,9 +98,9 @@ final class NotificationService: @unchecked Sendable {
         content.sound = .default
         content.userInfo = ["type": "lease_expiry", "leaseId": id]
 
-        let components = Calendar.current.dateComponents(
-            [.year, .month, .day, .hour], from: notifyDate
-        )
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: notifyDate)
+        components.hour = hour
+        components.minute = minute
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
         let request = UNNotificationRequest(
             identifier: "lease_expiry_\(id)_\(daysBefore)d",

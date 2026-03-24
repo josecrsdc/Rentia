@@ -2,7 +2,8 @@ import AuthenticationServices
 import SwiftUI
 
 struct LoginView: View {
-    @Environment(\.container) private var container
+    @Environment(\.container)
+    private var container
     @State private var viewModel: LoginViewModel?
 
     var body: some View {

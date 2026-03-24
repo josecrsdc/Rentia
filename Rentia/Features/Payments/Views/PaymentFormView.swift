@@ -3,7 +3,8 @@ import SwiftUI
 struct PaymentFormView: View {
     let paymentId: String?
     @State private var viewModel = PaymentFormViewModel()
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     var body: some View {
         ZStack {

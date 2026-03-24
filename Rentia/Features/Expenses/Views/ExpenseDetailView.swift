@@ -8,7 +8,8 @@ struct ExpenseDetailView: View {
     @State private var showDeleteError = false
     @State private var deleteErrorMessage: String?
     @State private var showEditForm = false
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     private let firestoreService = FirestoreService()
 

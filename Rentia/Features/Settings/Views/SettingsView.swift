@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Environment(\.container) private var container
+    @Environment(\.container)
+    private var container
     @State private var viewModel: ProfileViewModel?
 
     var body: some View {

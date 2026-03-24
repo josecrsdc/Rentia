@@ -5,9 +5,11 @@ import SwiftUI
 @main
 struct RentiaApp: App {
     @State private var container: DIContainer
-    @AppStorage("appearanceMode") private var appearanceMode = "system"
+    @AppStorage("appearanceMode")
+    private var appearanceMode = "system"
     @State private var fontScaleManager = FontScaleManager()
-    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.scenePhase)
+    private var scenePhase
 
     init() {
         FirebaseApp.configure()
@@ -55,9 +57,14 @@ struct RentiaApp: App {
             let overdueCount = payments.filter {
                 $0.status == .overdue || ($0.status == .pending && $0.dueDate.isOverdue)
             }.count
-            await NotificationService.shared.scheduleOverduePaymentsNotification(
-                overdueCount: overdueCount
-            )
+            let overdueHour   = UserDefaults.standard.object(forKey: "notifyOverdueHour")   as? Int ?? 9
+            let overdueMinute = UserDefaults.standard.object(forKey: "notifyOverdueMinute") as? Int ?? 0
+            let notifyOverdue = UserDefaults.standard.object(forKey: "notifyOverduePayments") as? Bool ?? true
+            if notifyOverdue {
+                await NotificationService.shared.scheduleOverduePaymentsNotification(
+                    overdueCount: overdueCount, hour: overdueHour, minute: overdueMinute
+                )
+            }
 
             let leases: [Lease] = (
                 try? await firestoreService.readAll(
@@ -82,9 +89,19 @@ struct RentiaApp: App {
                     let name = properties.first { $0.id == lease.propertyId }?.name ?? ""
                     return (id: leaseId, propertyName: name, endDate: endDate)
                 }
-            await NotificationService.shared.scheduleLeaseExpiryNotifications(
-                leases: expiringLeases
-            )
+            let leaseHour     = UserDefaults.standard.object(forKey: "notifyLeaseHour")     as? Int ?? 9
+            let leaseMinute   = UserDefaults.standard.object(forKey: "notifyLeaseMinute")   as? Int ?? 0
+            let leaseWarning1 = UserDefaults.standard.object(forKey: "notifyLeaseWarning1") as? Int ?? 60
+            let leaseWarning2 = UserDefaults.standard.object(forKey: "notifyLeaseWarning2") as? Int ?? 30
+            let notifyLease = UserDefaults.standard.object(forKey: "notifyLeaseExpiry") as? Bool ?? true
+            if notifyLease {
+                await NotificationService.shared.scheduleLeaseExpiryNotifications(
+                    leases: expiringLeases,
+                    hour: leaseHour,
+                    minute: leaseMinute,
+                    warningDays: [leaseWarning1, leaseWarning2]
+                )
+            }
         }
     }
 

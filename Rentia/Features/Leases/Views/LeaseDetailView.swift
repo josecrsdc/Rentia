@@ -18,7 +18,8 @@ struct LeaseDetailView: View {
     @State private var pdfData: Data?
     @State private var showShareSheet = false
     @State private var isGeneratingPDF = false
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     private let firestoreService = FirestoreService()
 

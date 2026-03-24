@@ -3,7 +3,8 @@ import SwiftUI
 struct FullScreenPhotoView: View {
     let url: String
     let onDelete: () -> Void
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     var body: some View {
         NavigationStack {

@@ -4,7 +4,8 @@ struct ProfitabilityView: View {
     let propertyId: String
     let propertyName: String
     @State private var viewModel: ProfitabilityViewModel
-    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
+    @AppStorage("defaultCurrency")
+    private var defaultCurrency = "EUR"
 
     init(propertyId: String, propertyName: String) {
         self.propertyId = propertyId

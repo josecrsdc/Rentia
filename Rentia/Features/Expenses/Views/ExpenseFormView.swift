@@ -4,7 +4,8 @@ struct ExpenseFormView: View {
     let propertyId: String
     var expenseId: String?
     @State private var viewModel: ExpenseFormViewModel
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     init(propertyId: String, expenseId: String? = nil) {
         self.propertyId = propertyId

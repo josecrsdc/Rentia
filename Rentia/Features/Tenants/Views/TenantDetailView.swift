@@ -9,7 +9,8 @@ struct TenantDetailView: View {
     @State private var payments: [Payment] = []
     @State private var isLoading = true
     @State private var showDeleteConfirmation = false
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     private let firestoreService = FirestoreService()
 

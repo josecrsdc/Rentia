@@ -6,7 +6,8 @@ struct AddressSearchView: View {
     @State private var viewModel = AddressSearchViewModel()
     @State private var searchText = ""
     @State private var showManualEntry = false
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     var body: some View {
         ZStack {

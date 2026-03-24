@@ -2,7 +2,8 @@ import SwiftUI
 
 struct DashboardView: View {
     @State private var viewModel = DashboardViewModel()
-    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
+    @AppStorage("defaultCurrency")
+    private var defaultCurrency = "EUR"
 
     var body: some View {
         ScrollView {

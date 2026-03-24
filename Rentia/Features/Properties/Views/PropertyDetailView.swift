@@ -20,7 +20,8 @@ struct PropertyDetailView: View {
     @State private var showPhotoDeleteConfirmation = false
     @State private var uploadErrorMessage: String?
     @State private var showUploadError = false
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     private let firestoreService = FirestoreService()
     private let storageService: any StorageServiceProtocol = SupabaseStorageService()

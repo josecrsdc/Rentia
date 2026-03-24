@@ -2,7 +2,8 @@ import SwiftUI
 
 struct AnnualReportView: View {
     @State private var viewModel = AnnualReportViewModel()
-    @AppStorage("defaultCurrency") private var defaultCurrency = "EUR"
+    @AppStorage("defaultCurrency")
+    private var defaultCurrency = "EUR"
     @State private var showShareSheet = false
     @State private var csvData: String = ""
 
