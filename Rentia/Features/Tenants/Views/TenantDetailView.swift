@@ -43,6 +43,7 @@ struct TenantDetailView: View {
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 tenantHeader(tenant)
                 contactSection(tenant)
+                financialSummarySection
                 if !leases.isEmpty {
                     leasesSection
                 }
@@ -115,6 +116,69 @@ struct TenantDetailView: View {
                     label: "tenants.identification",
                     value: idNumber
                 )
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
+    // MARK: - Financial Summary
+
+    private var financialSummarySection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text("tenants.financial_summary")
+                .font(AppTypography.title3)
+
+            let totalPaid = payments.filter { $0.status == .paid }.reduce(0) { $0 + $1.amount }
+            let pendingDebt = payments.filter { $0.status == .pending || $0.status == .overdue }
+                .reduce(0) { $0 + $1.amount }
+            let nextPayment = payments
+                .filter { $0.status == .pending && $0.dueDate >= Date() }
+                .sorted { $0.dueDate < $1.dueDate }
+                .first
+
+            HStack {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(AppTheme.Colors.success)
+                    .frame(width: 24)
+                Text("tenants.total_paid")
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                Spacer()
+                Text(totalPaid.formatted(.currency(code: "EUR")))
+                    .font(AppTypography.headline)
+                    .foregroundStyle(AppTheme.Colors.success)
+            }
+
+            HStack {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundStyle(pendingDebt > 0 ? AppTheme.Colors.error : AppTheme.Colors.textLight)
+                    .frame(width: 24)
+                Text("tenants.pending_debt")
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                Spacer()
+                Text(pendingDebt.formatted(.currency(code: "EUR")))
+                    .font(AppTypography.headline)
+                    .foregroundStyle(pendingDebt > 0 ? AppTheme.Colors.error : AppTheme.Colors.textSecondary)
+            }
+
+            HStack {
+                Image(systemName: "calendar")
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 24)
+                Text("tenants.next_payment")
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                Spacer()
+                if let next = nextPayment {
+                    Text(next.dueDate.formatted(date: .abbreviated, time: .omitted))
+                        .font(AppTypography.headline)
+                } else {
+                    Text("—")
+                        .font(AppTypography.headline)
+                        .foregroundStyle(AppTheme.Colors.textLight)
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

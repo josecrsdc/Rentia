@@ -37,6 +37,7 @@ struct RentiaApp: App {
                 .onChange(of: scenePhase) {
                     if scenePhase == .active && container.authState.isAuthenticated {
                         scheduleNotifications()
+                        syncOverduePayments()
                     }
                 }
         }
@@ -101,6 +102,31 @@ struct RentiaApp: App {
                     minute: leaseMinute,
                     warningDays: [leaseWarning1, leaseWarning2]
                 )
+            }
+        }
+    }
+
+    private func syncOverduePayments() {
+        Task {
+            let firestoreService = FirestoreService()
+            guard let userId = container.authState.currentUser?.uid else { return }
+
+            let pendingPayments: [Payment] = (
+                try? await firestoreService.readAll(
+                    from: "payments",
+                    whereField: "status",
+                    isEqualTo: "pending",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+            ) ?? []
+
+            let overdue = pendingPayments.filter { $0.dueDate < Date() }
+            for payment in overdue {
+                guard let paymentId = payment.id else { continue }
+                var updated = payment
+                updated.status = .overdue
+                try? await firestoreService.update(updated, id: paymentId, in: "payments")
             }
         }
     }

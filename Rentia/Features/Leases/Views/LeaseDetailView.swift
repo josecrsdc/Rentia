@@ -1,3 +1,4 @@
+import FirebaseAuth
 import FirebaseFirestore
 import SwiftUI
 
@@ -6,6 +7,7 @@ struct LeaseDetailView: View {
     @State private var lease: Lease?
     @State private var propertyName: String?
     @State private var tenantName: String?
+    @State private var leasePayments: [Payment] = []
     @State private var isLoading = true
     @State private var showStatusError = false
     @State private var statusErrorMessage = ""
@@ -13,6 +15,7 @@ struct LeaseDetailView: View {
     private var dismiss
 
     private let firestoreService = FirestoreService()
+    private let coordinator = LeaseCoordinator()
 
     var body: some View {
         ZStack {
@@ -56,6 +59,7 @@ struct LeaseDetailView: View {
                 financialCard(lease)
                 detailsCard(lease)
                 relatedInfoCard(lease)
+                paymentsSection
                 DocumentListView(entityId: leaseId, entityType: .lease)
                 actionButtons(lease)
             }
@@ -247,6 +251,37 @@ struct LeaseDetailView: View {
         .cardStyle()
     }
 
+    // MARK: - Payments Section
+
+    private var paymentsSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text("leases.payments_section")
+                .font(AppTypography.title3)
+
+            if leasePayments.isEmpty {
+                HStack(spacing: AppSpacing.small) {
+                    Image(systemName: "creditcard.trianglebadge.exclamationmark")
+                        .foregroundStyle(AppTheme.Colors.textLight)
+
+                    Text("properties.no_payments_recorded")
+                        .font(AppTypography.body)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+            } else {
+                ForEach(leasePayments) { payment in
+                    NavigationLink(
+                        value: PaymentDestination.detail(payment.id ?? "")
+                    ) {
+                        PaymentCard(payment: payment)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardStyle()
+    }
+
     // MARK: - Action Buttons
 
     private func actionButtons(_ lease: Lease) -> some View {
@@ -356,6 +391,13 @@ struct LeaseDetailView: View {
                     id: loadedLease.tenantId,
                     from: "tenants"
                 )
+                async let paymentsResult: [Payment] = (
+                    try? firestoreService.readAll(
+                        from: "payments",
+                        whereField: "leaseId",
+                        isEqualTo: leaseId
+                    )
+                ) ?? []
 
                 if let property = await propertyResult {
                     propertyName = property.name
@@ -364,6 +406,9 @@ struct LeaseDetailView: View {
                 if let tenant = await tenantResult {
                     tenantName = tenant.fullName
                 }
+
+                leasePayments = await paymentsResult
+                    .sorted { $0.dueDate < $1.dueDate }
             } catch {
                 // Handle error
             }
@@ -372,7 +417,10 @@ struct LeaseDetailView: View {
     }
 
     private func updateStatus(_ newStatus: LeaseStatus) {
-        guard var updatedLease = lease else { return }
+        guard let currentLease = lease,
+              let userId = Auth.auth().currentUser?.uid else { return }
+        let previousStatus = currentLease.status
+        var updatedLease = currentLease
         updatedLease.status = newStatus
         updatedLease.updatedAt = Date()
 
@@ -384,6 +432,28 @@ struct LeaseDetailView: View {
                     in: "leases"
                 )
                 lease = updatedLease
+
+                if newStatus == .active {
+                    try? await coordinator.onActivated(lease: updatedLease, ownerId: userId)
+                    // Reload payments after activation
+                    leasePayments = (
+                        (try? await firestoreService.readAll(
+                            from: "payments",
+                            whereField: "leaseId",
+                            isEqualTo: leaseId
+                        )) ?? []
+                    ).sorted { $0.dueDate < $1.dueDate }
+                } else if newStatus == .ended || newStatus == .expired {
+                    try? await coordinator.onDeactivated(lease: updatedLease, ownerId: userId)
+                    // Reload payments after deactivation
+                    leasePayments = (
+                        (try? await firestoreService.readAll(
+                            from: "payments",
+                            whereField: "leaseId",
+                            isEqualTo: leaseId
+                        )) ?? []
+                    ).sorted { $0.dueDate < $1.dueDate }
+                }
             } catch {
                 statusErrorMessage = error.localizedDescription
                 showStatusError = true

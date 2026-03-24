@@ -9,6 +9,7 @@ enum PaymentStatus: String, Codable, CaseIterable, Sendable {
     case paid
     case overdue
     case partial
+    case cancelled
 
     var localizedName: LocalizedStringKey {
         switch self {
@@ -16,6 +17,7 @@ enum PaymentStatus: String, Codable, CaseIterable, Sendable {
         case .paid: "payments.status.paid"
         case .overdue: "payments.status.overdue"
         case .partial: "payments.status.partial"
+        case .cancelled: "payments.status.cancelled"
         }
     }
 
@@ -25,6 +27,7 @@ enum PaymentStatus: String, Codable, CaseIterable, Sendable {
         case .paid: "checkmark.circle.fill"
         case .overdue: "exclamationmark.triangle.fill"
         case .partial: "chart.pie"
+        case .cancelled: "slash.circle"
         }
     }
 }
@@ -36,6 +39,7 @@ struct Payment: Codable, Identifiable, Sendable {
     var ownerId: String
     var tenantId: String
     var propertyId: String
+    var leaseId: String?
     var amount: Double
     var date: Date
     var dueDate: Date

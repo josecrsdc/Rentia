@@ -20,6 +20,7 @@ final class LeaseFormViewModel {
     var errorMessage: String?
     var showError = false
     var didSave = false
+    var didDelete = false
     var savedId: String?
 
     var preAssignedPropertyId: String?
@@ -33,8 +34,21 @@ final class LeaseFormViewModel {
         preAssignedTenantId != nil
     }
 
-    private let firestoreService = FirestoreService()
-    private var editingLeaseId: String?
+    private let firestoreService: any FirestoreServiceProtocol
+    private let coordinator: LeaseCoordinator
+    private(set) var editingLeaseId: String?
+
+    init(
+        firestoreService: any FirestoreServiceProtocol = FirestoreService(),
+        coordinator: LeaseCoordinator = LeaseCoordinator()
+    ) {
+        self.firestoreService = firestoreService
+        self.coordinator = coordinator
+    }
+
+    func setEditingLeaseId(_ id: String) {
+        editingLeaseId = id
+    }
 
     var isEditing: Bool {
         editingLeaseId != nil
@@ -169,14 +183,64 @@ final class LeaseFormViewModel {
                         in: "leases"
                     )
                     savedId = leaseId
+                    if status == .active {
+                        var savedLease = lease
+                        savedLease.id = leaseId
+                        try? await coordinator.onActivated(lease: savedLease, ownerId: userId)
+                    }
                 } else {
                     let docId = try await firestoreService.create(
                         lease,
                         in: "leases"
                     )
                     savedId = docId
+                    if status == .active {
+                        var savedLease = lease
+                        savedLease.id = docId
+                        try? await coordinator.onActivated(lease: savedLease, ownerId: userId)
+                    }
                 }
                 didSave = true
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+            isLoading = false
+        }
+    }
+
+    func delete() {
+        guard let leaseId = editingLeaseId else { return }
+        isLoading = true
+
+        Task {
+            do {
+                let lease: Lease = try await firestoreService.read(id: leaseId, from: "leases")
+
+                if lease.status == .active {
+                    errorMessage = String(localized: "leases.error.delete_active")
+                    showError = true
+                    isLoading = false
+                    return
+                }
+
+                // Cancel any remaining pending payments
+                let payments: [Payment] = (
+                    try? await firestoreService.readAll(
+                        from: "payments",
+                        whereField: "leaseId",
+                        isEqualTo: leaseId
+                    )
+                ) ?? []
+                for payment in payments where payment.status == .pending || payment.status == .overdue {
+                    guard let paymentId = payment.id else { continue }
+                    var cancelled = payment
+                    cancelled.status = .cancelled
+                    try? await firestoreService.update(cancelled, id: paymentId, in: "payments")
+                }
+
+                try await firestoreService.delete(id: leaseId, from: "leases")
+                didDelete = true
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true

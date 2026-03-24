@@ -14,6 +14,8 @@ struct DashboardView: View {
 
                 reportsSection
 
+                propertiesOverviewSection
+
                 recentActivitySection
             }
             .padding(AppSpacing.medium)
@@ -22,6 +24,13 @@ struct DashboardView: View {
         .navigationTitle("tabs.dashboard")
         .refreshable { viewModel.loadData() }
         .onAppear { viewModel.loadData() }
+        .navigationDestination(for: PropertyDestination.self) { destination in
+            switch destination {
+            case .detail(let id): PropertyDetailView(propertyId: id)
+            case .form(let id): PropertyFormView(propertyId: id)
+            case .payments(let id): PropertyPaymentsView(propertyId: id)
+            }
+        }
         .navigationDestination(for: ReportDestination.self) { destination in
             switch destination {
             case .annual: AnnualReportView()
@@ -88,6 +97,100 @@ struct DashboardView: View {
                 color: AppTheme.Colors.primary
             )
         }
+    }
+
+    // MARK: - Properties Overview
+
+    private var propertiesOverviewSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.medium) {
+            Text("tabs.properties")
+                .font(AppTypography.title3)
+                .foregroundStyle(AppTheme.Colors.textPrimary)
+
+            if viewModel.properties.isEmpty {
+                EmptyStateView(
+                    icon: "building.2",
+                    title: "properties.empty.title",
+                    message: "properties.empty.message"
+                )
+            } else {
+                ForEach(viewModel.properties) { property in
+                    NavigationLink(value: PropertyDestination.detail(property.id ?? "")) {
+                        propertyRow(property)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+    }
+
+    private func propertyRow(_ property: Property) -> some View {
+        let activeLease = viewModel.leases.first {
+            $0.propertyId == property.id && $0.status == .active
+        }
+        let activeTenant = activeLease.flatMap { lease in
+            viewModel.tenants.first { $0.id == lease.tenantId }
+        }
+        let latestPayment = viewModel.payments
+            .filter { $0.propertyId == property.id }
+            .sorted { $0.dueDate > $1.dueDate }
+            .first
+
+        return HStack(spacing: AppSpacing.small) {
+            Image(systemName: property.type.icon)
+                .font(.title3)
+                .foregroundStyle(AppTheme.Colors.primary)
+                .frame(width: 40, height: 40)
+                .background(AppTheme.Colors.primary.opacity(0.1))
+                .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.small))
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(property.name)
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                if let tenant = activeTenant {
+                    Text(tenant.fullName)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                } else {
+                    Text("leases.no_active_contract")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppTheme.Colors.textLight)
+                }
+            }
+
+            Spacer()
+
+            VStack(alignment: .trailing, spacing: 4) {
+                if let payment = latestPayment {
+                    paymentStatusBadge(payment.status)
+                }
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(AppTheme.Colors.textLight)
+            }
+        }
+        .padding(AppSpacing.small)
+        .background(AppTheme.Colors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.medium))
+    }
+
+    private func paymentStatusBadge(_ status: PaymentStatus) -> some View {
+        let color: Color = switch status {
+        case .paid: AppTheme.Colors.success
+        case .pending: AppTheme.Colors.warning
+        case .overdue: AppTheme.Colors.error
+        case .partial: AppTheme.Colors.secondary
+        case .cancelled: AppTheme.Colors.textLight
+        }
+        return Text(status.localizedName)
+            .font(.system(size: 10, weight: .medium))
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(color.opacity(0.15))
+            .foregroundStyle(color)
+            .clipShape(Capsule())
     }
 
     // MARK: - Recent Activity

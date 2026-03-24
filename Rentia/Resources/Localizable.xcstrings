@@ -1692,6 +1692,22 @@
         }
       }
     },
+    "leases.error.delete_active" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cannot delete an active lease. Finalize it first."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No puedes eliminar un contrato activo. Finalízalo primero."
+          }
+        }
+      }
+    },
     "leases.finalize" : {
       "localizations" : {
         "en" : {
@@ -1832,6 +1848,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notas"
+          }
+        }
+      }
+    },
+    "leases.payments_section" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lease Payments"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagos del contrato"
           }
         }
       }
@@ -2348,6 +2380,22 @@
         }
       }
     },
+    "payments.error.no_active_lease" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No active lease found for this tenant-property combination."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay ningún contrato activo para esta combinación de inquilino y propiedad."
+          }
+        }
+      }
+    },
     "payments.information" : {
       "localizations" : {
         "en" : {
@@ -2488,6 +2536,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Registrar Pago"
+          }
+        }
+      }
+    },
+    "payments.status.cancelled" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelled"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelado"
           }
         }
       }
@@ -3308,6 +3372,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sin propiedades"
+          }
+        }
+      }
+    },
+    "properties.error.delete_has_active_lease" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This property has an active lease. Finalize it before deleting."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta propiedad tiene un contrato activo. Finalízalo antes de eliminar."
           }
         }
       }
@@ -4904,6 +4984,38 @@
         }
       }
     },
+    "tenants.error.delete_has_active_lease" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This tenant has active leases. Finalize them before deleting."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este inquilino tiene contratos activos. Finalízalos antes de eliminar."
+          }
+        }
+      }
+    },
+    "tenants.financial_summary" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Financial Summary"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumen financiero"
+          }
+        }
+      }
+    },
     "tenants.first_name" : {
       "localizations" : {
         "en" : {
@@ -5069,6 +5181,22 @@
         }
       }
     },
+    "tenants.next_payment" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Payment"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Próximo pago"
+          }
+        }
+      }
+    },
     "tenants.no_properties_registered" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5082,6 +5210,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No hay propiedades registradas"
+          }
+        }
+      }
+    },
+    "tenants.pending_debt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pending Debt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deuda pendiente"
           }
         }
       }
@@ -5213,6 +5357,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inactivo"
+          }
+        }
+      }
+    },
+    "tenants.total_paid" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total Paid"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total pagado"
           }
         }
       }

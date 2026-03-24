@@ -14,9 +14,13 @@ final class TenantFormViewModel {
     var showError = false
     var didSave = false
     var savedId: String?
-    private let firestoreService = FirestoreService()
+    private let firestoreService: any FirestoreServiceProtocol
     private var editingTenantId: String?
     private var existingPropertyIds: [String] = []
+
+    init(firestoreService: any FirestoreServiceProtocol = FirestoreService()) {
+        self.firestoreService = firestoreService
+    }
 
     var isEditing: Bool {
         editingTenantId != nil
@@ -46,6 +50,38 @@ final class TenantFormViewModel {
                 idNumber = tenant.idNumber ?? ""
                 status = tenant.status
                 existingPropertyIds = tenant.propertyIds
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+            isLoading = false
+        }
+    }
+
+    func delete(tenantId: String) {
+        let userId = Auth.auth().currentUser?.uid ?? ""
+        isLoading = true
+
+        Task {
+            do {
+                let activeLeases: [Lease] = try await firestoreService.readAll(
+                    from: "leases",
+                    whereField: "tenantId",
+                    isEqualTo: tenantId,
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+
+                let hasActiveLease = activeLeases.contains { $0.status == .active }
+                if hasActiveLease {
+                    errorMessage = String(localized: "tenants.error.delete_has_active_lease")
+                    showError = true
+                    isLoading = false
+                    return
+                }
+
+                try await firestoreService.delete(id: tenantId, from: "tenants")
+                didSave = true
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true

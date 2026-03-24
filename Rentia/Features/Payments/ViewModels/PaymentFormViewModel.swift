@@ -3,8 +3,12 @@ import Foundation
 
 @Observable
 final class PaymentFormViewModel {
-    var tenantId = ""
-    var propertyId = ""
+    var tenantId = "" {
+        didSet { autoFillFromLease() }
+    }
+    var propertyId = "" {
+        didSet { autoFillFromLease() }
+    }
     var amount = ""
     var date = Date()
     var dueDate = Date()
@@ -18,6 +22,8 @@ final class PaymentFormViewModel {
 
     var tenants: [Tenant] = []
     var properties: [Property] = []
+    var leases: [Lease] = []
+    var activeLease: Lease?
 
     private let firestoreService: any FirestoreServiceProtocol
     private var editingPaymentId: String?
@@ -34,6 +40,33 @@ final class PaymentFormViewModel {
         tenantId.isNotEmpty
         && propertyId.isNotEmpty
         && (Double(amount) ?? 0) > 0
+        && (activeLease != nil || editingPaymentId != nil)
+    }
+
+    var filteredProperties: [Property] {
+        guard tenantId.isNotEmpty else { return properties }
+        let leasedPropertyIds = Set(
+            leases
+                .filter { $0.status == .active && $0.tenantId == tenantId }
+                .map(\.propertyId)
+        )
+        return properties.filter { property in
+            guard let id = property.id else { return false }
+            return leasedPropertyIds.contains(id)
+        }
+    }
+
+    var filteredTenants: [Tenant] {
+        guard propertyId.isNotEmpty else { return tenants }
+        let leasedTenantIds = Set(
+            leases
+                .filter { $0.status == .active && $0.propertyId == propertyId }
+                .map(\.tenantId)
+        )
+        return tenants.filter { tenant in
+            guard let id = tenant.id else { return false }
+            return leasedTenantIds.contains(id)
+        }
     }
 
     func loadData() {
@@ -51,9 +84,15 @@ final class PaymentFormViewModel {
                     whereField: "ownerId",
                     isEqualTo: userId
                 )
+                async let leasesResult: [Lease] = firestoreService.readAll(
+                    from: "leases",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
 
                 tenants = try await tenantsResult
                 properties = try await propertiesResult
+                leases = try await leasesResult
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true
@@ -79,6 +118,11 @@ final class PaymentFormViewModel {
                 status = payment.status
                 paymentMethod = payment.paymentMethod ?? ""
                 notes = payment.notes ?? ""
+                activeLease = leases.first {
+                    $0.status == .active
+                    && $0.tenantId == payment.tenantId
+                    && $0.propertyId == payment.propertyId
+                }
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true
@@ -89,6 +133,13 @@ final class PaymentFormViewModel {
 
     func save() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        if activeLease == nil && editingPaymentId == nil {
+            errorMessage = String(localized: "payments.error.no_active_lease")
+            showError = true
+            return
+        }
+
         isLoading = true
 
         let payment = Payment(
@@ -96,6 +147,7 @@ final class PaymentFormViewModel {
             ownerId: userId,
             tenantId: tenantId,
             propertyId: propertyId,
+            leaseId: activeLease?.id,
             amount: Double(amount) ?? 0,
             date: date,
             dueDate: dueDate,
@@ -126,6 +178,35 @@ final class PaymentFormViewModel {
                 showError = true
             }
             isLoading = false
+        }
+    }
+
+    private func autoFillFromLease() {
+        guard tenantId.isNotEmpty, propertyId.isNotEmpty else {
+            if tenantId.isEmpty && propertyId.isEmpty { activeLease = nil }
+            return
+        }
+        let found = leases.first {
+            $0.status == .active
+            && $0.tenantId == tenantId
+            && $0.propertyId == propertyId
+        }
+        activeLease = found
+        guard let lease = found else { return }
+
+        if amount.isEmpty || (Double(amount) ?? 0) == 0 {
+            amount = String(format: "%.2f", lease.rentAmount)
+        }
+
+        let calendar = Calendar.current
+        var components = calendar.dateComponents([.year, .month], from: Date())
+        components.day = min(lease.billingDay, 28)
+        if let thisMonth = calendar.date(from: components), thisMonth >= Date() {
+            dueDate = thisMonth
+        } else if let nextMonth = calendar.date(byAdding: .month, value: 1, to: Date()) {
+            var futureComponents = calendar.dateComponents([.year, .month], from: nextMonth)
+            futureComponents.day = min(lease.billingDay, 28)
+            dueDate = calendar.date(from: futureComponents) ?? Date()
         }
     }
 }

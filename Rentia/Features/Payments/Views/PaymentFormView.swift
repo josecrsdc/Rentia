@@ -68,7 +68,7 @@ struct PaymentFormView: View {
                 selection: $viewModel.tenantId
             ) {
                 Text("common.select").tag("")
-                ForEach(viewModel.tenants) { tenant in
+                ForEach(viewModel.filteredTenants) { tenant in
                     Text(tenant.fullName).tag(tenant.id ?? "")
                 }
             }
@@ -77,8 +77,32 @@ struct PaymentFormView: View {
                 selection: $viewModel.propertyId
             ) {
                 Text("common.select").tag("")
-                ForEach(viewModel.properties) { property in
+                ForEach(viewModel.filteredProperties) { property in
                     Text(property.name).tag(property.id ?? "")
+                }
+            }
+
+            if let lease = viewModel.activeLease {
+                HStack {
+                    Image(systemName: "doc.text.fill")
+                        .foregroundStyle(AppTheme.Colors.success)
+                    Text("leases.status.active")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppTheme.Colors.success)
+                    Spacer()
+                    Text(
+                        lease.rentAmount.formatted(.currency(code: "EUR"))
+                    )
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+            } else if viewModel.tenantId.isNotEmpty && viewModel.propertyId.isNotEmpty {
+                HStack {
+                    Image(systemName: "exclamationmark.triangle")
+                        .foregroundStyle(AppTheme.Colors.error)
+                    Text("payments.error.no_active_lease")
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppTheme.Colors.error)
                 }
             }
         }

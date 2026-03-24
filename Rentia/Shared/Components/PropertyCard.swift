@@ -104,6 +104,7 @@ struct PropertyCard: View {
         switch property.status {
         case .available: return AppTheme.Colors.success
         case .maintenance: return AppTheme.Colors.warning
+        case .rented: return AppTheme.Colors.primary
         }
     }
 }

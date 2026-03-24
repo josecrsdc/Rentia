@@ -10,6 +10,7 @@ struct PropertyDetailView: View {
     @State private var tenants: [Tenant] = []
     @State private var activeLease: Lease?
     @State private var pastLeases: [Lease] = []
+    @State private var nextPayment: Payment?
     @State private var administrator: Administrator?
     @State private var isLoading = true
     @State private var selectedPhotoItems: [PhotosPickerItem] = []
@@ -372,6 +373,16 @@ struct PropertyDetailView: View {
                             }
                             .font(AppTypography.caption)
                             .foregroundStyle(AppTheme.Colors.textSecondary)
+
+                            if let next = nextPayment {
+                                HStack(spacing: AppSpacing.extraSmall) {
+                                    Image(systemName: "calendar")
+                                        .foregroundStyle(AppTheme.Colors.warning)
+                                    Text(next.dueDate.formatted(date: .abbreviated, time: .omitted))
+                                }
+                                .font(AppTypography.caption)
+                                .foregroundStyle(AppTheme.Colors.warning)
+                            }
                         }
 
                         Spacer()
@@ -894,6 +905,20 @@ struct PropertyDetailView: View {
             pastLeases = allLeases
                 .filter { $0.status != .active }
                 .sorted { ($0.endDate ?? $0.startDate) > ($1.endDate ?? $1.startDate) }
+
+            if let leaseId = activeLease?.id {
+                let leasePayments: [Payment] = (
+                    try? await firestoreService.readAll(
+                        from: "payments",
+                        whereField: "leaseId",
+                        isEqualTo: leaseId
+                    )
+                ) ?? []
+                nextPayment = leasePayments
+                    .filter { $0.status == .pending && $0.dueDate >= Date() }
+                    .sorted { $0.dueDate < $1.dueDate }
+                    .first
+            }
 
             isLoading = false
         }

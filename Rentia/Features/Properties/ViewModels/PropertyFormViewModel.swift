@@ -21,9 +21,13 @@ final class PropertyFormViewModel {
     var didSave = false
     var savedId: String?
 
-    private let firestoreService = FirestoreService()
+    private let firestoreService: any FirestoreServiceProtocol
     private var editingPropertyId: String?
     private var existingImageURLs: [String] = []
+
+    init(firestoreService: any FirestoreServiceProtocol = FirestoreService()) {
+        self.firestoreService = firestoreService
+    }
 
     var isEditing: Bool {
         editingPropertyId != nil
@@ -120,6 +124,38 @@ final class PropertyFormViewModel {
                     savedId = docId
                 }
 
+                didSave = true
+            } catch {
+                errorMessage = error.localizedDescription
+                showError = true
+            }
+            isLoading = false
+        }
+    }
+
+    func delete(propertyId: String) {
+        let userId = Auth.auth().currentUser?.uid ?? ""
+        isLoading = true
+
+        Task {
+            do {
+                let activeLeases: [Lease] = try await firestoreService.readAll(
+                    from: "leases",
+                    whereField: "propertyId",
+                    isEqualTo: propertyId,
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+
+                let hasActiveLease = activeLeases.contains { $0.status == .active }
+                if hasActiveLease {
+                    errorMessage = String(localized: "properties.error.delete_has_active_lease")
+                    showError = true
+                    isLoading = false
+                    return
+                }
+
+                try await firestoreService.delete(id: propertyId, from: "properties")
                 didSave = true
             } catch {
                 errorMessage = error.localizedDescription

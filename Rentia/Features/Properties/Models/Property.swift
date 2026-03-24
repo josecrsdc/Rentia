@@ -41,11 +41,13 @@ enum PropertyType: String, Codable, CaseIterable, Sendable {
 enum PropertyStatus: String, Codable, CaseIterable, Sendable {
     case available
     case maintenance
+    case rented
 
     var localizedName: LocalizedStringKey {
         switch self {
         case .available: "properties.status.available"
         case .maintenance: "properties.status.maintenance"
+        case .rented: "properties.status.rented"
         }
     }
 

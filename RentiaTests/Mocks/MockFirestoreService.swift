@@ -6,13 +6,20 @@ enum TestError: Error {
 }
 
 final class MockFirestoreService: FirestoreServiceProtocol, @unchecked Sendable {
-    // MARK: - Configurable results
+    // MARK: - Configurable results (readAll)
 
     var propertiesResult: [Property] = []
     var tenantsResult: [Tenant] = []
     var paymentsResult: [Payment] = []
     var leasesResult: [Lease] = []
     var expensesResult: [Expense] = []
+
+    // MARK: - Configurable results (read single)
+
+    var leaseReadResult: Lease?
+    var tenantReadResult: Tenant?
+    var propertyReadResult: Property?
+    var paymentReadResult: Payment?
 
     // MARK: - Error control
 
@@ -22,8 +29,10 @@ final class MockFirestoreService: FirestoreServiceProtocol, @unchecked Sendable 
     // MARK: - Call tracking
 
     var readAllCallCount = 0
+    var updateCallCount = 0
     var deleteCallCount = 0
     var lastDeletedId: String?
+    var lastUpdatedId: String?
 
     // MARK: - Protocol
 
@@ -38,7 +47,19 @@ final class MockFirestoreService: FirestoreServiceProtocol, @unchecked Sendable 
 
     func read<T: Codable>(id: String, from collection: String) async throws -> T {
         if shouldThrow { throw errorToThrow }
-        fatalError("MockFirestoreService.read not implemented — configure per test")
+        switch collection {
+        case "leases":
+            if let result = leaseReadResult as? T { return result }
+        case "tenants":
+            if let result = tenantReadResult as? T { return result }
+        case "properties":
+            if let result = propertyReadResult as? T { return result }
+        case "payments":
+            if let result = paymentReadResult as? T { return result }
+        default:
+            break
+        }
+        throw TestError.generic
     }
 
     func readAll<T: Codable>(
@@ -86,6 +107,8 @@ final class MockFirestoreService: FirestoreServiceProtocol, @unchecked Sendable 
     }
 
     func update<T: Codable>(_ item: T, id: String, in collection: String) async throws {
+        updateCallCount += 1
+        lastUpdatedId = id
         if shouldThrow { throw errorToThrow }
     }
 

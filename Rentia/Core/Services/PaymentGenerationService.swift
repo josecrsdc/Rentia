@@ -5,6 +5,7 @@ final class PaymentGenerationService: Sendable {
 
     nonisolated func generatePayments(
         for lease: Lease,
+        leaseId: String,
         ownerId: String
     ) async throws -> Int {
         let calendar = Calendar.current
@@ -39,6 +40,7 @@ final class PaymentGenerationService: Sendable {
                 ownerId: ownerId,
                 tenantId: lease.tenantId,
                 propertyId: lease.propertyId,
+                leaseId: leaseId,
                 amount: lease.rentAmount,
                 date: dueDate,
                 dueDate: dueDate,

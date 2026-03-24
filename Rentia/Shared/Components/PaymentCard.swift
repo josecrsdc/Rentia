@@ -60,6 +60,7 @@ struct PaymentCard: View {
         case .pending: AppTheme.Colors.warning
         case .overdue: AppTheme.Colors.error
         case .partial: AppTheme.Colors.accent
+        case .cancelled: AppTheme.Colors.textLight
         }
     }
 }
