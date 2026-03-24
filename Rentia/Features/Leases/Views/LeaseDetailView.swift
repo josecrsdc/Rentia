@@ -7,9 +7,6 @@ struct LeaseDetailView: View {
     @State private var propertyName: String?
     @State private var tenantName: String?
     @State private var isLoading = true
-    @State private var showDeleteConfirmation = false
-    @State private var showDeleteError = false
-    @State private var deleteErrorMessage: String?
     @State private var showStatusError = false
     @State private var statusErrorMessage = ""
     @Environment(\.dismiss)
@@ -40,26 +37,12 @@ struct LeaseDetailView: View {
             }
         }
         .onAppear { loadLease() }
-        .alert("leases.delete.title", isPresented: $showDeleteConfirmation
-        ) {
-            Button("common.cancel", role: .cancel) {}
-            Button("common.delete", role: .destructive) {
-                deleteLease()
-            }
-        } message: {
-            Text("leases.delete.confirmation.message")
-        }
         .alert("common.error",
             isPresented: $showStatusError
         ) {
             Button("common.accept", role: .cancel) {}
         } message: {
             Text(statusErrorMessage)
-        }
-        .alert("common.error", isPresented: $showDeleteError) {
-            Button("common.accept", role: .cancel) {}
-        } message: {
-            Text(deleteErrorMessage ?? "")
         }
     }
 
@@ -73,9 +56,8 @@ struct LeaseDetailView: View {
                 financialCard(lease)
                 detailsCard(lease)
                 relatedInfoCard(lease)
-                actionButtons(lease)
                 DocumentListView(entityId: leaseId, entityType: .lease)
-                deleteButton
+                actionButtons(lease)
             }
             .padding(AppSpacing.medium)
         }
@@ -324,28 +306,6 @@ struct LeaseDetailView: View {
         }
     }
 
-    // MARK: - Delete
-
-    private var deleteButton: some View {
-        Button(role: .destructive) {
-            showDeleteConfirmation = true
-        } label: {
-            HStack {
-                Image(systemName: "trash")
-                Text("leases.delete.title")
-            }
-            .font(AppTypography.body)
-            .fontWeight(.medium)
-            .frame(maxWidth: .infinity)
-            .padding(AppSpacing.medium)
-            .background(AppTheme.Colors.error.opacity(0.1))
-            .foregroundStyle(AppTheme.Colors.error)
-            .clipShape(
-                RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large)
-            )
-        }
-    }
-
     // MARK: - Helpers
 
     private func utilitiesModeText(_ mode: UtilitiesMode) -> String {
@@ -427,21 +387,6 @@ struct LeaseDetailView: View {
             } catch {
                 statusErrorMessage = error.localizedDescription
                 showStatusError = true
-            }
-        }
-    }
-
-    private func deleteLease() {
-        Task {
-            do {
-                try await firestoreService.delete(
-                    id: leaseId,
-                    from: "leases"
-                )
-                dismiss()
-            } catch {
-                deleteErrorMessage = error.localizedDescription
-                showDeleteError = true
             }
         }
     }

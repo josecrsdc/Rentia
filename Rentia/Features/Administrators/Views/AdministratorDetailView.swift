@@ -6,7 +6,6 @@ struct AdministratorDetailView: View {
     @State private var administrator: Administrator?
     @State private var managedProperties: [Property] = []
     @State private var isLoading = true
-    @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
     private var dismiss
 
@@ -35,16 +34,6 @@ struct AdministratorDetailView: View {
             }
         }
         .onAppear { loadAdministrator() }
-        .alert("administrators.delete.title",
-            isPresented: $showDeleteConfirmation
-        ) {
-            Button("common.cancel", role: .cancel) {}
-            Button("common.delete", role: .destructive) {
-                deleteAdministrator()
-            }
-        } message: {
-            Text("administrators.delete.confirmation.message")
-        }
     }
 
     private func administratorContent(_ administrator: Administrator) -> some View {
@@ -53,7 +42,6 @@ struct AdministratorDetailView: View {
                 administratorHeader(administrator)
                 contactSection(administrator)
                 propertiesSection
-                deleteButton
             }
             .padding(AppSpacing.medium)
         }
@@ -176,40 +164,6 @@ struct AdministratorDetailView: View {
             }
         }
         .buttonStyle(.plain)
-    }
-
-    private var deleteButton: some View {
-        Button(role: .destructive) {
-            showDeleteConfirmation = true
-        } label: {
-            HStack {
-                Image(systemName: "trash")
-                Text("administrators.delete.title")
-            }
-            .font(AppTypography.body)
-            .fontWeight(.medium)
-            .frame(maxWidth: .infinity)
-            .padding(AppSpacing.medium)
-            .background(AppTheme.Colors.error.opacity(0.1))
-            .foregroundStyle(AppTheme.Colors.error)
-            .clipShape(
-                RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large)
-            )
-        }
-    }
-
-    private func deleteAdministrator() {
-        Task {
-            do {
-                try await firestoreService.delete(
-                    id: administratorId,
-                    from: "administrators"
-                )
-                dismiss()
-            } catch {
-                // Handle error
-            }
-        }
     }
 
     private func loadAdministrator() {

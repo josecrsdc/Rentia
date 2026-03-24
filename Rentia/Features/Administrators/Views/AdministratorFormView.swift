@@ -3,8 +3,11 @@ import SwiftUI
 struct AdministratorFormView: View {
     let administratorId: String?
     @State private var viewModel = AdministratorFormViewModel()
+    @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
     private var dismiss
+
+    private let firestoreService = FirestoreService()
 
     var body: some View {
         ZStack {
@@ -15,6 +18,9 @@ struct AdministratorFormView: View {
                 personalInfoSection
                 contactSection
                 saveButton
+                if administratorId != nil {
+                    deleteSection
+                }
             }
             .scrollContentBackground(.hidden)
         }
@@ -40,6 +46,16 @@ struct AdministratorFormView: View {
             Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
+        .alert("administrators.delete.title",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("common.cancel", role: .cancel) {}
+            Button("common.delete", role: .destructive) {
+                deleteAdministrator()
+            }
+        } message: {
+            Text("administrators.delete.confirmation.message")
         }
     }
 
@@ -77,6 +93,28 @@ struct AdministratorFormView: View {
             .keyboardType(.emailAddress)
             .textContentType(.emailAddress)
             .autocorrectionDisabled()
+        }
+    }
+
+    private var deleteSection: some View {
+        Section {
+            DeleteButton(title: "administrators.delete.title") {
+                showDeleteConfirmation = true
+            }
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
+        }
+    }
+
+    private func deleteAdministrator() {
+        guard let administratorId else { return }
+        Task {
+            do {
+                try await firestoreService.delete(id: administratorId, from: "administrators")
+                dismiss()
+            } catch {
+                // Handle error
+            }
         }
     }
 

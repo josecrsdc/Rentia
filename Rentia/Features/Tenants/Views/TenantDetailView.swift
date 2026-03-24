@@ -8,7 +8,6 @@ struct TenantDetailView: View {
     @State private var leases: [Lease] = []
     @State private var payments: [Payment] = []
     @State private var isLoading = true
-    @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
     private var dismiss
 
@@ -37,16 +36,6 @@ struct TenantDetailView: View {
             }
         }
         .onAppear { loadTenant() }
-        .alert("tenants.delete.title",
-            isPresented: $showDeleteConfirmation
-        ) {
-            Button("common.cancel", role: .cancel) {}
-            Button("common.delete", role: .destructive) {
-                deleteTenant()
-            }
-        } message: {
-            Text("tenants.delete.confirmation.message")
-        }
     }
 
     private func tenantContent(_ tenant: Tenant) -> some View {
@@ -62,7 +51,6 @@ struct TenantDetailView: View {
                 }
                 paymentsSection
                 DocumentListView(entityId: tenantId, entityType: .tenant)
-                deleteButton
             }
             .padding(AppSpacing.medium)
         }
@@ -322,40 +310,6 @@ struct TenantDetailView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
-    }
-
-    private var deleteButton: some View {
-        Button(role: .destructive) {
-            showDeleteConfirmation = true
-        } label: {
-            HStack {
-                Image(systemName: "trash")
-                Text("tenants.delete.title")
-            }
-            .font(AppTypography.body)
-            .fontWeight(.medium)
-            .frame(maxWidth: .infinity)
-            .padding(AppSpacing.medium)
-            .background(AppTheme.Colors.error.opacity(0.1))
-            .foregroundStyle(AppTheme.Colors.error)
-            .clipShape(
-                RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large)
-            )
-        }
-    }
-
-    private func deleteTenant() {
-        Task {
-            do {
-                try await firestoreService.delete(
-                    id: tenantId,
-                    from: "tenants"
-                )
-                dismiss()
-            } catch {
-                // Handle error
-            }
-        }
     }
 
     private func loadTenant() {

@@ -3,8 +3,11 @@ import SwiftUI
 struct PaymentFormView: View {
     let paymentId: String?
     @State private var viewModel = PaymentFormViewModel()
+    @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
     private var dismiss
+
+    private let firestoreService = FirestoreService()
 
     var body: some View {
         ZStack {
@@ -17,6 +20,9 @@ struct PaymentFormView: View {
                 datesSection
                 additionalSection
                 saveButton
+                if paymentId != nil {
+                    deleteSection
+                }
             }
             .scrollContentBackground(.hidden)
         }
@@ -41,6 +47,16 @@ struct PaymentFormView: View {
             Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
+        .alert("payments.delete.title",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("common.cancel", role: .cancel) {}
+            Button("common.delete", role: .destructive) {
+                deletePayment()
+            }
+        } message: {
+            Text("payments.delete.confirmation.message")
         }
     }
 
@@ -113,6 +129,28 @@ struct PaymentFormView: View {
                 axis: .vertical
             )
             .lineLimit(3...6)
+        }
+    }
+
+    private var deleteSection: some View {
+        Section {
+            DeleteButton(title: "payments.delete.title") {
+                showDeleteConfirmation = true
+            }
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
+        }
+    }
+
+    private func deletePayment() {
+        guard let paymentId else { return }
+        Task {
+            do {
+                try await firestoreService.delete(id: paymentId, from: "payments")
+                dismiss()
+            } catch {
+                // Handle error
+            }
         }
     }
 

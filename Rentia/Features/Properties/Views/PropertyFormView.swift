@@ -4,8 +4,11 @@ struct PropertyFormView: View {
     let propertyId: String?
     var onSaved: ((String) -> Void)?
     @State private var viewModel = PropertyFormViewModel()
+    @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
     private var dismiss
+
+    private let firestoreService = FirestoreService()
 
     var body: some View {
         ZStack {
@@ -18,6 +21,9 @@ struct PropertyFormView: View {
                 financialSection
                 detailsSection
                 saveButton
+                if propertyId != nil {
+                    deleteSection
+                }
             }
             .scrollContentBackground(.hidden)
         }
@@ -51,6 +57,16 @@ struct PropertyFormView: View {
             Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
+        .alert("properties.delete.title",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("common.cancel", role: .cancel) {}
+            Button("common.delete", role: .destructive) {
+                deleteProperty()
+            }
+        } message: {
+            Text("properties.delete.confirmation.message")
         }
     }
 
@@ -167,6 +183,28 @@ struct PropertyFormView: View {
                 axis: .vertical
             )
             .lineLimit(3...6)
+        }
+    }
+
+    private var deleteSection: some View {
+        Section {
+            DeleteButton(title: "properties.delete.title") {
+                showDeleteConfirmation = true
+            }
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
+        }
+    }
+
+    private func deleteProperty() {
+        guard let propertyId else { return }
+        Task {
+            do {
+                try await firestoreService.delete(id: propertyId, from: "properties")
+                dismiss()
+            } catch {
+                // Handle error
+            }
         }
     }
 

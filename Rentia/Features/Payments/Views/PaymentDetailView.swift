@@ -7,9 +7,6 @@ struct PaymentDetailView: View {
     @State private var tenant: Tenant?
     @State private var property: Property?
     @State private var isLoading = true
-    @State private var showDeleteConfirmation = false
-    @State private var showDeleteError = false
-    @State private var deleteErrorMessage: String?
     @State private var pdfData: Data?
     @State private var showShareSheet = false
     @State private var isGeneratingPDF = false
@@ -43,21 +40,6 @@ struct PaymentDetailView: View {
             }
         }
         .onAppear { loadPayment() }
-        .alert("payments.delete.title",
-            isPresented: $showDeleteConfirmation
-        ) {
-            Button("common.cancel", role: .cancel) {}
-            Button("common.delete", role: .destructive) {
-                deletePayment()
-            }
-        } message: {
-            Text("payments.delete.confirmation.message")
-        }
-        .alert("common.error", isPresented: $showDeleteError) {
-            Button("common.accept", role: .cancel) {}
-        } message: {
-            Text(deleteErrorMessage ?? "")
-        }
     }
 
     private func paymentContent(_ payment: Payment) -> some View {
@@ -67,7 +49,6 @@ struct PaymentDetailView: View {
                 assignmentCard
                 detailsCard(payment)
                 generatePDFButton
-                deleteButton
             }
             .padding(AppSpacing.medium)
         }
@@ -345,41 +326,6 @@ struct PaymentDetailView: View {
         let first = tenant.firstName.prefix(1).uppercased()
         let last = tenant.lastName.prefix(1).uppercased()
         return "\(first)\(last)"
-    }
-
-    private var deleteButton: some View {
-        Button(role: .destructive) {
-            showDeleteConfirmation = true
-        } label: {
-            HStack {
-                Image(systemName: "trash")
-                Text("payments.delete.title")
-            }
-            .font(AppTypography.body)
-            .fontWeight(.medium)
-            .frame(maxWidth: .infinity)
-            .padding(AppSpacing.medium)
-            .background(AppTheme.Colors.error.opacity(0.1))
-            .foregroundStyle(AppTheme.Colors.error)
-            .clipShape(
-                RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large)
-            )
-        }
-    }
-
-    private func deletePayment() {
-        Task {
-            do {
-                try await firestoreService.delete(
-                    id: paymentId,
-                    from: "payments"
-                )
-                dismiss()
-            } catch {
-                deleteErrorMessage = error.localizedDescription
-                showDeleteError = true
-            }
-        }
     }
 
     private func loadPayment() {

@@ -4,8 +4,11 @@ struct TenantFormView: View {
     let tenantId: String?
     var onSaved: ((String) -> Void)?
     @State private var viewModel = TenantFormViewModel()
+    @State private var showDeleteConfirmation = false
     @Environment(\.dismiss)
     private var dismiss
+
+    private let firestoreService = FirestoreService()
 
     var body: some View {
         ZStack {
@@ -16,6 +19,9 @@ struct TenantFormView: View {
                 personalInfoSection
                 contactSection
                 saveButton
+                if tenantId != nil {
+                    deleteSection
+                }
             }
             .scrollContentBackground(.hidden)
         }
@@ -45,6 +51,16 @@ struct TenantFormView: View {
             Button("common.accept", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
+        .alert("tenants.delete.title",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("common.cancel", role: .cancel) {}
+            Button("common.delete", role: .destructive) {
+                deleteTenant()
+            }
+        } message: {
+            Text("tenants.delete.confirmation.message")
         }
     }
 
@@ -93,6 +109,28 @@ struct TenantFormView: View {
             )
             .keyboardType(.phonePad)
             .textContentType(.telephoneNumber)
+        }
+    }
+
+    private var deleteSection: some View {
+        Section {
+            DeleteButton(title: "tenants.delete.title") {
+                showDeleteConfirmation = true
+            }
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
+        }
+    }
+
+    private func deleteTenant() {
+        guard let tenantId else { return }
+        Task {
+            do {
+                try await firestoreService.delete(id: tenantId, from: "tenants")
+                dismiss()
+            } catch {
+                // Handle error
+            }
         }
     }
 
