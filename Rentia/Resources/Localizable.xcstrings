@@ -2621,6 +2621,7 @@
       }
     },
     "pdf.generate_contract" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4340,6 +4341,150 @@
         }
       }
     },
+    "settings.preferences.notifications" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificaciones"
+          }
+        }
+      }
+    },
+    "settings.preferences.notifications.days_before" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld days before"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld días antes"
+          }
+        }
+      }
+    },
+    "settings.preferences.notifications.first_warning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First warning"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primer aviso"
+          }
+        }
+      }
+    },
+    "settings.preferences.notifications.lease_expiry" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lease expiry"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vencimiento de contratos"
+          }
+        }
+      }
+    },
+    "settings.preferences.notifications.lease_expiry.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You'll be notified in advance before a lease expires."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Te avisaremos con antelación antes de que venza un contrato de alquiler."
+          }
+        }
+      }
+    },
+    "settings.preferences.notifications.overdue_payments" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overdue payments"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagos vencidos"
+          }
+        }
+      }
+    },
+    "settings.preferences.notifications.overdue_payments.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You'll get a daily reminder when rent payments are overdue."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recibirás un aviso diario cuando haya pagos pendientes de cobro."
+          }
+        }
+      }
+    },
+    "settings.preferences.notifications.second_warning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Second warning"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segundo aviso"
+          }
+        }
+      }
+    },
+    "settings.preferences.notifications.time" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification time"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hora de notificación"
+          }
+        }
+      }
+    },
     "settings.preferences.text_size" : {
       "localizations" : {
         "en" : {
@@ -4416,150 +4561,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "S"
-          }
-        }
-      }
-    },
-    "settings.preferences.notifications" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notifications"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notificaciones"
-          }
-        }
-      }
-    },
-    "settings.preferences.notifications.lease_expiry" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lease expiry"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vencimiento de contratos"
-          }
-        }
-      }
-    },
-    "settings.preferences.notifications.overdue_payments" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Overdue payments"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pagos vencidos"
-          }
-        }
-      }
-    },
-    "settings.preferences.notifications.overdue_payments.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You'll get a daily reminder when rent payments are overdue."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recibirás un aviso diario cuando haya pagos pendientes de cobro."
-          }
-        }
-      }
-    },
-    "settings.preferences.notifications.lease_expiry.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You'll be notified in advance before a lease expires."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Te avisaremos con antelación antes de que venza un contrato de alquiler."
-          }
-        }
-      }
-    },
-    "settings.preferences.notifications.time" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification time"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hora de notificación"
-          }
-        }
-      }
-    },
-    "settings.preferences.notifications.first_warning" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "First warning"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Primer aviso"
-          }
-        }
-      }
-    },
-    "settings.preferences.notifications.second_warning" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Second warning"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Segundo aviso"
-          }
-        }
-      }
-    },
-    "settings.preferences.notifications.days_before" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld days before"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld días antes"
           }
         }
       }
