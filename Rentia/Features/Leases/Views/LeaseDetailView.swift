@@ -14,6 +14,7 @@ struct LeaseDetailView: View {
     @State private var pendingStatusChange: LeaseStatus?
     @State private var showPendingPaymentsDialog = false
     @State private var pendingPaymentsForDeletion: [Payment] = []
+    @State private var extendingLease: Lease?
     @Environment(\.dismiss)
     private var dismiss
 
@@ -66,6 +67,12 @@ struct LeaseDetailView: View {
             }
         } message: {
             Text("leases.pending_payments_dialog.message")
+        }
+        .sheet(item: $extendingLease) { currentLease in
+            ExtendLeaseView(lease: currentLease) {
+                extendingLease = nil
+                loadLease()
+            }
         }
     }
 
@@ -292,6 +299,16 @@ struct LeaseDetailView: View {
 
     private func actionButtons(_ lease: Lease) -> some View {
         VStack(spacing: AppSpacing.small) {
+            if lease.status == .active && lease.endDate != nil {
+                actionButton(
+                    title: "leases.extend",
+                    icon: "calendar.badge.plus",
+                    color: AppTheme.Colors.primary
+                ) {
+                    extendingLease = lease
+                }
+            }
+
             if lease.status == .draft {
                 actionButton(
                     title: "leases.activate",

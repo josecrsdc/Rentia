@@ -54,6 +54,10 @@ final class LeaseFormViewModel {
         editingLeaseId != nil
     }
 
+    var hasGeneratedPayments: Bool {
+        isEditing && status != .draft
+    }
+
     var isFormValid: Bool {
         propertyId.isNotEmpty
             && tenantId.isNotEmpty

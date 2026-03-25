@@ -134,14 +134,20 @@ struct LeaseFormView: View {
     }
 
     private var datesSection: some View {
-        Section("leases.dates") {
+        let locked = viewModel.hasGeneratedPayments
+        let hint = locked ? String(localized: "leases.dates.locked_hint") : ""
+        return Section {
             DatePicker(
                 "leases.start_date",
                 selection: $viewModel.startDate,
                 displayedComponents: .date
             )
+            .disabled(locked)
+            .accessibilityHint(hint)
 
             Toggle("leases.has_end_date", isOn: $viewModel.hasEndDate)
+                .disabled(locked)
+                .accessibilityHint(hint)
 
             if viewModel.hasEndDate {
                 DatePicker(
@@ -150,7 +156,21 @@ struct LeaseFormView: View {
                     in: viewModel.startDate...,
                     displayedComponents: .date
                 )
+                .disabled(locked)
+                .accessibilityHint(hint)
             }
+
+            if locked {
+                Label("leases.dates.locked_hint", systemImage: "lock.fill")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+            } else if !viewModel.isEditing {
+                Text("leases.create.dates_hint")
+                    .font(AppTypography.caption)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+            }
+        } header: {
+            Text("leases.dates")
         }
     }
 

@@ -1808,6 +1808,134 @@
         }
       }
     },
+    "leases.create.dates_hint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Once activated, contract dates will be locked."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una vez activado, las fechas del contrato quedarán bloqueadas."
+          }
+        }
+      }
+    },
+    "leases.dates.locked_hint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dates cannot be modified in an active lease. Use «Extend» to change the end date."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las fechas no se pueden modificar en un contrato activo. Usa «Ampliar» para cambiar la fecha de fin."
+          }
+        }
+      }
+    },
+    "leases.extend" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extend lease"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ampliar contrato"
+          }
+        }
+      }
+    },
+    "leases.extend.button" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extend"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ampliar"
+          }
+        }
+      }
+    },
+    "leases.extend.current_dates" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current dates"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechas actuales"
+          }
+        }
+      }
+    },
+    "leases.extend.new_end_date" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New end date"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueva fecha de fin"
+          }
+        }
+      }
+    },
+    "leases.extend.payments_hint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payments will be generated for the new months."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se generarán los pagos pendientes para los meses nuevos."
+          }
+        }
+      }
+    },
+    "leases.extend.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extend lease"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ampliar contrato"
+          }
+        }
+      }
+    },
     "leases.financial" : {
       "localizations" : {
         "en" : {
