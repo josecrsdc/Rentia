@@ -2304,6 +2304,54 @@
         }
       }
     },
+    "leases.status.irreversible_warning.confirm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change Status"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar Estado"
+          }
+        }
+      }
+    },
+    "leases.status.irreversible_warning.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changing to this status is irreversible. You will not be able to reactivate the lease."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar a este estado es irreversible. No podrás reactivar el contrato."
+          }
+        }
+      }
+    },
+    "leases.status.irreversible_warning.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warning"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atención"
+          }
+        }
+      }
+    },
     "leases.tenant" : {
       "localizations" : {
         "en" : {

@@ -13,6 +13,7 @@ final class LeaseFormViewModel {
     var billingDay = 1
     var utilitiesMode: UtilitiesMode = .none
     var status: LeaseStatus = .active
+    private(set) var originalStatus: LeaseStatus?
     var notes = ""
     var availableProperties: [Property] = []
     var availableTenants: [Tenant] = []
@@ -32,6 +33,16 @@ final class LeaseFormViewModel {
 
     var hideTenantSelector: Bool {
         preAssignedTenantId != nil
+    }
+
+    var availableStatuses: [LeaseStatus] {
+        guard isEditing, let original = originalStatus else {
+            return LeaseStatus.allCases
+        }
+        if original.isTerminal {
+            return [original]
+        }
+        return [original] + original.allowedTransitions
     }
 
     private let firestoreService: any FirestoreServiceProtocol
@@ -124,6 +135,7 @@ final class LeaseFormViewModel {
                 billingDay = lease.billingDay
                 utilitiesMode = lease.utilitiesMode
                 status = lease.status
+                originalStatus = lease.status
                 notes = lease.notes ?? ""
                 preAssignedPropertyId = lease.propertyId
                 preAssignedTenantId = lease.tenantId

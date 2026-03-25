@@ -9,6 +9,8 @@ struct LeaseFormView: View {
     @State private var viewModel = LeaseFormViewModel()
     @State private var showDeleteConfirmation = false
     @State private var showStatusChangeDialog = false
+    @State private var showIrreversibleWarning = false
+    @State private var pendingIrreversibleStatus: LeaseStatus?
     @State private var pendingPaymentsForSave: [Payment] = []
     @Environment(\.dismiss)
     private var dismiss
@@ -106,6 +108,25 @@ struct LeaseFormView: View {
             Button(String(localized: "common.cancel"), role: .cancel) {}
         } message: {
             Text("leases.pending_payments_dialog.message")
+        }
+        .alert(
+            String(localized: "leases.status.irreversible_warning.title"),
+            isPresented: $showIrreversibleWarning
+        ) {
+            Button(
+                String(localized: "leases.status.irreversible_warning.confirm"),
+                role: .destructive
+            ) {
+                if let pending = pendingIrreversibleStatus {
+                    viewModel.status = pending
+                }
+                pendingIrreversibleStatus = nil
+            }
+            Button(String(localized: "common.cancel"), role: .cancel) {
+                pendingIrreversibleStatus = nil
+            }
+        } message: {
+            Text("leases.status.irreversible_warning.message")
         }
     }
 
@@ -206,13 +227,22 @@ struct LeaseFormView: View {
                 }
             }
 
-            Picker("leases.status",
-                selection: $viewModel.status
-            ) {
-                ForEach(LeaseStatus.allCases, id: \.self) { status in
+            Picker("leases.status", selection: Binding(
+                get: { viewModel.status },
+                set: { newStatus in
+                    if newStatus.isTerminal && !viewModel.status.isTerminal {
+                        pendingIrreversibleStatus = newStatus
+                        showIrreversibleWarning = true
+                    } else {
+                        viewModel.status = newStatus
+                    }
+                }
+            )) {
+                ForEach(viewModel.availableStatuses, id: \.self) { status in
                     Text(status.localizedName).tag(status)
                 }
             }
+            .disabled(viewModel.originalStatus?.isTerminal == true)
 
             TextField(
                 "leases.notes",

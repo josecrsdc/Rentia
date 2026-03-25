@@ -18,6 +18,18 @@ enum LeaseStatus: String, Codable, CaseIterable, Sendable {
         case .ended: "leases.status.ended"
         }
     }
+
+    var isTerminal: Bool {
+        self == .ended || self == .expired
+    }
+
+    var allowedTransitions: [Self] {
+        switch self {
+        case .draft: [.active, .ended]
+        case .active: [.ended, .expired]
+        case .ended, .expired: []
+        }
+    }
 }
 
 // MARK: - Utilities Mode
