@@ -13,6 +13,7 @@ struct LeaseDetailView: View {
     @State private var statusErrorMessage = ""
     @State private var pendingStatusChange: LeaseStatus?
     @State private var showPendingPaymentsDialog = false
+    @State private var pendingPaymentsForDeletion: [Payment] = []
     @Environment(\.dismiss)
     private var dismiss
 
@@ -297,7 +298,7 @@ struct LeaseDetailView: View {
                     icon: "checkmark.circle",
                     color: AppTheme.Colors.success
                 ) {
-                    requestStatusChange(.active)
+                    Task { await requestStatusChange(.active) }
                 }
             }
 
@@ -307,7 +308,7 @@ struct LeaseDetailView: View {
                     icon: "xmark.circle",
                     color: AppTheme.Colors.warning
                 ) {
-                    requestStatusChange(.ended)
+                    Task { await requestStatusChange(.ended) }
                 }
             }
 
@@ -317,7 +318,7 @@ struct LeaseDetailView: View {
                     icon: "clock.badge.exclamationmark",
                     color: AppTheme.Colors.error
                 ) {
-                    requestStatusChange(.expired)
+                    Task { await requestStatusChange(.expired) }
                 }
             }
         }
@@ -410,18 +411,34 @@ struct LeaseDetailView: View {
 
     // MARK: - Status Changes
 
-    private func requestStatusChange(_ newStatus: LeaseStatus) {
+    private func requestStatusChange(_ newStatus: LeaseStatus) async {
         guard newStatus == .ended || newStatus == .expired else {
             updateStatus(newStatus, deletePending: false)
             return
         }
+        guard let currentLease = lease,
+              let userId = Auth.auth().currentUser?.uid else { return }
 
-        let hasPending = leasePayments.contains { $0.status == .pending || $0.status == .overdue }
-        if hasPending {
+        let allPropertyPayments: [Payment] = (
+            try? await firestoreService.readAll(
+                from: "payments",
+                whereField: "propertyId",
+                isEqualTo: currentLease.propertyId,
+                whereField: "ownerId",
+                isEqualTo: userId
+            )
+        ) ?? []
+
+        pendingPaymentsForDeletion = allPropertyPayments.filter {
+            $0.tenantId == currentLease.tenantId
+            && ($0.status == .pending || $0.status == .overdue)
+        }
+
+        if pendingPaymentsForDeletion.isEmpty {
+            updateStatus(newStatus, deletePending: false)
+        } else {
             pendingStatusChange = newStatus
             showPendingPaymentsDialog = true
-        } else {
-            updateStatus(newStatus, deletePending: false)
         }
     }
 
@@ -463,7 +480,7 @@ struct LeaseDetailView: View {
 
     private func handleDeactivation(lease: Lease, ownerId: String, deletePending: Bool) async throws {
         if deletePending {
-            for payment in leasePayments where payment.status == .pending || payment.status == .overdue {
+            for payment in pendingPaymentsForDeletion {
                 guard let paymentId = payment.id else { continue }
                 try? await firestoreService.delete(id: paymentId, from: "payments")
             }
