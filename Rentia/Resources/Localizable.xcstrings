@@ -741,6 +741,15 @@
         }
       }
     },
+    "Crear administrador de prueba" : {
+
+    },
+    "Crear inquilino de prueba" : {
+
+    },
+    "Crear propiedad de prueba" : {
+
+    },
     "dashboard.active_tenants" : {
       "localizations" : {
         "en" : {
@@ -1863,70 +1872,6 @@
         }
       }
     },
-    "leases.pending_payments.delete" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete pending payments"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar pagos pendientes"
-          }
-        }
-      }
-    },
-    "leases.pending_payments.keep" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keep"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Conservar"
-          }
-        }
-      }
-    },
-    "leases.pending_payments_dialog.message" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There are pending payments associated with this lease."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hay pagos pendientes asociados a este contrato."
-          }
-        }
-      }
-    },
-    "leases.pending_payments_dialog.title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pending payments"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pagos pendientes"
-          }
-        }
-      }
-    },
     "leases.mark_expired" : {
       "localizations" : {
         "en" : {
@@ -2003,6 +1948,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pagos del contrato"
+          }
+        }
+      }
+    },
+    "leases.pending_payments_dialog.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pending payments from next month onwards will be deleted. Current and past months are kept."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los pagos pendientes desde el próximo mes serán eliminados. Los del mes en curso y anteriores se conservan."
+          }
+        }
+      }
+    },
+    "leases.pending_payments_dialog.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pending payments"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagos pendientes"
+          }
+        }
+      }
+    },
+    "leases.pending_payments.delete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete pending payments"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar pagos pendientes"
+          }
+        }
+      }
+    },
+    "leases.pending_payments.keep" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conservar"
           }
         }
       }

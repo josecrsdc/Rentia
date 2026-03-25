@@ -8,6 +8,8 @@ struct LeaseFormView: View {
     var onDeleted: (() -> Void)?
     @State private var viewModel = LeaseFormViewModel()
     @State private var showDeleteConfirmation = false
+    @State private var showStatusChangeDialog = false
+    @State private var pendingPaymentsForSave: [Payment] = []
     @Environment(\.dismiss)
     private var dismiss
 
@@ -89,6 +91,21 @@ struct LeaseFormView: View {
                     dismiss()
                 }
             }
+        }
+        .confirmationDialog(
+            String(localized: "leases.pending_payments_dialog.title"),
+            isPresented: $showStatusChangeDialog,
+            titleVisibility: .visible
+        ) {
+            Button(String(localized: "leases.pending_payments.delete"), role: .destructive) {
+                Task { await deleteFutureAndSave() }
+            }
+            Button(String(localized: "leases.pending_payments.keep")) {
+                viewModel.save()
+            }
+            Button(String(localized: "common.cancel"), role: .cancel) {}
+        } message: {
+            Text("leases.pending_payments_dialog.message")
         }
     }
 
@@ -199,16 +216,39 @@ struct LeaseFormView: View {
     private var saveButton: some View {
         Section {
             PrimaryButton(
-                title: viewModel.isEditing
-                    ? "common.save_changes"
-                    : "leases.create",
+                title: viewModel.isEditing ? "common.save_changes" : "leases.create",
                 isLoading: viewModel.isLoading
             ) {
-                viewModel.save()
+                Task { await checkAndSave() }
             }
             .disabled(!viewModel.isFormValid)
             .listRowInsets(EdgeInsets())
             .listRowBackground(Color.clear)
         }
+    }
+
+    private func checkAndSave() async {
+        let isDeactivation = (viewModel.status == .ended || viewModel.status == .expired)
+            && viewModel.isEditing
+        guard isDeactivation else {
+            viewModel.save()
+            return
+        }
+        pendingPaymentsForSave = await viewModel.fetchPendingPayments()
+        if pendingPaymentsForSave.isEmpty {
+            viewModel.save()
+        } else {
+            showStatusChangeDialog = true
+        }
+    }
+
+    private func deleteFutureAndSave() async {
+        let calendar = Calendar.current
+        var comps = calendar.dateComponents([.year, .month], from: Date())
+        comps.day = 1
+        let startOfThisMonth = calendar.date(from: comps) ?? Date()
+        let startOfNextMonth = calendar.date(byAdding: .month, value: 1, to: startOfThisMonth) ?? Date()
+        await viewModel.deleteFuturePayments(pendingPaymentsForSave, from: startOfNextMonth)
+        viewModel.save()
     }
 }

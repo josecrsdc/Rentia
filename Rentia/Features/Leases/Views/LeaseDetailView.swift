@@ -61,7 +61,7 @@ struct LeaseDetailView: View {
                 pendingStatusChange = nil
                 updateStatus(status, deletePending: false)
             }
-            Button("common.cancel", role: .cancel) {
+            Button(String(localized: "common.cancel"), role: .cancel) {
                 pendingStatusChange = nil
             }
         } message: {
@@ -480,7 +480,8 @@ struct LeaseDetailView: View {
 
     private func handleDeactivation(lease: Lease, ownerId: String, deletePending: Bool) async throws {
         if deletePending {
-            for payment in pendingPaymentsForDeletion {
+            let startOfNextMonth = Self.startOfNextMonth()
+            for payment in pendingPaymentsForDeletion where payment.dueDate >= startOfNextMonth {
                 guard let paymentId = payment.id else { continue }
                 try? await firestoreService.delete(id: paymentId, from: "payments")
             }
@@ -490,5 +491,13 @@ struct LeaseDetailView: View {
             ownerId: ownerId,
             skipPaymentCancellation: true
         )
+    }
+
+    private static func startOfNextMonth() -> Date {
+        let calendar = Calendar.current
+        var comps = calendar.dateComponents([.year, .month], from: Date())
+        comps.day = 1
+        let startOfThisMonth = calendar.date(from: comps) ?? Date()
+        return calendar.date(byAdding: .month, value: 1, to: startOfThisMonth) ?? Date()
     }
 }

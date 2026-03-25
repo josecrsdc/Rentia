@@ -177,28 +177,17 @@ final class LeaseFormViewModel {
 
             do {
                 if let leaseId = editingLeaseId {
-                    try await firestoreService.update(
-                        lease,
-                        id: leaseId,
-                        in: "leases"
-                    )
+                    try await firestoreService.update(lease, id: leaseId, in: "leases")
                     savedId = leaseId
-                    if status == .active {
-                        var savedLease = lease
-                        savedLease.id = leaseId
-                        try? await coordinator.onActivated(lease: savedLease, ownerId: userId)
-                    }
+                    var savedLease = lease
+                    savedLease.id = leaseId
+                    try? await runCoordinatorAction(for: savedLease, ownerId: userId)
                 } else {
-                    let docId = try await firestoreService.create(
-                        lease,
-                        in: "leases"
-                    )
+                    let docId = try await firestoreService.create(lease, in: "leases")
                     savedId = docId
-                    if status == .active {
-                        var savedLease = lease
-                        savedLease.id = docId
-                        try? await coordinator.onActivated(lease: savedLease, ownerId: userId)
-                    }
+                    var savedLease = lease
+                    savedLease.id = docId
+                    try? await runCoordinatorAction(for: savedLease, ownerId: userId)
                 }
                 didSave = true
             } catch {
@@ -256,6 +245,44 @@ final class LeaseFormViewModel {
                 showError = true
             }
             isLoading = false
+        }
+    }
+
+    private func runCoordinatorAction(for lease: Lease, ownerId: String) async throws {
+        switch lease.status {
+        case .active:
+            try? await coordinator.onActivated(lease: lease, ownerId: ownerId)
+        case .ended, .expired:
+            try? await coordinator.onDeactivated(
+                lease: lease,
+                ownerId: ownerId,
+                skipPaymentCancellation: true
+            )
+        default:
+            break
+        }
+    }
+
+    func fetchPendingPayments() async -> [Payment] {
+        guard let userId = Auth.auth().currentUser?.uid else { return [] }
+        let all: [Payment] = (
+            try? await firestoreService.readAll(
+                from: "payments",
+                whereField: "propertyId",
+                isEqualTo: propertyId,
+                whereField: "ownerId",
+                isEqualTo: userId
+            )
+        ) ?? []
+        return all.filter {
+            $0.tenantId == tenantId && ($0.status == .pending || $0.status == .overdue)
+        }
+    }
+
+    func deleteFuturePayments(_ payments: [Payment], from date: Date) async {
+        for payment in payments where payment.dueDate >= date {
+            guard let id = payment.id else { continue }
+            try? await firestoreService.delete(id: id, from: "payments")
         }
     }
 }

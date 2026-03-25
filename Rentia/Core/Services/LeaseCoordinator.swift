@@ -15,22 +15,12 @@ final class LeaseCoordinator: Sendable {
     nonisolated func onActivated(lease: Lease, ownerId: String) async throws {
         guard let leaseId = lease.id else { return }
 
-        // Generate payments only if none exist yet for this lease
-        let existingPayments: [Payment] = (
-            try? await firestoreService.readAll(
-                from: "payments",
-                whereField: "leaseId",
-                isEqualTo: leaseId
-            )
-        ) ?? []
-
-        if existingPayments.isEmpty {
-            _ = try await paymentGenerationService.generatePayments(
-                for: lease,
-                leaseId: leaseId,
-                ownerId: ownerId
-            )
-        }
+        // generatePayments skips months already covered internally
+        _ = try await paymentGenerationService.generatePayments(
+            for: lease,
+            leaseId: leaseId,
+            ownerId: ownerId
+        )
 
         // Update property status to .rented
         if let property: Property = try? await firestoreService.read(
