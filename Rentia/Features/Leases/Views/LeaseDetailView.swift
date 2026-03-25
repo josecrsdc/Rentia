@@ -11,6 +11,8 @@ struct LeaseDetailView: View {
     @State private var isLoading = true
     @State private var showStatusError = false
     @State private var statusErrorMessage = ""
+    @State private var pendingStatusChange: LeaseStatus?
+    @State private var showPendingPaymentsDialog = false
     @Environment(\.dismiss)
     private var dismiss
 
@@ -32,20 +34,37 @@ struct LeaseDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(
-                    value: LeaseDestination.form(leaseId)
-                ) {
+                NavigationLink(value: LeaseDestination.form(leaseId)) {
                     Text("common.edit")
                 }
             }
         }
         .onAppear { loadLease() }
-        .alert("common.error",
-            isPresented: $showStatusError
-        ) {
+        .alert("common.error", isPresented: $showStatusError) {
             Button("common.accept", role: .cancel) {}
         } message: {
             Text(statusErrorMessage)
+        }
+        .confirmationDialog(
+            String(localized: "leases.pending_payments_dialog.title"),
+            isPresented: $showPendingPaymentsDialog,
+            titleVisibility: .visible
+        ) {
+            Button(String(localized: "leases.pending_payments.delete"), role: .destructive) {
+                guard let status = pendingStatusChange else { return }
+                pendingStatusChange = nil
+                updateStatus(status, deletePending: true)
+            }
+            Button(String(localized: "leases.pending_payments.keep")) {
+                guard let status = pendingStatusChange else { return }
+                pendingStatusChange = nil
+                updateStatus(status, deletePending: false)
+            }
+            Button("common.cancel", role: .cancel) {
+                pendingStatusChange = nil
+            }
+        } message: {
+            Text("leases.pending_payments_dialog.message")
         }
     }
 
@@ -73,13 +92,9 @@ struct LeaseDetailView: View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
             statusBadge(lease.status)
 
-            Text(
-                lease.rentAmount.formatted(
-                    .currency(code: "EUR")
-                )
-            )
-            .font(AppTypography.moneyLarge)
-            .foregroundStyle(AppTheme.Colors.primary)
+            Text(lease.rentAmount.formatted(.currency(code: "EUR")))
+                .font(AppTypography.moneyLarge)
+                .foregroundStyle(AppTheme.Colors.primary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardStyle()
@@ -145,17 +160,13 @@ struct LeaseDetailView: View {
             detailRow(
                 icon: "banknote",
                 label: "leases.rent_amount",
-                value: lease.rentAmount.formatted(
-                    .currency(code: "EUR")
-                )
+                value: lease.rentAmount.formatted(.currency(code: "EUR"))
             )
 
             detailRow(
                 icon: "lock.shield",
                 label: "leases.deposit_amount",
-                value: lease.depositAmount.formatted(
-                    .currency(code: "EUR")
-                )
+                value: lease.depositAmount.formatted(.currency(code: "EUR"))
             )
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -202,9 +213,7 @@ struct LeaseDetailView: View {
     private func relatedInfoCard(_ lease: Lease) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
             if let propertyName {
-                NavigationLink(
-                    value: PropertyDestination.detail(lease.propertyId)
-                ) {
+                NavigationLink(value: PropertyDestination.detail(lease.propertyId)) {
                     HStack(spacing: AppSpacing.small) {
                         Image(systemName: "building.2")
                             .foregroundStyle(AppTheme.Colors.primary)
@@ -225,9 +234,7 @@ struct LeaseDetailView: View {
             }
 
             if let tenantName {
-                NavigationLink(
-                    value: TenantDestination.detail(lease.tenantId)
-                ) {
+                NavigationLink(value: TenantDestination.detail(lease.tenantId)) {
                     HStack(spacing: AppSpacing.small) {
                         Image(systemName: "person")
                             .foregroundStyle(AppTheme.Colors.primary)
@@ -269,9 +276,7 @@ struct LeaseDetailView: View {
                 }
             } else {
                 ForEach(leasePayments) { payment in
-                    NavigationLink(
-                        value: PaymentDestination.detail(payment.id ?? "")
-                    ) {
+                    NavigationLink(value: PaymentDestination.detail(payment.id ?? "")) {
                         PaymentCard(payment: payment)
                     }
                     .buttonStyle(.plain)
@@ -292,7 +297,7 @@ struct LeaseDetailView: View {
                     icon: "checkmark.circle",
                     color: AppTheme.Colors.success
                 ) {
-                    updateStatus(.active)
+                    requestStatusChange(.active)
                 }
             }
 
@@ -302,7 +307,7 @@ struct LeaseDetailView: View {
                     icon: "xmark.circle",
                     color: AppTheme.Colors.warning
                 ) {
-                    updateStatus(.ended)
+                    requestStatusChange(.ended)
                 }
             }
 
@@ -312,7 +317,7 @@ struct LeaseDetailView: View {
                     icon: "clock.badge.exclamationmark",
                     color: AppTheme.Colors.error
                 ) {
-                    updateStatus(.expired)
+                    requestStatusChange(.expired)
                 }
             }
         }
@@ -335,9 +340,7 @@ struct LeaseDetailView: View {
             .padding(AppSpacing.medium)
             .background(color.opacity(0.1))
             .foregroundStyle(color)
-            .clipShape(
-                RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large)
-            )
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large))
         }
     }
 
@@ -351,11 +354,7 @@ struct LeaseDetailView: View {
         }
     }
 
-    private func detailRow(
-        icon: String,
-        label: LocalizedStringKey,
-        value: String
-    ) -> some View {
+    private func detailRow(icon: String, label: LocalizedStringKey, value: String) -> some View {
         HStack {
             Image(systemName: icon)
                 .foregroundStyle(AppTheme.Colors.textSecondary)
@@ -399,16 +398,9 @@ struct LeaseDetailView: View {
                     )
                 ) ?? []
 
-                if let property = await propertyResult {
-                    propertyName = property.name
-                }
-
-                if let tenant = await tenantResult {
-                    tenantName = tenant.fullName
-                }
-
-                leasePayments = await paymentsResult
-                    .sorted { $0.dueDate < $1.dueDate }
+                if let property = await propertyResult { propertyName = property.name }
+                if let tenant = await tenantResult { tenantName = tenant.fullName }
+                leasePayments = await paymentsResult.sorted { $0.dueDate < $1.dueDate }
             } catch {
                 // Handle error
             }
@@ -416,48 +408,70 @@ struct LeaseDetailView: View {
         }
     }
 
-    private func updateStatus(_ newStatus: LeaseStatus) {
+    // MARK: - Status Changes
+
+    private func requestStatusChange(_ newStatus: LeaseStatus) {
+        guard newStatus == .ended || newStatus == .expired else {
+            updateStatus(newStatus, deletePending: false)
+            return
+        }
+
+        let hasPending = leasePayments.contains { $0.status == .pending || $0.status == .overdue }
+        if hasPending {
+            pendingStatusChange = newStatus
+            showPendingPaymentsDialog = true
+        } else {
+            updateStatus(newStatus, deletePending: false)
+        }
+    }
+
+    private func updateStatus(_ newStatus: LeaseStatus, deletePending: Bool) {
         guard let currentLease = lease,
               let userId = Auth.auth().currentUser?.uid else { return }
-        let previousStatus = currentLease.status
         var updatedLease = currentLease
         updatedLease.status = newStatus
         updatedLease.updatedAt = Date()
 
         Task {
             do {
-                try await firestoreService.update(
-                    updatedLease,
-                    id: leaseId,
-                    in: "leases"
-                )
+                try await firestoreService.update(updatedLease, id: leaseId, in: "leases")
                 lease = updatedLease
 
                 if newStatus == .active {
                     try? await coordinator.onActivated(lease: updatedLease, ownerId: userId)
-                    // Reload payments after activation
-                    leasePayments = (
-                        (try? await firestoreService.readAll(
-                            from: "payments",
-                            whereField: "leaseId",
-                            isEqualTo: leaseId
-                        )) ?? []
-                    ).sorted { $0.dueDate < $1.dueDate }
                 } else if newStatus == .ended || newStatus == .expired {
-                    try? await coordinator.onDeactivated(lease: updatedLease, ownerId: userId)
-                    // Reload payments after deactivation
-                    leasePayments = (
-                        (try? await firestoreService.readAll(
-                            from: "payments",
-                            whereField: "leaseId",
-                            isEqualTo: leaseId
-                        )) ?? []
-                    ).sorted { $0.dueDate < $1.dueDate }
+                    try? await handleDeactivation(
+                        lease: updatedLease,
+                        ownerId: userId,
+                        deletePending: deletePending
+                    )
                 }
+
+                leasePayments = (
+                    (try? await firestoreService.readAll(
+                        from: "payments",
+                        whereField: "leaseId",
+                        isEqualTo: leaseId
+                    )) ?? []
+                ).sorted { $0.dueDate < $1.dueDate }
             } catch {
                 statusErrorMessage = error.localizedDescription
                 showStatusError = true
             }
         }
+    }
+
+    private func handleDeactivation(lease: Lease, ownerId: String, deletePending: Bool) async throws {
+        if deletePending {
+            for payment in leasePayments where payment.status == .pending || payment.status == .overdue {
+                guard let paymentId = payment.id else { continue }
+                try? await firestoreService.delete(id: paymentId, from: "payments")
+            }
+        }
+        try? await coordinator.onDeactivated(
+            lease: lease,
+            ownerId: ownerId,
+            skipPaymentCancellation: true
+        )
     }
 }

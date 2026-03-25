@@ -64,23 +64,28 @@ final class LeaseCoordinator: Sendable {
         }
     }
 
-    nonisolated func onDeactivated(lease: Lease, ownerId: String) async throws {
+    nonisolated func onDeactivated(
+        lease: Lease,
+        ownerId: String,
+        skipPaymentCancellation: Bool = false
+    ) async throws {
         guard let leaseId = lease.id else { return }
 
-        // Cancel all pending/overdue payments for this lease
-        let paymentsToCancel: [Payment] = (
-            try? await firestoreService.readAll(
-                from: "payments",
-                whereField: "leaseId",
-                isEqualTo: leaseId
-            )
-        ) ?? []
+        if !skipPaymentCancellation {
+            let paymentsToCancel: [Payment] = (
+                try? await firestoreService.readAll(
+                    from: "payments",
+                    whereField: "leaseId",
+                    isEqualTo: leaseId
+                )
+            ) ?? []
 
-        for payment in paymentsToCancel where payment.status == .pending || payment.status == .overdue {
-            guard let paymentId = payment.id else { continue }
-            var cancelled = payment
-            cancelled.status = .cancelled
-            try? await firestoreService.update(cancelled, id: paymentId, in: "payments")
+            for payment in paymentsToCancel where payment.status == .pending || payment.status == .overdue {
+                guard let paymentId = payment.id else { continue }
+                var cancelled = payment
+                cancelled.status = .cancelled
+                try? await firestoreService.update(cancelled, id: paymentId, in: "payments")
+            }
         }
 
         // Check if property has another active lease
