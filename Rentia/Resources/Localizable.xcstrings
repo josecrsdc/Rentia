@@ -2741,13 +2741,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search by property or notes"
+            "value" : "Search by property or amount"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buscar por propiedad o notas"
+            "value" : "Buscar por propiedad o importe"
           }
         }
       }

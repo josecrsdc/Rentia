@@ -44,8 +44,9 @@ final class PaymentListViewModel {
                 let propertyMatch = properties
                     .first(where: { $0.id == payment.propertyId })?.name
                     .lowercased().contains(query) ?? false
-                let notesMatch = payment.notes?.lowercased().contains(query) ?? false
-                return propertyMatch || notesMatch
+                let amountMatch = String(payment.amount).contains(query)
+                    || payment.amount.formatted(.number).contains(query)
+                return propertyMatch || amountMatch
             }
         }
 
