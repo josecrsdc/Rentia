@@ -9,7 +9,7 @@ struct LabeledTextField: View {
     @Binding var text: String
     var keyboardType: UIKeyboardType = .default
     var axis: Axis = .horizontal
-    var multilineLimit: ClosedRange<Int>? = nil
+    var multilineLimit: ClosedRange<Int>?
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.extraSmall) {

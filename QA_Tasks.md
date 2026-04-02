@@ -10,7 +10,7 @@
 | # | Tarea | Prioridad | Estado |
 |---|-------|-----------|--------|
 | T-01 | Navegación tras eliminar no vuelve a la lista | 🟠 Alto | ✅ Completado |
-| T-02 | Añadir tipo de propiedad "Estudio" | 🟡 Medio | ⬜ Pendiente |
+| T-02 | Añadir tipo de propiedad "Estudio" | 🟡 Medio | ✅ Completado |
 | T-03 | Formulario propiedad — etiquetas siempre visibles en campos de detalle | 🟡 Medio | ✅ Completado |
 | T-04 | Formulario inquilino — email sin mayúsculas y con teclado correcto | 🟡 Medio | ⬜ Pendiente |
 | T-05 | Formulario inquilino — acceso a contactos del dispositivo | 🟡 Medio | ⬜ Pendiente |
