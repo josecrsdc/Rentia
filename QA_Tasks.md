@@ -10,13 +10,13 @@
 | # | Tarea | Prioridad | Estado |
 |---|-------|-----------|--------|
 | T-01 | Navegación tras eliminar no vuelve a la lista | 🟠 Alto | ✅ Completado |
-| T-02 | Añadir tipo de propiedad "Estudio" | 🟡 Medio | ⬜ Pendiente |
+| T-02 | Añadir tipo de propiedad "Estudio" | 🟡 Medio | ✅ Completado |
 | T-03 | Formulario propiedad — etiquetas siempre visibles en campos de detalle | 🟡 Medio | ⬜ Pendiente |
 | T-04 | Formulario inquilino — email sin mayúsculas y con teclado correcto | 🟡 Medio | ⬜ Pendiente |
 | T-05 | Formulario inquilino — acceso a contactos del dispositivo | 🟡 Medio | ⬜ Pendiente |
 | T-06 | Formulario contrato — renombrar campos financieros y añadir moneda | 🟠 Alto | ⬜ Pendiente |
 | T-07 | Error en formulario de pago al editar: contrato no encontrado | 🔴 Crítico | ⬜ Pendiente |
-| T-08 | Lista de pagos — filtro por propiedad y cambio de estado múltiple | 🟠 Alto | ⬜ Pendiente |
+| T-08 | Lista de pagos — filtro por propiedad y cambio de estado múltiple | 🟠 Alto | ✅ Completado |
 | T-09 | Formulario pago — formato de cantidad con moneda del contrato | 🟡 Medio | ⬜ Pendiente |
 | T-10 | Lista de pagos — filtro por mes | 🟡 Medio | ✅ Completado |
 | T-11 | Botón "generar factura" debe guardar el PDF como documento del pago | 🟠 Alto | ⬜ Pendiente |

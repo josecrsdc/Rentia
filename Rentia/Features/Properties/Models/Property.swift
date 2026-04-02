@@ -7,6 +7,7 @@ import SwiftUI
 enum PropertyType: String, Codable, CaseIterable, Sendable {
     case apartment
     case house
+    case studio
     case commercial
     case garage
     case land
@@ -15,6 +16,7 @@ enum PropertyType: String, Codable, CaseIterable, Sendable {
         switch self {
         case .apartment: "properties.type.apartment"
         case .house: "properties.type.house"
+        case .studio: "properties.type.studio"
         case .commercial: "properties.type.commercial"
         case .garage: "properties.type.garage"
         case .land: "properties.type.land"
@@ -25,6 +27,7 @@ enum PropertyType: String, Codable, CaseIterable, Sendable {
         switch self {
         case .apartment: "building.2"
         case .house: "house"
+        case .studio: "bed.double"
         case .commercial: "storefront"
         case .garage: "car.fill"
         case .land: "leaf"
