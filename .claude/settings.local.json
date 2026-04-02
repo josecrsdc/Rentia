@@ -18,7 +18,8 @@
       "Bash(find ~/Library/Developer/Xcode/DerivedData/Rentia-hbddzriryzxycxayxfjqfpnhgydj/Logs -name *.txt)",
       "Bash(find ~/Library/Developer/Xcode/DerivedData/Rentia-hbddzriryzxycxayxfjqfpnhgydj/Logs/Test/Test-Rentia-2026.03.20_16-30-29-+0100.xcresult -name *.txt -o -name *.log)",
       "mcp__xcode__XcodeRM",
-      "Bash(grep -E \"\\\\.swift$\")"
+      "Bash(grep -E \"\\\\.swift$\")",
+      "Bash(git checkout:*)"
     ]
   }
 }
