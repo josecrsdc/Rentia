@@ -18,7 +18,7 @@
 | T-07 | Error en formulario de pago al editar: contrato no encontrado | 🔴 Crítico | ⬜ Pendiente |
 | T-08 | Lista de pagos — filtro por propiedad y cambio de estado múltiple | 🟠 Alto | ⬜ Pendiente |
 | T-09 | Formulario pago — formato de cantidad con moneda del contrato | 🟡 Medio | ⬜ Pendiente |
-| T-10 | Lista de pagos — filtro por mes | 🟡 Medio | ⬜ Pendiente |
+| T-10 | Lista de pagos — filtro por mes | 🟡 Medio | ✅ Completado |
 | T-11 | Botón "generar factura" debe guardar el PDF como documento del pago | 🟠 Alto | ⬜ Pendiente |
 | T-12 | Ajustes — sección de configuración de datos de factura | 🟠 Alto | ⬜ Pendiente |
 | T-13 | Dashboard — ingresos mensuales calcula el total anual | 🔴 Crítico | ⬜ Pendiente |
