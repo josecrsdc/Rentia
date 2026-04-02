@@ -4,6 +4,92 @@ import Foundation
 #if DEBUG
 final class DataSeeder {
     private let firestoreService = FirestoreService()
+
+    func seedAdministrator() async {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        do {
+            _ = try await firestoreService.create(
+                Administrator(
+                    ownerId: userId,
+                    name: "Administrador Demo \(Int.random(in: 100...999))",
+                    phone: "+34 611 222 333",
+                    landlinePhone: "+34 91 555 1234",
+                    email: "admin.demo\(Int.random(in: 100...999))@rentia.dev",
+                    createdAt: Date()
+                ),
+                in: "administrators"
+            )
+
+            print("[DataSeeder] Administrator created successfully")
+        } catch {
+            print("[DataSeeder] Error creating administrator: \(error.localizedDescription)")
+        }
+    }
+
+    func seedProperty() async {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        do {
+            _ = try await firestoreService.create(
+                Property(
+                    ownerId: userId,
+                    name: "Propiedad Demo \(Int.random(in: 100...999))",
+                    address: Address(
+                        street: "Calle Demo 12",
+                        city: "Madrid",
+                        state: "Madrid",
+                        postalCode: "28001",
+                        country: "Spain",
+                        latitude: 40.4168,
+                        longitude: -3.7038
+                    ),
+                    cadastralReference: nil,
+                    type: .apartment,
+                    currency: "EUR",
+                    status: .available,
+                    description: "Propiedad creada desde debug",
+                    rooms: 2,
+                    bathrooms: 1,
+                    area: 75,
+                    administratorId: nil,
+                    imageURLs: [],
+                    createdAt: Date()
+                ),
+                in: "properties"
+            )
+
+            print("[DataSeeder] Property created successfully")
+        } catch {
+            print("[DataSeeder] Error creating property: \(error.localizedDescription)")
+        }
+    }
+
+    func seedTenant() async {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+
+        do {
+            _ = try await firestoreService.create(
+                Tenant(
+                    ownerId: userId,
+                    propertyIds: [],
+                    firstName: "Inquilino",
+                    lastName: "Demo \(Int.random(in: 100...999))",
+                    email: "tenant.demo\(Int.random(in: 100...999))@rentia.dev",
+                    phone: "+34 612 345 678",
+                    idNumber: "12345678A",
+                    status: .active,
+                    createdAt: Date()
+                ),
+                in: "tenants"
+            )
+
+            print("[DataSeeder] Tenant created successfully")
+        } catch {
+            print("[DataSeeder] Error creating tenant: \(error.localizedDescription)")
+        }
+    }
+
     // swiftlint:disable function_body_length
     func seed() async {
         guard let userId = Auth.auth().currentUser?.uid else { return }

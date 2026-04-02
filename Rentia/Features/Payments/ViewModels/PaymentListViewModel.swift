@@ -11,6 +11,7 @@ final class PaymentListViewModel {
     var showError = false
     var selectedFilter: PaymentStatus?
     var selectedPropertyIds: Set<String> = []
+    var selectedMonth: Date?
     var isSelecting = false
     var selectedPaymentIds: Set<String> = []
 
@@ -31,8 +32,39 @@ final class PaymentListViewModel {
             result = result.filter { selectedPropertyIds.contains($0.propertyId) }
         }
 
+        if let selectedMonth {
+            result = result.filter {
+                Calendar.current.isDate($0.dueDate, equalTo: selectedMonth, toGranularity: .month)
+            }
+        }
+
         return result.sorted { $0.date > $1.date }
     }
+
+    var availableMonths: [Date] {
+        let calendar = Calendar.current
+        let months = Set(payments.map { calendar.startOfMonth(for: $0.dueDate) })
+        return months.sorted(by: <)
+    }
+
+    func monthTitle(for month: Date) -> String {
+        Self.monthFormatter.string(from: month).capitalized
+    }
+
+    func selectMonth(_ month: Date) {
+        selectedMonth = Calendar.current.startOfMonth(for: month)
+    }
+
+    func clearMonthFilter() {
+        selectedMonth = nil
+    }
+
+    private static let monthFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .current
+        formatter.setLocalizedDateFormatFromTemplate("LLLL yyyy")
+        return formatter
+    }()
 
     func loadPayments() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
@@ -121,5 +153,12 @@ final class PaymentListViewModel {
                 showError = true
             }
         }
+    }
+}
+
+private extension Calendar {
+    func startOfMonth(for date: Date) -> Date {
+        let components = dateComponents([.year, .month], from: date)
+        return self.date(from: components) ?? date
     }
 }

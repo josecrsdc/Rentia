@@ -3,6 +3,7 @@ import SwiftUI
 #if DEBUG
 struct DebugView: View {
     @State private var seedingState: SeedingState = .idle
+    private let dataSeeder = DataSeeder()
 
     var body: some View {
         ZStack {
@@ -18,10 +19,17 @@ struct DebugView: View {
         .navigationTitle("common.debug")
     }
 
-    private enum SeedingState {
+    private enum SeedingState: Equatable {
         case idle
-        case loading
-        case done
+        case loading(DebugAction)
+    }
+
+    private enum DebugAction: Equatable {
+        case loadAll
+        case createProperty
+        case createTenant
+        case createAdministrator
+        case deleteAll
     }
 
     private var debugSection: some View {
@@ -30,65 +38,100 @@ struct DebugView: View {
                 .font(AppTypography.title3)
                 .foregroundStyle(AppTheme.Colors.textPrimary)
 
-            Button {
-                seedingState = .loading
-                Task {
-                    await DataSeeder().seed()
-                    seedingState = .idle
-                }
-            } label: {
-                HStack {
-                    if seedingState == .loading {
-                        ProgressView()
-                            .controlSize(.small)
-                    } else {
-                        Image(systemName: "tray.and.arrow.down")
-                    }
-                    Text("settings.debug.load_seed_data")
-                        .font(AppTypography.headline)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .background(AppTheme.Colors.primary.opacity(0.1))
-                .foregroundStyle(AppTheme.Colors.primary)
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: AppTheme.CornerRadius.medium
-                    )
-                )
+            debugButton(
+                title: "settings.debug.load_seed_data",
+                systemImage: "tray.and.arrow.down",
+                color: AppTheme.Colors.primary,
+                action: .loadAll
+            ) {
+                await dataSeeder.seed()
             }
-            .disabled(seedingState == .loading)
 
-            Button {
-                seedingState = .loading
-                Task {
-                    await DataSeeder().deleteAll()
-                    seedingState = .idle
-                }
-            } label: {
-                HStack {
-                    if seedingState == .loading {
-                        ProgressView()
-                            .controlSize(.small)
-                    } else {
-                        Image(systemName: "trash")
-                    }
-                    Text("settings.debug.delete_all_data")
-                        .font(AppTypography.headline)
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .background(AppTheme.Colors.warning.opacity(0.1))
-                .foregroundStyle(AppTheme.Colors.warning)
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: AppTheme.CornerRadius.medium
-                    )
-                )
+            debugButton(
+                title: "Crear propiedad de prueba",
+                systemImage: "building.2",
+                color: AppTheme.Colors.secondary,
+                action: .createProperty
+            ) {
+                await dataSeeder.seedProperty()
             }
-            .disabled(seedingState == .loading)
+
+            debugButton(
+                title: "Crear inquilino de prueba",
+                systemImage: "person",
+                color: AppTheme.Colors.accent,
+                action: .createTenant
+            ) {
+                await dataSeeder.seedTenant()
+            }
+
+            debugButton(
+                title: "Crear administrador de prueba",
+                systemImage: "person.badge.shield.checkmark",
+                color: AppTheme.Colors.success,
+                action: .createAdministrator
+            ) {
+                await dataSeeder.seedAdministrator()
+            }
+
+            debugButton(
+                title: "settings.debug.delete_all_data",
+                systemImage: "trash",
+                color: AppTheme.Colors.warning,
+                action: .deleteAll
+            ) {
+                await dataSeeder.deleteAll()
+            }
         }
         .cardStyle()
+    }
+
+    private func debugButton(
+        title: LocalizedStringKey,
+        systemImage: String,
+        color: Color,
+        action: DebugAction,
+        task: @escaping () async -> Void
+    ) -> some View {
+        Button {
+            seedingState = .loading(action)
+            Task {
+                await task()
+                await MainActor.run {
+                    seedingState = .idle
+                }
+            }
+        } label: {
+            HStack {
+                if seedingState == .loading(action) {
+                    ProgressView()
+                        .controlSize(.small)
+                } else {
+                    Image(systemName: systemImage)
+                }
+
+                Text(title)
+                    .font(AppTypography.headline)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 50)
+            .background(color.opacity(0.1))
+            .foregroundStyle(color)
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: AppTheme.CornerRadius.medium
+                )
+            )
+        }
+        .disabled(isLoading)
+    }
+
+    private var isLoading: Bool {
+        if case .loading = seedingState {
+            true
+        } else {
+            false
+        }
     }
 }
 #endif

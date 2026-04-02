@@ -167,6 +167,7 @@ struct PaymentListView: View {
         ScrollView {
             VStack(spacing: AppSpacing.medium) {
                 filterChips
+                monthFilterChips
 
                 if viewModel.isSelecting && !viewModel.selectedPaymentIds.isEmpty {
                     Text("\(viewModel.selectedPaymentIds.count) \(String(localized: "payments.selected_count"))")
@@ -175,8 +176,16 @@ struct PaymentListView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                ForEach(viewModel.filteredPayments) { payment in
-                    paymentRow(payment)
+                if viewModel.filteredPayments.isEmpty {
+                    EmptyStateView(
+                        icon: "calendar.badge.exclamationmark",
+                        title: "payments.empty.title",
+                        message: "payments.empty.message"
+                    )
+                } else {
+                    ForEach(viewModel.filteredPayments) { payment in
+                        paymentRow(payment)
+                    }
                 }
             }
             .padding(AppSpacing.medium)
@@ -237,8 +246,50 @@ struct PaymentListView: View {
         }
     }
 
+    private var monthFilterChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: AppSpacing.small) {
+                monthFilterChip(title: "Todos los meses", isSelected: viewModel.selectedMonth == nil) {
+                    viewModel.clearMonthFilter()
+                }
+
+                ForEach(viewModel.availableMonths, id: \.self) { month in
+                    monthFilterChip(
+                        title: viewModel.monthTitle(for: month),
+                        isSelected: viewModel.selectedMonth.map {
+                            Calendar.current.isDate($0, equalTo: month, toGranularity: .month)
+                        } ?? false
+                    ) {
+                        viewModel.selectMonth(month)
+                    }
+                }
+            }
+        }
+    }
+
     private func filterChip(
         title: LocalizedStringKey,
+        isSelected: Bool,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(AppTypography.caption)
+                .fontWeight(isSelected ? .semibold : .regular)
+                .padding(.horizontal, AppSpacing.medium)
+                .padding(.vertical, AppSpacing.small)
+                .background(isSelected ? AppTheme.Colors.primary : AppTheme.Colors.cardBackground)
+                .foregroundStyle(isSelected ? .white : AppTheme.Colors.textSecondary)
+                .clipShape(Capsule())
+                .overlay(
+                    Capsule()
+                        .stroke(isSelected ? Color.clear : Color.gray.opacity(0.2), lineWidth: 1)
+                )
+        }
+    }
+
+    private func monthFilterChip(
+        title: String,
         isSelected: Bool,
         action: @escaping () -> Void
     ) -> some View {
