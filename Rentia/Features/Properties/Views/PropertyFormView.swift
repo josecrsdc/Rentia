@@ -159,31 +159,35 @@ struct PropertyFormView: View {
     private var detailsSection: some View {
         Section("properties.details") {
             if viewModel.type.supportsRoomsBathrooms {
-                TextField(
-                    "properties.rooms",
-                    text: $viewModel.rooms
+                LabeledTextField(
+                    label: "properties.rooms",
+                    placeholder: "properties.rooms",
+                    text: $viewModel.rooms,
+                    keyboardType: .numberPad
                 )
-                .keyboardType(.numberPad)
 
-                TextField(
-                    "properties.bathrooms",
-                    text: $viewModel.bathrooms
+                LabeledTextField(
+                    label: "properties.bathrooms",
+                    placeholder: "properties.bathrooms",
+                    text: $viewModel.bathrooms,
+                    keyboardType: .numberPad
                 )
-                .keyboardType(.numberPad)
             }
 
-            TextField(
-                "properties.area_m2",
-                text: $viewModel.area
+            LabeledTextField(
+                label: "properties.area_m2",
+                placeholder: "properties.area_m2",
+                text: $viewModel.area,
+                keyboardType: .decimalPad
             )
-            .keyboardType(.decimalPad)
 
-            TextField(
-                "properties.description",
+            LabeledTextField(
+                label: "properties.description",
+                placeholder: "properties.description",
                 text: $viewModel.propertyDescription,
-                axis: .vertical
+                axis: .vertical,
+                multilineLimit: 3...6
             )
-            .lineLimit(3...6)
         }
     }
 
