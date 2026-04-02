@@ -194,20 +194,21 @@ struct PaymentListView: View {
 
     @ViewBuilder
     private func paymentRow(_ payment: Payment) -> some View {
+        let resolvedName = viewModel.properties.first(where: { $0.id == payment.propertyId })?.name
         if viewModel.isSelecting {
             Button {
                 viewModel.togglePaymentSelection(payment)
             } label: {
                 HStack(spacing: AppSpacing.medium) {
                     selectionCircle(for: payment)
-                    PaymentCard(payment: payment)
+                    PaymentCard(payment: payment, propertyName: resolvedName)
                 }
             }
             .buttonStyle(.plain)
             .accessibilityLabel(selectionAccessibilityLabel(for: payment))
         } else {
             NavigationLink(value: PaymentDestination.detail(payment.id ?? "")) {
-                PaymentCard(payment: payment)
+                PaymentCard(payment: payment, propertyName: resolvedName)
             }
             .buttonStyle(.plain)
         }

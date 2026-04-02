@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PaymentCard: View {
     let payment: Payment
+    var propertyName: String? = nil
     @AppStorage("defaultCurrency")
     private var defaultCurrency = "EUR"
 
@@ -23,6 +24,12 @@ struct PaymentCard: View {
                     .font(AppTypography.moneySmall)
                     .foregroundStyle(AppTheme.Colors.textPrimary)
 
+                if let name = propertyName, !name.isEmpty {
+                    Text(name)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(AppTheme.Colors.textSecondary)
+                }
+
                 Text(payment.date.shortFormatted)
                     .font(AppTypography.caption)
                     .foregroundStyle(AppTheme.Colors.textSecondary)
@@ -41,6 +48,18 @@ struct PaymentCard: View {
             x: AppTheme.Shadows.cardX,
             y: AppTheme.Shadows.cardY
         )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        var parts = [payment.amount.formatted(.currency(code: defaultCurrency))]
+        if let name = propertyName, !name.isEmpty {
+            parts.append(name)
+        }
+        parts.append(payment.date.shortFormatted)
+        parts.append(String(localized: "payments.status.\(payment.status.rawValue)"))
+        return parts.joined(separator: ", ")
     }
 
     private var statusPill: some View {
