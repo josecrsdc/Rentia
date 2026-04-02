@@ -1583,6 +1583,22 @@
         }
       }
     },
+    "leases.create.dates_hint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Once activated, contract dates will be locked."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una vez activado, las fechas del contrato quedarán bloqueadas."
+          }
+        }
+      }
+    },
     "leases.dates" : {
       "localizations" : {
         "en" : {
@@ -1595,6 +1611,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fechas"
+          }
+        }
+      }
+    },
+    "leases.dates.locked_hint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dates cannot be modified in an active lease. Use «Extend» to change the end date."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las fechas no se pueden modificar en un contrato activo. Usa «Ampliar» para cambiar la fecha de fin."
           }
         }
       }
@@ -1792,54 +1824,6 @@
         }
       }
     },
-    "leases.finalize" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finalize"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finalizar"
-          }
-        }
-      }
-    },
-    "leases.create.dates_hint" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Once activated, contract dates will be locked."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Una vez activado, las fechas del contrato quedarán bloqueadas."
-          }
-        }
-      }
-    },
-    "leases.dates.locked_hint" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dates cannot be modified in an active lease. Use «Extend» to change the end date."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Las fechas no se pueden modificar en un contrato activo. Usa «Ampliar» para cambiar la fecha de fin."
-          }
-        }
-      }
-    },
     "leases.extend" : {
       "localizations" : {
         "en" : {
@@ -1932,6 +1916,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ampliar contrato"
+          }
+        }
+      }
+    },
+    "leases.finalize" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalize"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar"
           }
         }
       }
@@ -2736,6 +2736,22 @@
         }
       }
     },
+    "payments.search" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search by property or notes"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar por propiedad o notas"
+          }
+        }
+      }
+    },
     "payments.filter.all_properties" : {
       "localizations" : {
         "en" : {
@@ -2943,6 +2959,9 @@
           }
         }
       }
+    },
+    "payments.status.%@" : {
+
     },
     "payments.status.cancelled" : {
       "localizations" : {

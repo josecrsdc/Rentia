@@ -166,6 +166,7 @@ struct PaymentListView: View {
     private var paymentList: some View {
         ScrollView {
             VStack(spacing: AppSpacing.medium) {
+                SearchBar(text: $viewModel.searchText, placeholder: "payments.search")
                 filterChips
                 monthFilterChips
 

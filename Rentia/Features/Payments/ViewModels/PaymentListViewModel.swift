@@ -38,6 +38,17 @@ final class PaymentListViewModel {
             }
         }
 
+        if searchText.isNotEmpty {
+            let query = searchText.lowercased()
+            result = result.filter { payment in
+                let propertyMatch = properties
+                    .first(where: { $0.id == payment.propertyId })?.name
+                    .lowercased().contains(query) ?? false
+                let notesMatch = payment.notes?.lowercased().contains(query) ?? false
+                return propertyMatch || notesMatch
+            }
+        }
+
         return result.sorted { $0.date > $1.date }
     }
 
