@@ -4331,6 +4331,22 @@
         }
       }
     },
+    "properties.type.studio" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Studio"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estudio"
+          }
+        }
+      }
+    },
     "properties.usd" : {
       "localizations" : {
         "en" : {
