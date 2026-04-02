@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PaymentCard: View {
     let payment: Payment
-    var propertyName: String? = nil
+    var propertyName: String?
     @AppStorage("defaultCurrency")
     private var defaultCurrency = "EUR"
 
