@@ -101,28 +101,57 @@ final class PaymentFormViewModel {
     }
 
     func loadPayment(id: String) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         editingPaymentId = id
         isLoading = true
 
         Task {
             do {
-                let payment: Payment = try await firestoreService.read(
+                // Cargamos el pago y los datos de contexto concurrentemente.
+                // Es necesario esperar a que `leases` esté poblado antes de asignar
+                // `tenantId`/`propertyId`, ya que sus `didSet` disparan `autoFillFromLease()`.
+                async let paymentResult: Payment = firestoreService.read(
                     id: id,
                     from: "payments"
                 )
-                tenantId = payment.tenantId
-                propertyId = payment.propertyId
+                async let tenantsResult: [Tenant] = firestoreService.readAll(
+                    from: "tenants",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+                async let propertiesResult: [Property] = firestoreService.readAll(
+                    from: "properties",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+                async let leasesResult: [Lease] = firestoreService.readAll(
+                    from: "leases",
+                    whereField: "ownerId",
+                    isEqualTo: userId
+                )
+
+                let payment = try await paymentResult
+                tenants = try await tenantsResult
+                properties = try await propertiesResult
+                leases = try await leasesResult
+
+                // Asignamos los campos que no tienen efectos secundarios primero.
+                // `amount` se asigna antes de `tenantId`/`propertyId` para que
+                // `autoFillFromLease()` no lo sobreescriba (solo rellena si está vacío).
                 amount = String(format: "%.2f", payment.amount)
-                date = payment.date
-                dueDate = payment.dueDate
                 status = payment.status
                 paymentMethod = payment.paymentMethod ?? ""
                 notes = payment.notes ?? ""
-                activeLease = leases.first {
-                    $0.status == .active
-                    && $0.tenantId == payment.tenantId
-                    && $0.propertyId == payment.propertyId
-                }
+
+                // Asignar tenantId y propertyId ahora que `leases` ya está cargado.
+                // Los `didSet` disparan `autoFillFromLease()` y encontrarán el contrato correcto.
+                tenantId = payment.tenantId
+                propertyId = payment.propertyId
+
+                // Restauramos las fechas originales del pago, sobreescribiendo cualquier
+                // cálculo de fecha que haya hecho `autoFillFromLease()`.
+                date = payment.date
+                dueDate = payment.dueDate
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true
