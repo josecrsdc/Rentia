@@ -35,6 +35,7 @@ enum AssociatedEntityType: String, Codable, CaseIterable, Sendable {
     case property
     case tenant
     case lease
+    case payment
 }
 
 // MARK: - Document Model
