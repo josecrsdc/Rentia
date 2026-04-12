@@ -1712,18 +1712,34 @@
         }
       }
     },
-    "leases.deposit_amount" : {
+    "leases.currency" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deposit amount"
+            "value" : "Currency"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Monto de depósito"
+            "value" : "Moneda"
+          }
+        }
+      }
+    },
+    "leases.deposit_amount" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Security deposit"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fianza depositada"
           }
         }
       }
@@ -2165,13 +2181,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rent amount"
+            "value" : "Monthly rent"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Monto de renta"
+            "value" : "Mensualidad"
           }
         }
       }

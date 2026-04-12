@@ -10,6 +10,7 @@ final class LeaseFormViewModel {
     var hasEndDate = true
     var rentAmount = ""
     var depositAmount = ""
+    var currency = "EUR"
     var billingDay = 1
     var utilitiesMode: UtilitiesMode = .none
     var status: LeaseStatus = .active
@@ -84,6 +85,7 @@ final class LeaseFormViewModel {
     ) {
         self.propertyId = propertyId
         self.tenantId = tenantId
+        self.currency = currency.isEmpty ? "EUR" : currency
         preAssignedPropertyId = propertyId
         preAssignedTenantId = tenantId
         rentAmount = String(format: "%.2f", rent)
@@ -132,6 +134,7 @@ final class LeaseFormViewModel {
                 endDate = lease.endDate ?? Calendar.current.date(byAdding: .year, value: 1, to: Date()) ?? Date()
                 rentAmount = String(format: "%.2f", lease.rentAmount)
                 depositAmount = String(format: "%.2f", lease.depositAmount)
+                currency = lease.currencyCode
                 billingDay = lease.billingDay
                 utilitiesMode = lease.utilitiesMode
                 status = lease.status
@@ -183,6 +186,7 @@ final class LeaseFormViewModel {
                 endDate: hasEndDate ? endDate : nil,
                 rentAmount: Double(rentAmount) ?? 0,
                 depositAmount: Double(depositAmount) ?? 0,
+                currency: currency,
                 billingDay: billingDay,
                 utilitiesMode: utilitiesMode,
                 status: status,

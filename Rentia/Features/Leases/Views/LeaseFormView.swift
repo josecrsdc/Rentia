@@ -197,17 +197,33 @@ struct LeaseFormView: View {
 
     private var financialSection: some View {
         Section("leases.financial") {
-            TextField(
-                "leases.rent_amount",
-                text: $viewModel.rentAmount
-            )
-            .keyboardType(.decimalPad)
+            Picker("leases.currency", selection: $viewModel.currency) {
+                Text("€ Euro").tag("EUR")
+                Text("$ Dólar").tag("USD")
+            }
+            .pickerStyle(.segmented)
 
-            TextField(
-                "leases.deposit_amount",
-                text: $viewModel.depositAmount
-            )
-            .keyboardType(.decimalPad)
+            HStack {
+                Text(viewModel.currency == "EUR" ? "€" : "$")
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                    .frame(width: 16)
+                TextField(
+                    "leases.rent_amount",
+                    text: $viewModel.rentAmount
+                )
+                .keyboardType(.decimalPad)
+            }
+
+            HStack {
+                Text(viewModel.currency == "EUR" ? "€" : "$")
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                    .frame(width: 16)
+                TextField(
+                    "leases.deposit_amount",
+                    text: $viewModel.depositAmount
+                )
+                .keyboardType(.decimalPad)
+            }
 
             Stepper(
                 "leases.billing_day \(viewModel.billingDay)",
