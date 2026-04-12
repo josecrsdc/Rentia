@@ -15,6 +15,7 @@ struct SettingsView: View {
                     profileHeader
                     accountSection
                     preferencesLinkSection
+                    invoiceLinkSection
                     #if DEBUG
                     debugLinkSection
                     #endif
@@ -155,6 +156,42 @@ struct SettingsView: View {
                     )
 
                 Text("settings.preferences.title")
+                    .font(AppTypography.body)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+            }
+            .padding(AppSpacing.medium)
+            .frame(maxWidth: .infinity)
+            .background(AppTheme.Colors.cardBackground)
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: AppTheme.CornerRadius.medium
+                )
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var invoiceLinkSection: some View {
+        NavigationLink {
+            InvoiceSettingsView()
+        } label: {
+            HStack(spacing: AppSpacing.medium) {
+                Image(systemName: "doc.text.fill")
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 32, height: 32)
+                    .background(AppTheme.Colors.primary.opacity(0.1))
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: AppTheme.CornerRadius.small
+                        )
+                    )
+
+                Text("settings.invoice.title")
                     .font(AppTypography.body)
                     .foregroundStyle(AppTheme.Colors.textPrimary)
 

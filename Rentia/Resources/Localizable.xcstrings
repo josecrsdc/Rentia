@@ -4764,6 +4764,96 @@
         }
       }
     },
+    "settings.invoice.address" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fiscal address" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Dirección fiscal" } }
+      }
+    },
+    "settings.invoice.bank" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Payment" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Pago" } }
+      }
+    },
+    "settings.invoice.bank_account" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bank account (IBAN)" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Cuenta bancaria (IBAN)" } }
+      }
+    },
+    "settings.invoice.contact" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Contact" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Contacto" } }
+      }
+    },
+    "settings.invoice.counter" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Starting invoice number" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Número de factura inicial" } }
+      }
+    },
+    "settings.invoice.counter.hint" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The next invoice generated will use this number." } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "La próxima factura generada usará este número." } }
+      }
+    },
+    "settings.invoice.display_name" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Name / Business name" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Nombre / Razón social" } }
+      }
+    },
+    "settings.invoice.email" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Contact email" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Email de contacto" } }
+      }
+    },
+    "settings.invoice.issuer" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Issuer data" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Datos del emisor" } }
+      }
+    },
+    "settings.invoice.logo" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Logo" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Logo" } }
+      }
+    },
+    "settings.invoice.logo.add" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add logo" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Añadir logo" } }
+      }
+    },
+    "settings.invoice.logo.change" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Change logo" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Cambiar logo" } }
+      }
+    },
+    "settings.invoice.phone" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Phone" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Teléfono" } }
+      }
+    },
+    "settings.invoice.tax_id" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tax ID (NIF / CIF)" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "NIF / CIF" } }
+      }
+    },
+    "settings.invoice.title" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Invoice settings" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Datos de factura" } }
+      }
+    },
     "settings.preferences.appearance" : {
       "localizations" : {
         "en" : {
