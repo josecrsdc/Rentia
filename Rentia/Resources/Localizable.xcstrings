@@ -814,6 +814,18 @@
         }
       }
     },
+    "dashboard.period.month" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Month" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Mes" } }
+      }
+    },
+    "dashboard.period.year" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Year" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Año" } }
+      }
+    },
     "dashboard.pending_payments" : {
       "localizations" : {
         "en" : {

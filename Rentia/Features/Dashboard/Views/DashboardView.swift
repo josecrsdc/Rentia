@@ -8,7 +8,7 @@ struct DashboardView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: AppSpacing.large) {
-                headerSection
+                periodHeader
 
                 statsGrid
 
@@ -22,8 +22,14 @@ struct DashboardView: View {
         }
         .background(AppTheme.Colors.background)
         .navigationTitle("tabs.dashboard")
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                periodToggle
+            }
+        }
         .refreshable { viewModel.loadData() }
         .onAppear { viewModel.loadData() }
+        .animation(.easeInOut(duration: 0.2), value: viewModel.periodTitle)
         .navigationDestination(for: PropertyDestination.self) { destination in
             switch destination {
             case .detail(let id): PropertyDetailView(propertyId: id)
@@ -40,19 +46,61 @@ struct DashboardView: View {
         }
     }
 
-    // MARK: - Header
+    // MARK: - Period Header
 
-    private var headerSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.small) {
-            Text("dashboard.welcome")
-                .font(AppTypography.title2)
-                .foregroundStyle(AppTheme.Colors.textPrimary)
-
-            Text("dashboard.properties_summary")
-                .font(AppTypography.subheadline)
-                .foregroundStyle(AppTheme.Colors.textSecondary)
+    private var periodToggle: some View {
+        Picker("", selection: Binding(
+            get: { viewModel.isMonthMode ? 0 : 1 },
+            set: { $0 == 0 ? viewModel.switchToMonthMode() : viewModel.switchToYearMode() }
+        )) {
+            Text("dashboard.period.month").tag(0)
+            Text("dashboard.period.year").tag(1)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .pickerStyle(.segmented)
+        .frame(width: 160)
+    }
+
+    private var periodHeader: some View {
+        HStack(spacing: AppSpacing.large) {
+            Button {
+                viewModel.previousPeriod()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .font(AppTypography.headline)
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 36, height: 36)
+                    .background(AppTheme.Colors.primary.opacity(0.1))
+                    .clipShape(Circle())
+            }
+
+            Text(viewModel.periodTitle)
+                .font(AppTypography.title2)
+                .fontWeight(.semibold)
+                .foregroundStyle(AppTheme.Colors.textPrimary)
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
+                .contentTransition(.numericText())
+
+            Button {
+                viewModel.nextPeriod()
+            } label: {
+                Image(systemName: "chevron.right")
+                    .font(AppTypography.headline)
+                    .foregroundStyle(AppTheme.Colors.primary)
+                    .frame(width: 36, height: 36)
+                    .background(AppTheme.Colors.primary.opacity(0.1))
+                    .clipShape(Circle())
+            }
+        }
+        .padding(AppSpacing.medium)
+        .background(AppTheme.Colors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: AppTheme.CornerRadius.large))
+        .shadow(
+            color: AppTheme.Shadows.card,
+            radius: AppTheme.Shadows.cardRadius,
+            x: AppTheme.Shadows.cardX,
+            y: AppTheme.Shadows.cardY
+        )
     }
 
     // MARK: - Stats Grid
