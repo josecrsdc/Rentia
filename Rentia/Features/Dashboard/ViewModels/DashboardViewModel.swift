@@ -17,8 +17,13 @@ final class DashboardViewModel {
     }
 
     var totalMonthlyIncome: Double {
-        payments
-            .filter { $0.status == .paid }
+        let calendar = Calendar.current
+        let now = Date()
+        return payments
+            .filter {
+                $0.status == .paid
+                    && calendar.isDate($0.date, equalTo: now, toGranularity: .month)
+            }
             .reduce(0) { $0 + $1.amount }
     }
 
