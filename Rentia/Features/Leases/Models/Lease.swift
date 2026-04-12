@@ -59,10 +59,16 @@ struct Lease: Codable, Identifiable, Sendable {
     var endDate: Date?
     var rentAmount: Double
     var depositAmount: Double
+    /// Código ISO de moneda. Opcional para retrocompatibilidad con documentos
+    /// existentes en Firestore que no tienen el campo; nil se trata como "EUR".
+    var currency: String?
     var billingDay: Int
     var utilitiesMode: UtilitiesMode
     var status: LeaseStatus
     var notes: String?
     var createdAt: Date
     var updatedAt: Date
+
+    /// Devuelve siempre un código válido aunque el campo no exista en Firestore.
+    var currencyCode: String { currency ?? "EUR" }
 }
