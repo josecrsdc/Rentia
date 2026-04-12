@@ -10,12 +10,14 @@ struct PaymentDetailView: View {
     @State private var pdfData: Data?
     @State private var showShareSheet = false
     @State private var isGeneratingPDF = false
+    @State private var documentsRefreshTrigger = UUID()
     @AppStorage("defaultCurrency")
     private var defaultCurrency = "EUR"
     @Environment(\.dismiss)
     private var dismiss
 
     private let firestoreService = FirestoreService()
+    private let storageService: any StorageServiceProtocol = SupabaseStorageService()
 
     var body: some View {
         ZStack {
@@ -48,6 +50,8 @@ struct PaymentDetailView: View {
                 amountHeader(payment)
                 assignmentCard
                 detailsCard(payment)
+                DocumentListView(entityId: paymentId, entityType: .payment)
+                    .id(documentsRefreshTrigger)
                 generatePDFButton
             }
             .padding(AppSpacing.medium)
@@ -100,6 +104,8 @@ struct PaymentDetailView: View {
         let capturedTenant = tenant
         let capturedProperty = property
 
+        let userId = currentUser.uid
+
         Task {
             let data = await Task.detached(priority: .userInitiated) {
                 PDFGeneratorService.generatePaymentReceipt(
@@ -109,7 +115,12 @@ struct PaymentDetailView: View {
                     owner: owner
                 )
             }.value
+
             pdfData = data
+
+            // Guardar como documento asociado al pago (best effort — no bloquea el share)
+            await saveReceiptAsDocument(data: data, payment: capturedPayment, userId: userId)
+
             isGeneratingPDF = false
             showShareSheet = true
         }
@@ -327,6 +338,33 @@ struct PaymentDetailView: View {
         let first = tenant.firstName.prefix(1).uppercased()
         let last = tenant.lastName.prefix(1).uppercased()
         return "\(first)\(last)"
+    }
+
+    private func saveReceiptAsDocument(data: Data, payment: Payment, userId: String) async {
+        guard let paymentId = payment.id else { return }
+        let path = "owners/\(userId)/documents/\(UUID().uuidString).pdf"
+        let filename = "recibo-\(payment.dueDate.monthYear)-\(paymentId.prefix(6).uppercased()).pdf"
+
+        do {
+            let fileURL = try await storageService.uploadData(
+                data,
+                path: path,
+                contentType: "application/pdf"
+            )
+            let document = RentiaDocument(
+                ownerId: userId,
+                name: filename,
+                type: .receipt,
+                fileURL: fileURL,
+                associatedEntityId: paymentId,
+                associatedEntityType: .payment,
+                createdAt: Date()
+            )
+            _ = try await firestoreService.create(document, in: "documents")
+            documentsRefreshTrigger = UUID()
+        } catch {
+            // El PDF se generó correctamente; el fallo de guardado no interrumpe el flujo.
+        }
     }
 
     private func loadPayment() {
