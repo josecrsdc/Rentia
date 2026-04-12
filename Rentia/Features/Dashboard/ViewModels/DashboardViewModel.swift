@@ -26,6 +26,15 @@ final class DashboardViewModel {
         payments.filter { $0.status == .pending || $0.status == .overdue }.count
     }
 
+    /// Pagos que realmente son deuda: vencimiento pasado y sin cobrar.
+    var overduePayments: [Payment] {
+        let today = Date()
+        return payments.filter {
+            ($0.status == .pending || $0.status == .overdue)
+                && $0.dueDate < today
+        }
+    }
+
     var occupancyRate: Double {
         guard !properties.isEmpty else { return 0 }
         let activeLeasePropertyIds = Set(

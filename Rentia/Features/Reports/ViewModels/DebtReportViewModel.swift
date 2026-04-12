@@ -12,18 +12,26 @@ struct TenantDebt: Identifiable, Sendable {
         self.payments = payments
     }
 
+    /// Solo los pagos cuya fecha de vencimiento ya pasó. Un pago pendiente
+    /// para el mes que viene no es deuda hasta que ese mes llegue.
+    private var pastDuePayments: [Payment] {
+        let today = Date()
+        return payments.filter {
+            ($0.status == .pending || $0.status == .overdue || $0.status == .partial)
+                && $0.dueDate < today
+        }
+    }
+
     var totalDebt: Double {
-        payments
-            .filter { $0.status == .pending || $0.status == .overdue || $0.status == .partial }
-            .reduce(0) { $0 + $1.amount }
+        pastDuePayments.reduce(0) { $0 + $1.amount }
     }
 
     var overdueCount: Int {
-        payments.filter { $0.status == .overdue }.count
+        pastDuePayments.filter { $0.status == .overdue }.count
     }
 
     var pendingCount: Int {
-        payments.filter { $0.status == .pending || $0.status == .partial }.count
+        pastDuePayments.filter { $0.status == .pending || $0.status == .partial }.count
     }
 }
 
